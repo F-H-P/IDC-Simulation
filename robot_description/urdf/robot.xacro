@@ -7,10 +7,14 @@
   <xacro:property name="LINK1" value="${params['link1_length']}"/>
   <xacro:property name="LINK2" value="${params['link2_length']}"/>
   <xacro:property name="LINK3" value="${params['link3_length']}"/>
+  <xacro:property name="LINK4" value="${params['link4_length']}"/>
+  <xacro:property name="LINK5" value="${params['link5_length']}"/>
 
   <xacro:property name="LINK1_LENGTH" value="${LINK1-0.045}"/>
   <xacro:property name="LINK2_LENGTH" value="${LINK2-0.085}"/>
-  <xacro:property name="LINK3_LENGTH" value="${LINK3}"/>
+  <xacro:property name="LINK3_LENGTH" value="${LINK3-0.045-0.00625}"/>
+  <xacro:property name="LINK4_LENGTH" value="${LINK4-0.045}"/>
+  <xacro:property name="LINK5_LENGTH" value="${LINK5+0.015}"/>
 
   <material name="orange">
     <color rgba="${255/255} ${108/255} ${10/255} 1.0"/>
@@ -24,14 +28,41 @@
 
   <joint name="fixed" type="fixed">
     <parent link="world"/>
-    <child link="base_link"/>
+    <child link="link_slide"/>
   </joint>
 
-  <link name="base_link">
+  <link name="link_slide">
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file:///$(find robot_description)/meshes/link_base_m.STL"/>
+        <mesh filename="file:///$(find robot_description)/meshes/link_slide.STL"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.5"/>
+      <inertia
+        ixx="0.0" ixy="0.0" ixz="0.0"
+        iyy="0.0" iyz="0.0"
+        izz="0.0"/>
+    </inertial>
+  </link>  
+
+  <joint name="joint0" type="prismatic">
+    <origin xyz="0.0 0.0 0.35" rpy="0.0 0.0 0.0"/>
+    <parent link="link_slide"/>
+    <child link="link0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-0.75" upper="0.75" effort="0.0" velocity="0.0"/>
+  </joint>
+
+  <link name="link0">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file:///$(find robot_description)/meshes/link0.STL"/>
       </geometry>
       <material name="white"/>
     </visual>
@@ -47,9 +78,9 @@
   </link>
 
   <joint name="joint1" type="revolute">
-    <parent link="base_link"/>
+    <parent link="link0"/>
     <child link="link1"/>
-    <origin rpy="0 0 0" xyz="0 0 0.04"/>
+    <origin rpy="0 0 0" xyz="0 0 0.2"/>
     <axis xyz="0 0 1"/>
     <limit lower="-3.14" upper="3.14" effort="1000" velocity="1000"/>
     <dynamics damping="0" friction="0"/>
@@ -101,7 +132,7 @@
   <joint name="joint2" type="revolute">
     <parent link="link_joint2-1"/>
     <child link="link_joint2-2" />
-    <origin rpy="${pi} ${pi/2} ${pi}" xyz="0.04 0 ${LINK1_LENGTH+0.045}"/>
+    <origin rpy="${pi} ${pi/2} 0" xyz="0.04 0 ${LINK1_LENGTH+0.045}"/>
     <axis xyz="0 0 1"/>
     <limit lower="-3.14" upper="3.14" effort="1000" velocity="1000"/>
     <dynamics damping="0" friction="1"/>
@@ -109,7 +140,7 @@
 
   <link name="link_joint2-2">
     <visual>
-      <origin xyz="0 0 0.04" rpy="${pi} 0 ${pi}"/>
+      <origin xyz="0 0 -0.04" rpy="0 0 ${pi}"/>
       <geometry>
         <mesh filename="file:///$(find robot_description)/meshes/joint_2-2.STL"/>
       </geometry>
@@ -129,7 +160,7 @@
   <joint name="fixed_joint2-2" type="fixed">
     <parent link="link_joint2-2"/>
     <child link="link2"/>
-    <origin rpy="0 ${-pi/2} 0" xyz="${(-LINK2_LENGTH/2)-0.005} 0 0.04"/>
+    <origin rpy="0 ${-pi/2} ${-pi}" xyz="${(-LINK2_LENGTH/2)-0.085} 0 -0.04"/>
   </joint>
 
   <link name="link2">
@@ -155,7 +186,7 @@
   <joint name="fixed_joint3-1" type="fixed">
     <parent link="link2"/>
     <child link="link_joint3-1"/>
-    <origin rpy="0 ${-pi/2} 0" xyz="0 0 ${(LINK2_LENGTH/2)+0.085}"/>
+    <origin rpy="0 ${pi/2} 0" xyz="0 0 ${-(LINK2_LENGTH/2)-0.005}"/>
   </joint>
 
   <link name="link_joint3-1">
@@ -266,9 +297,9 @@
 
   <link name="link4">
     <visual>
-      <origin xyz="0 0 0.0725" rpy="0 0 0"/>
+      <origin xyz="0 0 ${LINK4_LENGTH/2}" rpy="0 0 0"/>
       <geometry>
-        <cylinder radius="0.035" length="0.145"/>
+        <cylinder radius="0.035" length="${LINK4_LENGTH}"/>
       </geometry>
       <material name="white"/>
     </visual>
@@ -286,7 +317,7 @@
   <joint name="fixed_joint5" type="fixed">
     <parent link="link4"/>
     <child link="link_joint5"/>
-    <origin rpy="0 ${-pi/2} 0" xyz="0 0 0.19"/>
+    <origin rpy="0 ${-pi/2} 0" xyz="0 0 ${LINK4_LENGTH+0.045}"/>
   </joint>
 
   <link name="link_joint5">
@@ -297,10 +328,19 @@
       </geometry>
       <material name="orange"/>
     </visual>
+
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.1"/>
+      <inertia
+        ixx="0.0" ixy="0.0" ixz="0.0"
+        iyy="0.0" iyz="0.0"
+        izz="0.0"/>
+    </inertial>
   </link>
 
-  <!-- <joint name="joint5" type="revolute">
-    <parent link="link_joint4"/>
+  <joint name="joint5" type="revolute">
+    <parent link="link_joint5"/>
     <child link="link5" />
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <axis xyz="0 0 1"/>
@@ -310,9 +350,9 @@
 
   <link name="link5">
     <visual>
-      <origin xyz="0.5 0 0" rpy="0 0 0"/>
+      <origin xyz="${(LINK5_LENGTH/2)-0.015} 0 0" rpy="0 ${pi/2} 0"/>
       <geometry>
-        <cylinder radius="0.03" length="0.118"/>
+        <cylinder radius="0.03" length="${LINK5_LENGTH}"/>
       </geometry>
       <material name="white"/>
     </visual>
@@ -327,10 +367,10 @@
     </inertial>
   </link>
 
-  <joint name="joint6" type="fixed">
+  <joint name="joint6" type="revolute">
     <parent link="link5"/>
     <child link="hook" />
-    <origin rpy="0 ${pi/2} 0" xyz="0.0905 0 0"/>
+    <origin rpy="0 ${pi/2} 0" xyz="${(LINK5_LENGTH)-0.015+0.0265} 0 0"/>
     <axis xyz="0 0 1"/>
     <limit lower="-3.14" upper="3.14" effort="1000" velocity="1000"/>
     <dynamics damping="0" friction="1"/>
@@ -344,7 +384,16 @@
       </geometry>
       <material name="orange"/>
     </visual>
-  </link> -->
+
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.1"/>
+      <inertia
+        ixx="0.0" ixy="0.0" ixz="0.0"
+        iyy="0.0" iyz="0.0"
+        izz="0.0"/>
+    </inertial>
+  </link>
 
   <!-- <xacro:include filename="gazebo.xacro" /> -->
 
@@ -353,12 +402,13 @@
       <plugin name="gazebo_ros_joint_state_publisher"
           filename="libgazebo_ros_joint_state_publisher.so">
           <update_rate>20</update_rate>
+          <joint_name>joint0</joint_name>
           <joint_name>joint1</joint_name>
           <joint_name>joint2</joint_name>
           <joint_name>joint3</joint_name>
           <joint_name>joint4</joint_name>
-          <!-- <joint_name>joint5</joint_name>
-          <joint_name>joint6</joint_name> -->
+          <joint_name>joint5</joint_name>
+          <joint_name>joint6</joint_name>
       </plugin>
   </gazebo>
 
@@ -366,10 +416,19 @@
     <hardware>
       <plugin>gazebo_ros2_control/GazeboSystem</plugin>
     </hardware>
+    <joint name="joint0">
+        <command_interface name="position">
+          <param name="min">-0.75</param>
+          <param name="max">0.75</param>
+        </command_interface>
+        <state_interface name="position">
+            <param name="initial_value">0.0</param>
+        </state_interface>
+    </joint>
     <joint name="joint1">
         <command_interface name="position">
-          <param name="min">-1</param>
-          <param name="max">1</param>
+          <param name="min">-3.14</param>
+          <param name="max">3.14</param>
         </command_interface>
         <state_interface name="position">
             <param name="initial_value">0.0</param>
@@ -379,8 +438,8 @@
     </joint>
     <joint name="joint2">
         <command_interface name="position">
-          <param name="min">-1</param>
-          <param name="max">1</param>
+          <param name="min">-3.14</param>
+          <param name="max">3.14</param>
         </command_interface>
         <state_interface name="position">
             <param name="initial_value">0.0</param>
@@ -389,8 +448,8 @@
 
     <joint name="joint3">
         <command_interface name="position">
-          <param name="min">-1</param>
-          <param name="max">1</param>
+          <param name="min">-3.14</param>
+          <param name="max">3.14</param>
         </command_interface>
         <state_interface name="position">
             <param name="initial_value">0.0</param>
@@ -399,15 +458,15 @@
 
     <joint name="joint4">
         <command_interface name="position">
-          <param name="min">-1</param>
-          <param name="max">1</param>
+          <param name="min">-3.14</param>
+          <param name="max">3.14</param>
         </command_interface>
         <state_interface name="position">
             <param name="initial_value">0.0</param>
         </state_interface>
     </joint>
 
-    <!-- <joint name="joint5">
+    <joint name="joint5">
         <command_interface name="position">
           <param name="min">-1</param>
           <param name="max">1</param>
@@ -419,13 +478,13 @@
 
     <joint name="joint6">
         <command_interface name="position">
-          <param name="min">-1</param>
-          <param name="max">1</param>
+          <param name="min">-3.14</param>
+          <param name="max">3.14</param>
         </command_interface>
         <state_interface name="position">
             <param name="initial_value">0.0</param>
         </state_interface>
-    </joint> -->
+    </joint>
   </ros2_control>
 
   <gazebo>
@@ -435,10 +494,14 @@
   </gazebo>
 
   <!-- Base Link -->
-  <gazebo reference="base_link">
+  <gazebo reference="link_slide">
     <material>Gazebo/White</material>
   </gazebo>
-  <!-- Link1 -->
+
+  <gazebo reference="link0">
+    <material>Gazebo/White</material>
+  </gazebo>
+
   <gazebo reference="link1">
     <material>Gazebo/White</material>
   </gazebo>
@@ -479,12 +542,12 @@
     <material>Gazebo/Orange</material>
   </gazebo>
 
-  <!-- <gazebo reference="link5">
+  <gazebo reference="link5">
     <material>Gazebo/White</material>
   </gazebo>
 
   <gazebo reference="hook">
     <material>Gazebo/Orange</material>
-  </gazebo> -->
+  </gazebo>
 
 </robot>

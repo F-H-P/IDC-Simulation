@@ -11,8 +11,8 @@ import xacro
 from launch.substitutions import PathJoinSubstitution
 
 from launch_ros.substitutions import FindPackageShare
-# from launch.actions import ExecuteProcess, IncludeLaunchDescription, RegisterEventHandler
-# from launch.event_handlers import OnProcessExit
+from launch.actions import ExecuteProcess, IncludeLaunchDescription, RegisterEventHandler
+from launch.event_handlers import OnProcessExit
 
 def generate_launch_description():
     pkg_name = 'robot_description'
@@ -20,18 +20,13 @@ def generate_launch_description():
     xacro_file = os.path.join(get_package_share_directory(pkg_name),file_subpath)
     robot_description_raw = xacro.process_file(xacro_file).toxml()
 
-    robot_controllers = PathJoinSubstitution(
-        [
-            FindPackageShare("robot_description"),
-            "config",
-            "controller.yaml"
-        ]
-    )
-
-    # gazebo = IncludeLaunchDescription(
-    #     PythonLaunchDescriptionSource([os.path.join(
-    #         get_package_share_directory('gazebo_ros'), 'launch'), '/gazebo.launch.py']),
-    #     )
+    # robot_controllers = PathJoinSubstitution(
+    #     [
+    #         FindPackageShare("robot_description"),
+    #         "config",
+    #         "controller.yaml"
+    #     ]
+    # )
     
     gazebo_server = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
@@ -95,17 +90,17 @@ def generate_launch_description():
     #                                         target_action=joint_trajectory_controller,
     #                                         on_exit=[velocity_controller],))
 #------------------------------------------------------------------------------------------------
-    # joint_state_broadcaster = Node(
-    #     package="controller_manager",
-    #     executable="spawner",
-    #     arguments=["joint_state_broadcaster", "--controller-manager", "controller_manager"]
-    # )
+    joint_state_broadcaster = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["joint_state_broadcaster", "--controller-manager", "controller_manager"]
+    )
 
-    # position_controller = Node(
-    #     package="controller_manager",
-    #     executable="spawner",
-    #     arguments=["forward_position_controller", "--controller-manager", "controller_manager"]
-    # )
+    position_controller = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["forward_position_controller", "--controller-manager", "controller_manager"]
+    )
 
 
     return LaunchDescription([
@@ -118,6 +113,6 @@ def generate_launch_description():
         # broadcaster,
         # controller
         # velo_controller
-        # joint_state_broadcaster,
-        # position_controller
+        joint_state_broadcaster,
+        position_controller
     ])
