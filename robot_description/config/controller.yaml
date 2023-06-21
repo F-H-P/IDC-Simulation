@@ -1,89 +1,22 @@
 controller_manager:
   ros__parameters:
-    update_rate: 100  # Hz
-
-    forward_position_controller:
-      type: position_controllers/JointGroupPositionController
-
-    # forward_velocity_controller:
-    #   type: velocity_controllers/JointGroupVelocityController
-
-    # forward_acceleration_controller:
-    #   type: forward_command_controller/ForwardCommandController
-
-    # forward_illegal1_controller:
-    #   type: forward_command_controller/ForwardCommandController
-
-    # forward_illegal2_controller:
-    #   type: forward_command_controller/ForwardCommandController
+    update_rate: 60  # Hz
 
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
 
+    forward_position_controller:
+      type: forward_command_controller/ForwardCommandController
 
-# forward_position_controller:
-#   ros__parameters:
-#     joints:
-#       - joint1
-#       - joint2
-
-# forward_velocity_controller:
-#   ros__parameters:
-#     joints:
-#       - joint1
-#       - joint2
-
-# forward_acceleration_controller:
-#   ros__parameters:
-#     joints:
-#       - joint1
-#       - joint2
-#     interface_name: acceleration
-
-# forward_illegal1_controller:
-#   ros__parameters:
-#     joints:
-#       - joint1
-#     interface_name: position
-
-# forward_illegal2_controller:
-#   ros__parameters:
-#     joints:
-#       - joint2
-#     interface_name: position
-
+  
 forward_position_controller:
   ros__parameters:
-    joints: 
+    joints:
+      - joint0
       - joint1
       - joint2
-    command_interface: 
-      - position
-    state_interface: 
-      - position
-      # - velocity
-      # - effort
-
-# velocity_controllers:
-#   ros__parameters:
-#     joints: 
-#       - joint1
-#       - joint2
-#     command_interface: 
-#       - velocity
-#     state_interface: 
-#       - positiion
-#       - velocity
-#       - effort
-
-# effort_controllers:
-#   ros__parameters:
-#     joints: 
-#       - joint1
-#       - joint2 
-#     command_interface: 
-#       - effort
-#     state_interface:
-#       - position 
-#       - velocity
-#       - effort
+      - joint3
+      - joint4
+      - joint5
+      - joint6
+    interface_name: position

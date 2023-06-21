@@ -24,9 +24,70 @@
     <color rgba="1.0 1.0 1.0 1.0"/>
   </material>
 
+  <material name="blue">
+    <color rgba="${118/255} ${186/255} ${255/255} 0.62"/>
+  </material>
+
   <link name="world"/>
 
-  <joint name="fixed" type="fixed">
+  <joint name="fixed_shelf" type="fixed">
+    <parent link="world"/>
+    <child link="shelf"/>
+  </joint>
+
+  <link name="shelf">
+    <visual>
+      <origin xyz="0 0.1 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file:///$(find robot_description)/meshes/shelf.STL"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0 0.1 0" rpy="0 0 0"/>
+      <mass value="5.0"/>
+      <inertia
+        ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01"/>
+    </inertial>
+
+    <collision>
+      <origin xyz="0 0.1 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file:///$(find robot_description)/meshes/shelf.STL"/>
+      </geometry> 
+    </collision>
+  </link> 
+
+  <joint name="float_obj1" type="floating">
+    <parent link="shelf"/>
+    <child link="obj1"/>
+  </joint>
+
+  <link name="obj1">
+    <visual>
+      <origin xyz="-0.44 0.32 0.4" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.1"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="-0.44 0.32 0.4" rpy="0 0 0"/>
+      <mass value="0.01"/>
+      <inertia
+        ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01"/>
+    </inertial>
+  </link>
+
+  <!-- robot -->
+
+  <joint name="fixed_robot" type="fixed">
     <parent link="world"/>
     <child link="link_slide"/>
   </joint>
@@ -44,25 +105,33 @@
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <mass value="0.5"/>
       <inertia
-        ixx="0.0" ixy="0.0" ixz="0.0"
-        iyy="0.0" iyz="0.0"
-        izz="0.0"/>
+        ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01"/>
     </inertial>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <!-- <box size="1.0 0.2 0.2"/> -->
+        <mesh filename="file:///$(find robot_description)/meshes/link_slide.STL"/>
+      </geometry> 
+    </collision>
   </link>  
 
   <joint name="joint0" type="prismatic">
-    <origin xyz="0.0 0.0 0.35" rpy="0.0 0.0 0.0"/>
+    <origin xyz="0.0 0.0 0.2" rpy="0.0 0.0 0.0"/>
     <parent link="link_slide"/>
     <child link="link0"/>
     <axis xyz="1 0 0"/>
-    <limit lower="-0.75" upper="0.75" effort="0.0" velocity="0.0"/>
+    <limit lower="-0.40" upper="0.40" effort="0.0" velocity="0.0"/>
   </joint>
 
   <link name="link0">
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file:///$(find robot_description)/meshes/link0.STL"/>
+        <mesh filename="file:///$(find robot_description)/meshes/link_base.STL"/>
       </geometry>
       <material name="white"/>
     </visual>
@@ -71,16 +140,23 @@
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <mass value="0.5"/>
       <inertia
-        ixx="0.0" ixy="0.0" ixz="0.0"
-        iyy="0.0" iyz="0.0"
-        izz="0.0"/>
+        ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01"/>
     </inertial>
+
+    <!-- <collision>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+      <geometry>
+        <mesh filename="file:///$(find robot_description)/meshes/link_base.STL"/>
+      </geometry>
+    </collision> -->
   </link>
 
   <joint name="joint1" type="revolute">
     <parent link="link0"/>
     <child link="link1"/>
-    <origin rpy="0 0 0" xyz="0 0 0.2"/>
+    <origin rpy="0 0 0" xyz="0 0 0.04"/>
     <axis xyz="0 0 1"/>
     <limit lower="-3.14" upper="3.14" effort="1000" velocity="1000"/>
     <dynamics damping="0" friction="0"/>
@@ -99,9 +175,9 @@
       <origin xyz="0 0 ${LINK1_LENGTH/2}" rpy="0 0 0"/>
       <mass value="0.5"/>
       <inertia
-        ixx="0.0" ixy="0.0" ixz="0.0"
-        iyy="0.0" iyz="0.0"
-        izz="0.0"/>
+        ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01"/>
     </inertial>
   </link>
 
@@ -123,9 +199,9 @@
       <origin xyz="0 0 ${LINK1_LENGTH+0.045}" rpy="0 ${-pi/2} 0"/>
       <mass value="0.5"/>
       <inertia
-        ixx="0.0" ixy="0.0" ixz="0.0"
-        iyy="0.0" iyz="0.0"
-        izz="0.0"/>
+        ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01"/>
     </inertial>
   </link>
 
@@ -151,9 +227,9 @@
       <origin xyz="0 0 0.04" rpy="0 0 0"/>
       <mass value="0.01"/>
       <inertia
-        ixx="0.0" ixy="0.0" ixz="0.0"
-        iyy="0.0" iyz="0.0"
-        izz="0.0"/>
+        ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01"/>
     </inertial>
   </link>
 
@@ -177,9 +253,9 @@
       <origin xyz="0.04 0 0.04" rpy="0 0 0"/>
       <mass value="0.0"/>
       <inertia
-        ixx="0.0" ixy="0.0" ixz="0.0"
-        iyy="0.0" iyz="0.0"
-        izz="0.0"/>
+        ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01"/>
     </inertial>
   </link>
 
@@ -202,9 +278,9 @@
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <mass value="0.1"/>
       <inertia
-        ixx="0.0" ixy="0.0" ixz="0.0"
-        iyy="0.0" iyz="0.0"
-        izz="0.0"/>
+        ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01"/>
     </inertial>
   </link>
 
@@ -230,9 +306,9 @@
       <origin xyz="0 0 0.04" rpy="0 0 0"/>
       <mass value="0.01"/>
       <inertia
-        ixx="0.0" ixy="0.0" ixz="0.0"
-        iyy="0.0" iyz="0.0"
-        izz="0.0"/>
+        ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01"/>
     </inertial>
   </link>
 
@@ -255,9 +331,9 @@
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <mass value="0.01"/>
       <inertia
-        ixx="0.0" ixy="0.0" ixz="0.0"
-        iyy="0.0" iyz="0.0"
-        izz="0.0"/>
+        ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01"/>
     </inertial>
   </link>
 
@@ -280,9 +356,9 @@
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <mass value="0.1"/>
       <inertia
-        ixx="0.0" ixy="0.0" ixz="0.0"
-        iyy="0.0" iyz="0.0"
-        izz="0.0"/>
+        ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01"/>
     </inertial>
   </link>
 
@@ -308,9 +384,9 @@
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <mass value="0.01"/>
       <inertia
-        ixx="0.0" ixy="0.0" ixz="0.0"
-        iyy="0.0" iyz="0.0"
-        izz="0.0"/>
+        ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01"/>
     </inertial>
   </link>
 
@@ -333,9 +409,9 @@
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <mass value="0.1"/>
       <inertia
-        ixx="0.0" ixy="0.0" ixz="0.0"
-        iyy="0.0" iyz="0.0"
-        izz="0.0"/>
+        ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01"/>
     </inertial>
   </link>
 
@@ -361,26 +437,26 @@
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <mass value="0.01"/>
       <inertia
-        ixx="0.0" ixy="0.0" ixz="0.0"
-        iyy="0.0" iyz="0.0"
-        izz="0.0"/>
+        ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01"/>
     </inertial>
   </link>
 
   <joint name="joint6" type="revolute">
     <parent link="link5"/>
-    <child link="hook" />
+    <child link="link_hook" />
     <origin rpy="0 ${pi/2} 0" xyz="${(LINK5_LENGTH)-0.015+0.0265} 0 0"/>
     <axis xyz="0 0 1"/>
     <limit lower="-3.14" upper="3.14" effort="1000" velocity="1000"/>
     <dynamics damping="0" friction="1"/>
   </joint>
 
-  <link name="hook">
+  <link name="link_hook">
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file:///$(find robot_description)/meshes/hook.STL"/>
+        <mesh filename="file:///$(find robot_description)/meshes/link_hook.STL"/>
       </geometry>
       <material name="orange"/>
     </visual>
@@ -389,10 +465,82 @@
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <mass value="0.1"/>
       <inertia
-        ixx="0.0" ixy="0.0" ixz="0.0"
-        iyy="0.0" iyz="0.0"
-        izz="0.0"/>
+        ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01"/>
     </inertial>
+  </link>
+
+  <joint name="fixed_collision_box1" type="fixed">
+    <parent link="link_hook"/>
+    <child link="collision_box_1"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+  </joint>
+
+  <link name="collision_box_1">
+    <inertial>
+      <origin xyz="0 0 -0.0125" rpy="0 0 0"/>
+      <mass value="0.01"/>
+      <inertia
+        ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01"/>
+    </inertial>
+
+    <collision>
+      <origin xyz="0 0 -0.0125" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.08 0.08 0.025"/>
+      </geometry> 
+    </collision>
+  </link>
+
+  <joint name="fixed_collision_box2" type="fixed">
+    <parent link="collision_box_1"/>
+    <child link="collision_box_2"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+  </joint>
+
+  <link name="collision_box_2">
+    <inertial>
+      <origin xyz="-0.05 0 0.035" rpy="0 0 0"/>
+      <mass value="0.01"/>
+      <inertia
+        ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01"/>
+    </inertial>
+
+    <collision>
+      <origin xyz="-0.05 0 0.035" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.02 0.08 0.11"/>
+      </geometry> 
+    </collision>
+  </link>
+
+  <joint name="fixed_collision_box3" type="fixed">
+    <parent link="collision_box_2"/>
+    <child link="collision_box_3"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+  </joint>
+
+  <link name="collision_box_3">
+    <inertial>
+      <origin xyz="-0.01 0 0.1" rpy="0 0 0"/>
+      <mass value="0.01"/>
+      <inertia
+        ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01"/>
+    </inertial>
+
+    <collision>
+      <origin xyz="-0.01 0 0.1" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.1 0.08 0.02"/>
+      </geometry> 
+    </collision>
   </link>
 
   <!-- <xacro:include filename="gazebo.xacro" /> -->
@@ -433,8 +581,6 @@
         <state_interface name="position">
             <param name="initial_value">0.0</param>
         </state_interface>
-        <!-- <state_interface name="velocity"/>
-        <state_interface name="effort"/> -->
     </joint>
     <joint name="joint2">
         <command_interface name="position">
@@ -488,12 +634,21 @@
   </ros2_control>
 
   <gazebo>
-    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+    <plugin name="gazebo_ros2_control" filename="libgazebo_ros2_control.so">
       <parameters>$(find robot_description)/config/controller.yaml</parameters>
     </plugin>
   </gazebo>
 
   <!-- Base Link -->
+
+  <gazebo reference="shelf">
+    <material>Gazebo/White</material>
+  </gazebo>
+
+  <gazebo reference="obj1">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
   <gazebo reference="link_slide">
     <material>Gazebo/White</material>
   </gazebo>
@@ -546,7 +701,7 @@
     <material>Gazebo/White</material>
   </gazebo>
 
-  <gazebo reference="hook">
+  <gazebo reference="link_hook">
     <material>Gazebo/Orange</material>
   </gazebo>
 
