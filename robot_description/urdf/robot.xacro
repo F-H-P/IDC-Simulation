@@ -10,6 +10,41 @@
   <xacro:property name="LINK4" value="${params['link4_length']}"/>
   <xacro:property name="LINK5" value="${params['link5_length']}"/>
 
+  <xacro:if value="${LINK1 >= 0.5}"> 
+    <xacro:property name="LINK1" value="0.5"/>
+  </xacro:if>
+  <xacro:if value="${0.045 >= LINK1}"> 
+    <xacro:property name="LINK1" value="0.045"/>
+  </xacro:if>
+
+  <xacro:if value="${LINK2 >= 0.5}"> 
+    <xacro:property name="LINK2" value="0.5"/>
+  </xacro:if>
+  <xacro:if value="${0.085 >= LINK2}"> 
+    <xacro:property name="LINK2" value="0.085"/>
+  </xacro:if>
+
+  <xacro:if value="${LINK3 >= 0.5}"> 
+    <xacro:property name="LINK3" value="0.5"/>
+  </xacro:if>
+  <xacro:if value="${0.05125 >= LINK3}"> 
+    <xacro:property name="LINK3" value="0.05125"/>
+  </xacro:if>
+
+  <xacro:if value="${LINK4 >= 0.5}"> 
+    <xacro:property name="LINK4" value="0.5"/>
+  </xacro:if>
+  <xacro:if value="${0.045 >= LINK4}"> 
+    <xacro:property name="LINK4" value="0.045"/>
+  </xacro:if>
+
+  <xacro:if value="${LINK5 >= 0.5}"> 
+    <xacro:property name="LINK5" value="0.5"/>
+  </xacro:if>
+  <xacro:if value="${0.0115 >= LINK5}"> 
+    <xacro:property name="LINK5" value="0.0115"/>
+  </xacro:if>
+
   <xacro:property name="LINK1_LENGTH" value="${LINK1-0.045}"/>
   <xacro:property name="LINK2_LENGTH" value="${LINK2-0.085}"/>
   <xacro:property name="LINK3_LENGTH" value="${LINK3-0.045-0.00625}"/>
@@ -64,11 +99,13 @@
   <joint name="float_obj1" type="floating">
     <parent link="shelf"/>
     <child link="obj1"/>
+    <dynamics damping="0.0" friction="10.0"/>
+    <limit effort="1" velocity="1.0" lower="-2.2" upper="0.7" />
   </joint>
 
   <link name="obj1">
     <visual>
-      <origin xyz="-0.44 0.32 0.4" rpy="0 0 0"/>
+      <origin xyz="-0.6 0.35 0.45" rpy="0 0 0"/>
       <geometry>
         <cylinder radius="0.04" length="0.1"/>
       </geometry>
@@ -76,13 +113,82 @@
     </visual>
 
     <inertial>
-      <origin xyz="-0.44 0.32 0.4" rpy="0 0 0"/>
+      <origin xyz="-0.6 0.35 0.45" rpy="0 0 0"/>
       <mass value="0.01"/>
       <inertia
         ixx="0.01" ixy="0.0" ixz="0.0"
         iyy="0.01" iyz="0.0"
         izz="0.01"/>
     </inertial>
+
+    <collision>
+      <origin xyz="-0.6 0.35 0.45" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.1"/>
+      </geometry> 
+    </collision>
+  </link>
+
+  <joint name="float_obj2" type="floating">
+    <parent link="shelf"/>
+    <child link="obj2"/>
+  </joint>
+
+  <link name="obj2">
+    <visual>
+      <origin xyz="-0.3 0.35 0.45" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.1"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="-0.3 0.35 0.45" rpy="0 0 0"/>
+      <mass value="0.01"/>
+      <inertia
+        ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01"/>
+    </inertial>
+
+    <collision>
+      <origin xyz="-0.3 0.35 0.45" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.1"/>
+      </geometry> 
+    </collision>
+  </link>
+
+  <joint name="float_obj8" type="floating">
+    <parent link="shelf"/>
+    <child link="obj8"/>
+  </joint>
+
+  <link name="obj8">
+    <visual>
+      <origin xyz="0.0 0.35 0.85" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.1"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0.0 0.35 0.85" rpy="0 0 0"/>
+      <mass value="0.01"/>
+      <inertia
+        ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01"/>
+    </inertial>
+
+    <collision>
+      <origin xyz="0.0 0.35 0.85" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.1"/>
+      </geometry> 
+    </collision>
   </link>
 
   <!-- robot -->
@@ -211,7 +317,7 @@
     <origin rpy="${pi} ${pi/2} 0" xyz="0.04 0 ${LINK1_LENGTH+0.045}"/>
     <axis xyz="0 0 1"/>
     <limit lower="-3.14" upper="3.14" effort="1000" velocity="1000"/>
-    <dynamics damping="0" friction="1"/>
+    <dynamics damping="0" friction="1000"/>
   </joint>
 
   <link name="link_joint2-2">
@@ -290,7 +396,7 @@
     <origin rpy="${pi} ${pi} ${pi}" xyz="0 0 0.04"/>
     <axis xyz="0 0 1"/>
     <limit lower="-3.14" upper="3.14" effort="1000" velocity="1000"/>
-    <dynamics damping="0" friction="1"/>
+    <dynamics damping="0" friction="1000"/>
   </joint>
 
   <link name="link_joint3-2">
@@ -368,7 +474,7 @@
     <origin rpy="0 0 0" xyz="0 0 0.00625"/>
     <axis xyz="0 0 1"/>
     <limit lower="-3.14" upper="3.14" effort="1000" velocity="1000"/>
-    <dynamics damping="0" friction="1"/>
+    <dynamics damping="0" friction="1000"/>
   </joint>
 
   <link name="link4">
@@ -421,7 +527,7 @@
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <axis xyz="0 0 1"/>
     <limit lower="-1" upper="1" effort="1000" velocity="1000"/>
-    <dynamics damping="0" friction="1"/>
+    <dynamics damping="0" friction="1000"/>
   </joint>
 
   <link name="link5">
@@ -449,7 +555,7 @@
     <origin rpy="0 ${pi/2} 0" xyz="${(LINK5_LENGTH)-0.015+0.0265} 0 0"/>
     <axis xyz="0 0 1"/>
     <limit lower="-3.14" upper="3.14" effort="1000" velocity="1000"/>
-    <dynamics damping="0" friction="1"/>
+    <dynamics damping="0" friction="1000"/>
   </joint>
 
   <link name="link_hook">
@@ -646,6 +752,14 @@
   </gazebo>
 
   <gazebo reference="obj1">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="obj2 ">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="obj8">
     <material>Gazebo/Blue</material>
   </gazebo>
 
