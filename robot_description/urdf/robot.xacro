@@ -2,6 +2,7 @@
 <robot name="robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
   <xacro:property name="PI" value="3.1415926535897931"/>
+  <xacro:property name="shelf_dist" value="0.1"/>
   <xacro:property name="params_path" value="$(find robot_description)/config/properties.yaml"/>
   <xacro:property name="params" value="${xacro.load_yaml(params_path)}"/> 
   <xacro:property name="LINK1" value="${params['link1_length']}"/>
@@ -10,39 +11,51 @@
   <xacro:property name="LINK4" value="${params['link4_length']}"/>
   <xacro:property name="LINK5" value="${params['link5_length']}"/>
 
-  <xacro:if value="${LINK1 >= 0.5}"> 
-    <xacro:property name="LINK1" value="0.5"/>
+  <xacro:property name="MAX_LINK1" value="0.2"/>
+  <xacro:property name="MAX_LINK2" value="0.2"/>
+  <xacro:property name="MAX_LINK3" value="0.2"/>
+  <xacro:property name="MAX_LINK4" value="0.2"/>
+  <xacro:property name="MAX_LINK5" value="0.2"/>
+
+  <xacro:property name="MIN_LINK1" value="0.045"/>
+  <xacro:property name="MIN_LINK2" value="0.085"/>
+  <xacro:property name="MIN_LINK3" value="0.05125"/>
+  <xacro:property name="MIN_LINK4" value="0.045"/>
+  <xacro:property name="MIN_LINK5" value="0.0115"/>
+
+  <xacro:if value="${LINK1 >= MAX_LINK1}"> 
+    <xacro:property name="LINK1" value="${MAX_LINK1}"/>
   </xacro:if>
-  <xacro:if value="${0.045 >= LINK1}"> 
-    <xacro:property name="LINK1" value="0.045"/>
+  <xacro:if value="${MIN_LINK1 >= LINK1}"> 
+    <xacro:property name="LINK1" value="${MIN_LINK1}"/>
   </xacro:if>
 
-  <xacro:if value="${LINK2 >= 0.5}"> 
-    <xacro:property name="LINK2" value="0.5"/>
+  <xacro:if value="${LINK2 >= MAX_LINK2}"> 
+    <xacro:property name="LINK2" value="${MAX_LINK2}"/>
   </xacro:if>
-  <xacro:if value="${0.085 >= LINK2}"> 
-    <xacro:property name="LINK2" value="0.085"/>
-  </xacro:if>
-
-  <xacro:if value="${LINK3 >= 0.5}"> 
-    <xacro:property name="LINK3" value="0.5"/>
-  </xacro:if>
-  <xacro:if value="${0.05125 >= LINK3}"> 
-    <xacro:property name="LINK3" value="0.05125"/>
+  <xacro:if value="${MIN_LINK2 >= LINK2}"> 
+    <xacro:property name="LINK2" value="${MIN_LINK2}"/>
   </xacro:if>
 
-  <xacro:if value="${LINK4 >= 0.5}"> 
-    <xacro:property name="LINK4" value="0.5"/>
+  <xacro:if value="${LINK3 >= MAX_LINK3}"> 
+    <xacro:property name="LINK3" value="${MAX_LINK3}"/>
   </xacro:if>
-  <xacro:if value="${0.045 >= LINK4}"> 
-    <xacro:property name="LINK4" value="0.045"/>
+  <xacro:if value="${MIN_LINK3 >= LINK3}"> 
+    <xacro:property name="LINK3" value="${MIN_LINK3}"/>
   </xacro:if>
 
-  <xacro:if value="${LINK5 >= 0.5}"> 
-    <xacro:property name="LINK5" value="0.5"/>
+  <xacro:if value="${LINK4 >= MAX_LINK4}"> 
+    <xacro:property name="LINK4" value="${MAX_LINK4}"/>
   </xacro:if>
-  <xacro:if value="${0.0115 >= LINK5}"> 
-    <xacro:property name="LINK5" value="0.0115"/>
+  <xacro:if value="${MIN_LINK1 >= LINK4}"> 
+    <xacro:property name="LINK4" value="${MIN_LINK4}"/>
+  </xacro:if>
+
+  <xacro:if value="${LINK5 >= MAX_LINK5}"> 
+    <xacro:property name="LINK5" value="${MAX_LINK5}"/>
+  </xacro:if>
+  <xacro:if value="${MIN_LINK5 >= LINK5}"> 
+    <xacro:property name="LINK5" value="${MIN_LINK5}"/>
   </xacro:if>
 
   <xacro:property name="LINK1_LENGTH" value="${LINK1-0.045}"/>
@@ -72,7 +85,7 @@
 
   <link name="shelf">
     <visual>
-      <origin xyz="0 0.1 0" rpy="0 0 0"/>
+      <origin xyz="0 ${shelf_dist+0.1} 0" rpy="0 0 0"/>
       <geometry>
         <mesh filename="file:///$(find robot_description)/meshes/shelf.STL"/>
       </geometry>
@@ -80,7 +93,7 @@
     </visual>
 
     <inertial>
-      <origin xyz="0 0.1 0" rpy="0 0 0"/>
+      <origin xyz="0 ${shelf_dist+0.1} 0" rpy="0 0 0"/>
       <mass value="5.0"/>
       <inertia
         ixx="0.01" ixy="0.0" ixz="0.0"
@@ -89,7 +102,7 @@
     </inertial>
 
     <collision>
-      <origin xyz="0 0.1 0" rpy="0 0 0"/>
+      <origin xyz="0 ${shelf_dist+0.1} 0" rpy="0 0 0"/>
       <geometry>
         <mesh filename="file:///$(find robot_description)/meshes/shelf.STL"/>
       </geometry> 
@@ -105,7 +118,7 @@
 
   <link name="obj1">
     <visual>
-      <origin xyz="-0.6 0.35 0.45" rpy="0 0 0"/>
+      <origin xyz="-0.6 ${shelf_dist+0.35} 0.45" rpy="0 0 0"/>
       <geometry>
         <cylinder radius="0.04" length="0.1"/>
       </geometry>
@@ -113,7 +126,7 @@
     </visual>
 
     <inertial>
-      <origin xyz="-0.6 0.35 0.45" rpy="0 0 0"/>
+      <origin xyz="-0.6 ${shelf_dist+0.35} 0.45" rpy="0 0 0"/>
       <mass value="0.01"/>
       <inertia
         ixx="0.01" ixy="0.0" ixz="0.0"
@@ -122,7 +135,7 @@
     </inertial>
 
     <collision>
-      <origin xyz="-0.6 0.35 0.45" rpy="0 0 0"/>
+      <origin xyz="-0.6 ${shelf_dist+0.35} 0.45" rpy="0 0 0"/>
       <geometry>
         <cylinder radius="0.04" length="0.1"/>
       </geometry> 
@@ -136,7 +149,7 @@
 
   <link name="obj2">
     <visual>
-      <origin xyz="-0.3 0.35 0.45" rpy="0 0 0"/>
+      <origin xyz="-0.3 ${shelf_dist+0.35} 0.45" rpy="0 0 0"/>
       <geometry>
         <cylinder radius="0.04" length="0.1"/>
       </geometry>
@@ -144,7 +157,7 @@
     </visual>
 
     <inertial>
-      <origin xyz="-0.3 0.35 0.45" rpy="0 0 0"/>
+      <origin xyz="-0.3 ${shelf_dist+0.35} 0.45" rpy="0 0 0"/>
       <mass value="0.01"/>
       <inertia
         ixx="0.01" ixy="0.0" ixz="0.0"
@@ -153,21 +166,21 @@
     </inertial>
 
     <collision>
-      <origin xyz="-0.3 0.35 0.45" rpy="0 0 0"/>
+      <origin xyz="-0.3 ${shelf_dist+0.35} 0.45" rpy="0 0 0"/>
       <geometry>
         <cylinder radius="0.04" length="0.1"/>
       </geometry> 
     </collision>
   </link>
 
-  <joint name="float_obj8" type="floating">
+  <joint name="float_obj8" type="fixed">
     <parent link="shelf"/>
     <child link="obj8"/>
   </joint>
 
   <link name="obj8">
     <visual>
-      <origin xyz="0.0 0.35 0.85" rpy="0 0 0"/>
+      <origin xyz="0.0 ${shelf_dist+0.35} 0.85" rpy="0 0 0"/>
       <geometry>
         <cylinder radius="0.04" length="0.1"/>
       </geometry>
@@ -175,7 +188,7 @@
     </visual>
 
     <inertial>
-      <origin xyz="0.0 0.35 0.85" rpy="0 0 0"/>
+      <origin xyz="0.0 ${shelf_dist+0.35} 0.85" rpy="0 0 0"/>
       <mass value="0.01"/>
       <inertia
         ixx="0.01" ixy="0.0" ixz="0.0"
@@ -184,7 +197,7 @@
     </inertial>
 
     <collision>
-      <origin xyz="0.0 0.35 0.85" rpy="0 0 0"/>
+      <origin xyz="0.0 ${shelf_dist+0.35} 0.85" rpy="0 0 0"/>
       <geometry>
         <cylinder radius="0.04" length="0.1"/>
       </geometry> 
