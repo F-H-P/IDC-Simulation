@@ -1,0 +1,130 @@
+<?xml version="1.0"?>
+<robot name="robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <joint name="fixed_shelf" type="fixed">
+    <parent link="world"/>
+    <child link="shelf"/>
+  </joint>
+
+  <link name="shelf">
+    <visual>
+      <origin xyz="0 ${shelf_dist+0.1} 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file:///$(find robot_description)/meshes/shelf.STL"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0 ${shelf_dist+0.1} 0" rpy="0 0 0"/>
+      <mass value="5.0"/>
+      <inertia
+        ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01"/>
+    </inertial>
+
+    <collision>
+      <origin xyz="0 ${shelf_dist+0.1} 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file:///$(find robot_description)/meshes/shelf.STL"/>
+      </geometry> 
+    </collision>
+  </link> 
+
+  <joint name="float_obj1" type="floating">
+    <parent link="shelf"/>
+    <child link="obj1"/>
+    <dynamics damping="0.0" friction="10.0"/>
+    <limit effort="1" velocity="1.0" lower="-2.2" upper="0.7" />
+  </joint>
+
+  <link name="obj1">
+    <visual>
+      <origin xyz="-0.6 ${shelf_dist+0.35} 0.45" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.1"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="-0.6 ${shelf_dist+0.35} 0.45" rpy="0 0 0"/>
+      <mass value="0.01"/>
+      <inertia
+        ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01"/>
+    </inertial>
+
+    <collision>
+      <origin xyz="-0.6 ${shelf_dist+0.35} 0.45" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.1"/>
+      </geometry> 
+    </collision>
+  </link>
+
+  <joint name="float_obj2" type="floating">
+    <parent link="shelf"/>
+    <child link="obj2"/>
+  </joint>
+
+  <link name="obj2">
+    <visual>
+      <origin xyz="-0.3 ${shelf_dist+0.35} 0.45" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.1"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="-0.3 ${shelf_dist+0.35} 0.45" rpy="0 0 0"/>
+      <mass value="0.01"/>
+      <inertia
+        ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01"/>
+    </inertial>
+
+    <collision>
+      <origin xyz="-0.3 ${shelf_dist+0.35} 0.45" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.1"/>
+      </geometry> 
+    </collision>
+  </link>
+
+  <joint name="float_obj8" type="fixed">
+    <parent link="shelf"/>
+    <child link="obj8"/>
+  </joint>
+
+  <link name="obj8">
+    <visual>
+      <origin xyz="0.0 ${shelf_dist+0.35} 0.85" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.1"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0.0 ${shelf_dist+0.35} 0.85" rpy="0 0 0"/>
+      <mass value="0.01"/>
+      <inertia
+        ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01"/>
+    </inertial>
+
+    <collision>
+      <origin xyz="0.0 ${shelf_dist+0.35} 0.85" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.1"/>
+      </geometry> 
+    </collision>
+  </link>
+
+</robot>
