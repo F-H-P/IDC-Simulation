@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <robot name="robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:property name="PI" value="3.1415926535897931"/>
   <xacro:property name="shelf_dist" value="0.0"/>
   <xacro:property name="params_path" value="$(find robot_description)/config/properties.yaml"/>
   <xacro:property name="params" value="${xacro.load_yaml(params_path)}"/> 
@@ -10,6 +9,7 @@
   <xacro:property name="LINK3" value="${params['link3_length']}"/>
   <xacro:property name="LINK4" value="${params['link4_length']}"/>
   <xacro:property name="LINK5" value="${params['link5_length']}"/>
+  <xacro:property name="THETA_JOINT4" value="${params['theta_joint4']}"/>
 
   <xacro:property name="MAX_LINK1" value="0.2"/>
   <xacro:property name="MAX_LINK2" value="0.2"/>
@@ -63,6 +63,7 @@
   <xacro:property name="LINK3_LENGTH" value="${LINK3-0.045-0.00625}"/>
   <xacro:property name="LINK4_LENGTH" value="${LINK4-0.045}"/>
   <xacro:property name="LINK5_LENGTH" value="${LINK5+0.015}"/>
+  <xacro:property name="THETA_JOINT4_RAD" value="${pi*(THETA_JOINT4/180)}"/>
 
   <material name="orange">
     <color rgba="${255/255} ${108/255} ${10/255} 1.0"/>

@@ -11,12 +11,11 @@ import xacro
 from launch.substitutions import PathJoinSubstitution
 
 from launch_ros.substitutions import FindPackageShare
-from launch.actions import ExecuteProcess, IncludeLaunchDescription, RegisterEventHandler
-from launch.event_handlers import OnProcessExit
+from launch.actions import IncludeLaunchDescription
 
 def generate_launch_description():
     pkg_name = 'robot_description'
-    file_subpath = 'urdf/robot.xacro'
+    file_subpath = 'urdf/robot_v2.xacro'
     xacro_file = os.path.join(get_package_share_directory(pkg_name),file_subpath)
     robot_description_raw = xacro.process_file(xacro_file).toxml()
 
