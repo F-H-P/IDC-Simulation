@@ -83,7 +83,7 @@
     <child link="link1"/>
     <origin rpy="0 0 0" xyz="0 0 0.04"/>
     <axis xyz="0 0 1"/>
-    <limit lower="-3.14" upper="3.14" effort="1000" velocity="1000"/>
+    <limit lower="-3.14" upper="3.14" effort="0.0" velocity="0.0"/>
     <dynamics damping="0" friction="1000"/>
   </joint>
 
@@ -237,7 +237,7 @@
     <child link="link5" />
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <axis xyz="0 0 1"/>
-    <limit lower="-1" upper="1" effort="1000" velocity="1000"/>
+    <limit lower="-1" upper="1" effort="0.0" velocity="0.0"/>
     <dynamics damping="0" friction="1000"/>
   </joint>
 
@@ -265,7 +265,7 @@
     <child link="link_hook" />
     <origin rpy="0 ${pi/2} 0" xyz="${(LINK5_LENGTH)-0.015+0.0265} 0 0"/>
     <axis xyz="0 0 1"/>
-    <limit lower="-3.14" upper="3.14" effort="1000" velocity="1000"/>
+    <limit lower="-3.14" upper="3.14" effort="0.0" velocity="0.0"/>
     <dynamics damping="0" friction="1000"/>
   </joint>
 

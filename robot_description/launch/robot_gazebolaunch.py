@@ -100,6 +100,12 @@ def generate_launch_description():
         executable="spawner",
         arguments=["forward_position_controller", "--controller-manager", "controller_manager"]
     )
+    
+    velocity_controller = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["forward_velocity_controller", "--controller-manager", "controller_manager"]
+    )
 
 
     return LaunchDescription([
@@ -113,5 +119,6 @@ def generate_launch_description():
         # controller
         # velo_controller
         joint_state_broadcaster,
-        position_controller
+        #position_controller
+        velocity_controller
     ])
