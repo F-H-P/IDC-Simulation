@@ -96,14 +96,14 @@
     </collision>
   </link>
 
-  <joint name="float_obj8" type="fixed">
+  <joint name="float_obj8" type="floating">
     <parent link="shelf"/>
     <child link="obj8"/>
   </joint>
 
   <link name="obj8">
     <visual>
-      <origin xyz="0.0 ${shelf_dist+0.35} 0.85" rpy="0 0 0"/>
+      <origin xyz="0.0 ${shelf_dist+0.35} 1.65" rpy="0 0 0"/>
       <geometry>
         <cylinder radius="0.04" length="0.1"/>
       </geometry>
@@ -111,8 +111,8 @@
     </visual>
 
     <inertial>
-      <origin xyz="0.0 ${shelf_dist+0.35} 0.85" rpy="0 0 0"/>
-      <mass value="0.01"/>
+      <origin xyz="0.0 ${shelf_dist+0.35} 1.65" rpy="0 0 0"/>
+      <mass value="0.1"/>
       <inertia
         ixx="0.01" ixy="0.0" ixz="0.0"
         iyy="0.01" iyz="0.0"
@@ -120,7 +120,7 @@
     </inertial>
 
     <collision>
-      <origin xyz="0.0 ${shelf_dist+0.35} 0.85" rpy="0 0 0"/>
+      <origin xyz="0.0 ${shelf_dist+0.35} 1.65" rpy="0 0 0"/>
       <geometry>
         <cylinder radius="0.04" length="0.1"/>
       </geometry> 

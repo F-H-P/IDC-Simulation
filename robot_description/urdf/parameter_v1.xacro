@@ -2,7 +2,7 @@
 <robot name="robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
   <xacro:property name="shelf_dist" value="0.0"/>
-  <xacro:property name="params_path" value="$(find robot_description)/config/properties.yaml"/>
+  <xacro:property name="params_path" value="$(find robot_description)/config/properties_v1.yaml"/>
   <xacro:property name="params" value="${xacro.load_yaml(params_path)}"/> 
   <xacro:property name="LINK1" value="${params['link1_length']}"/>
   <xacro:property name="LINK2" value="${params['link2_length']}"/>

@@ -11,11 +11,11 @@
 
   <!-- robot -->
   <joint name="jointX" type="prismatic">
-    <origin xyz="0.0 0.0 0.2" rpy="0.0 0.0 0.0"/>
+    <origin xyz="0.0 0.0 0.4" rpy="0.0 0.0 0.0"/>
     <parent link="world"/>
     <child link="linkX"/>
     <axis xyz="1 0 0"/>
-    <limit lower="-0.40" upper="0.40" effort="0.0" velocity="0.0"/>
+    <limit lower="-0.60" upper="0.60" effort="0.0" velocity="0.0"/>
     <dynamics damping="0" friction="1000"/>
   </joint>
 
@@ -55,7 +55,7 @@
     <parent link="linkY"/>
     <child link="link0"/>
     <axis xyz="0 0 1"/>
-    <limit lower="0" upper="0.40" effort="0.0" velocity="0.0"/>
+    <limit lower="-0.4" upper="0.4" effort="0.0" velocity="0.0"/>
     <dynamics damping="0" friction="1000"/>
   </joint>
 
@@ -286,77 +286,12 @@
         iyy="0.01" iyz="0.0"
         izz="0.01"/>
     </inertial>
-  </link>
-
-  <joint name="fixed_collision_box1" type="fixed">
-    <parent link="link_hook"/>
-    <child link="collision_box_1"/>
-    <origin rpy="0 0 0" xyz="0 0 0"/>
-  </joint>
-
-  <link name="collision_box_1">
-    <inertial>
-      <origin xyz="0 0 -0.0125" rpy="0 0 0"/>
-      <mass value="0.01"/>
-      <inertia
-        ixx="0.01" ixy="0.0" ixz="0.0"
-        iyy="0.01" iyz="0.0"
-        izz="0.01"/>
-    </inertial>
 
     <collision>
-      <origin xyz="0 0 -0.0125" rpy="0 0 0"/>
+      <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
       <geometry>
-        <box size="0.08 0.08 0.025"/>
-      </geometry> 
-    </collision>
-  </link>
-
-  <joint name="fixed_collision_box2" type="fixed">
-    <parent link="collision_box_1"/>
-    <child link="collision_box_2"/>
-    <origin rpy="0 0 0" xyz="0 0 0"/>
-  </joint>
-
-  <link name="collision_box_2">
-    <inertial>
-      <origin xyz="-0.05 0 0.035" rpy="0 0 0"/>
-      <mass value="0.01"/>
-      <inertia
-        ixx="0.01" ixy="0.0" ixz="0.0"
-        iyy="0.01" iyz="0.0"
-        izz="0.01"/>
-    </inertial>
-
-    <collision>
-      <origin xyz="-0.05 0 0.035" rpy="0 0 0"/>
-      <geometry>
-        <box size="0.02 0.08 0.11"/>
-      </geometry> 
-    </collision>
-  </link>
-
-  <joint name="fixed_collision_box3" type="fixed">
-    <parent link="collision_box_2"/>
-    <child link="collision_box_3"/>
-    <origin rpy="0 0 0" xyz="0 0 0"/>
-  </joint>
-
-  <link name="collision_box_3">
-    <inertial>
-      <origin xyz="-0.01 0 0.1" rpy="0 0 0"/>
-      <mass value="0.01"/>
-      <inertia
-        ixx="0.01" ixy="0.0" ixz="0.0"
-        iyy="0.01" iyz="0.0"
-        izz="0.01"/>
-    </inertial>
-
-    <collision>
-      <origin xyz="-0.01 0 0.1" rpy="0 0 0"/>
-      <geometry>
-        <box size="0.1 0.08 0.02"/>
-      </geometry> 
+        <mesh filename="file:///$(find robot_description)/meshes/link_hook.STL"/>
+      </geometry>
     </collision>
   </link>
 

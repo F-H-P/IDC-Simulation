@@ -1,0 +1,5 @@
+link1_length:  "0.045" # default 0.220; min 0.045
+link2_length:  "0.05125" # default 0.440; min 0.05125
+link5_length:  "0.0115" # default 0.118; min 0.0115
+
+theta_joint4: "90" #degree
