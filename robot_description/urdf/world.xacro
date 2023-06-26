@@ -1,6 +1,10 @@
 <?xml version="1.0"?>
-<robot name="robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot name="world" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
+  <xacro:include filename="$(find robot_description)/urdf/parameter_v2.xacro"/>
+
+  <link name="world"/>
+  
   <joint name="fixed_shelf" type="fixed">
     <parent link="world"/>
     <child link="shelf"/>
@@ -32,99 +36,7 @@
     </collision>
   </link> 
 
-  <joint name="float_obj1" type="floating">
-    <parent link="shelf"/>
-    <child link="obj1"/>
-    <dynamics damping="0.0" friction="10.0"/>
-    <limit effort="1" velocity="1.0" lower="-2.2" upper="0.7" />
-  </joint>
-
-  <link name="obj1">
-    <visual>
-      <origin xyz="-0.6 ${shelf_dist+0.35} 0.45" rpy="0 0 0"/>
-      <geometry>
-        <cylinder radius="0.04" length="0.1"/>
-      </geometry>
-      <material name="blue"/>
-    </visual>
-
-    <inertial>
-      <origin xyz="-0.6 ${shelf_dist+0.35} 0.45" rpy="0 0 0"/>
-      <mass value="0.01"/>
-      <inertia
-        ixx="0.01" ixy="0.0" ixz="0.0"
-        iyy="0.01" iyz="0.0"
-        izz="0.01"/>
-    </inertial>
-
-    <collision>
-      <origin xyz="-0.6 ${shelf_dist+0.35} 0.45" rpy="0 0 0"/>
-      <geometry>
-        <cylinder radius="0.04" length="0.1"/>
-      </geometry> 
-    </collision>
-  </link>
-
-  <joint name="float_obj2" type="floating">
-    <parent link="shelf"/>
-    <child link="obj2"/>
-  </joint>
-
-  <link name="obj2">
-    <visual>
-      <origin xyz="-0.3 ${shelf_dist+0.35} 0.45" rpy="0 0 0"/>
-      <geometry>
-        <cylinder radius="0.04" length="0.1"/>
-      </geometry>
-      <material name="blue"/>
-    </visual>
-
-    <inertial>
-      <origin xyz="-0.3 ${shelf_dist+0.35} 0.45" rpy="0 0 0"/>
-      <mass value="0.01"/>
-      <inertia
-        ixx="0.01" ixy="0.0" ixz="0.0"
-        iyy="0.01" iyz="0.0"
-        izz="0.01"/>
-    </inertial>
-
-    <collision>
-      <origin xyz="-0.3 ${shelf_dist+0.35} 0.45" rpy="0 0 0"/>
-      <geometry>
-        <cylinder radius="0.04" length="0.1"/>
-      </geometry> 
-    </collision>
-  </link>
-
-  <joint name="float_obj8" type="floating">
-    <parent link="shelf"/>
-    <child link="obj8"/>
-  </joint>
-
-  <link name="obj8">
-    <visual>
-      <origin xyz="0.0 ${shelf_dist+0.35} 1.65" rpy="0 0 0"/>
-      <geometry>
-        <cylinder radius="0.04" length="0.1"/>
-      </geometry>
-      <material name="blue"/>
-    </visual>
-
-    <inertial>
-      <origin xyz="0.0 ${shelf_dist+0.35} 1.65" rpy="0 0 0"/>
-      <mass value="0.1"/>
-      <inertia
-        ixx="0.01" ixy="0.0" ixz="0.0"
-        iyy="0.01" iyz="0.0"
-        izz="0.01"/>
-    </inertial>
-
-    <collision>
-      <origin xyz="0.0 ${shelf_dist+0.35} 1.65" rpy="0 0 0"/>
-      <geometry>
-        <cylinder radius="0.04" length="0.1"/>
-      </geometry> 
-    </collision>
-  </link>
-
+  <gazebo reference="shelf">
+    <material>Gazebo/White</material>
+  </gazebo>
 </robot>

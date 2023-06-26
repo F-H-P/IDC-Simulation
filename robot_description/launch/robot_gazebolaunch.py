@@ -1,31 +1,53 @@
 import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 
-from launch.actions import IncludeLaunchDescription
+from launch.actions import IncludeLaunchDescription,DeclareLaunchArgument
 
 from launch_ros.actions import Node
 import xacro
-from launch.substitutions import PathJoinSubstitution
+from launch.substitutions import PathJoinSubstitution,LaunchConfiguration,PythonExpression
 
 from launch_ros.substitutions import FindPackageShare
 from launch.actions import IncludeLaunchDescription
+
+from launch.conditions import IfCondition
 
 def generate_launch_description():
     pkg_name = 'robot_description'
     file_subpath = 'urdf/robot_v2.xacro'
     xacro_file = os.path.join(get_package_share_directory(pkg_name),file_subpath)
     robot_description_raw = xacro.process_file(xacro_file).toxml()
+    
+    environment = 'urdf/environment.world'
+    environment_path = os.path.join(get_package_share_directory(pkg_name),environment)
+    os.environ["GAZEBO_MODEL_PATH"] = environment_path
 
-    # robot_controllers = PathJoinSubstitution(
-    #     [
-    #         FindPackageShare("robot_description"),
-    #         "config",
-    #         "controller.yaml"
-    #     ]
-    # )
+    headless = LaunchConfiguration('headless')
+    use_simulator = LaunchConfiguration('use_simulator')
+    world = LaunchConfiguration('world')
+
+    declare_simulator_cmd = DeclareLaunchArgument(
+        name='headless',
+        default_value='False',
+        description='Whether to execute gzclient')
+        
+    declare_use_sim_time_cmd = DeclareLaunchArgument(
+        name='use_sim_time',
+        default_value='true',
+        description='Use simulation (Gazebo) clock if true')
+    
+    declare_use_simulator_cmd = DeclareLaunchArgument(
+        name='use_simulator',
+        default_value='True',
+        description='Whether to start the simulator')
+
+    declare_world_cmd = DeclareLaunchArgument(
+        name='world',
+        default_value=environment_path,
+        description='Full path to the world model file to load'
+    )
     
     gazebo_server = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
@@ -34,7 +56,9 @@ def generate_launch_description():
                 'launch',
                 'gzserver.launch.py'
             ])
-        ])
+        ]),
+        condition=IfCondition(use_simulator),
+        launch_arguments={'world': world}.items()
     )    
     gazebo_client = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
@@ -43,20 +67,14 @@ def generate_launch_description():
                 'launch',
                 'gzclient.launch.py'
             ])
-        ])
+        ]),
+        condition=IfCondition(PythonExpression([use_simulator, ' and not ', headless]))
     )
 
     spawn_entity = Node(package='gazebo_ros', executable='spawn_entity.py',
                     arguments=['-topic', 'robot_description',
                                 '-entity', 'robot',],
                     output='screen')
-    
-    # control_node = Node(
-    #     package="controller_manager",
-    #     executable="ros2_control_node",
-    #     parameters=[{'robot_description': robot_description_raw}, robot_controllers],
-    #     output="both",
-    # )
     
     robot_state_publisher = Node(package='robot_state_publisher',
                                   executable='robot_state_publisher',
@@ -65,30 +83,6 @@ def generate_launch_description():
                                  'use_sim_time': True}]
     )
 
-    # joint_state_broadcaster = ExecuteProcess(
-    #     cmd=["ros2", "control", "load_controller", "--set-state", "active", "--spin-time", "120",
-    #          "joint_state_broadcaster"],
-    #     output="screen"
-    # )
-
-    # joint_position_controller = ExecuteProcess(
-    #     cmd=["ros2", "control", "load_controller", "--set-state", "active",
-    #          "forward_position_controller"],
-    #     output="screen"
-    # )
-
-    # broadcaster = RegisterEventHandler(event_handler=OnProcessExit(
-    #                                     target_action=spawn_entity,
-    #                                     on_exit=[joint_state_broadcaster],))
-    
-    # controller = RegisterEventHandler(event_handler=OnProcessExit(
-    #                             target_action=spawn_entity,
-    #                             on_exit=[joint_position_controller],))
-    
-    # velo_controller = RegisterEventHandler(event_handler=OnProcessExit(
-    #                                         target_action=joint_trajectory_controller,
-    #                                         on_exit=[velocity_controller],))
-#------------------------------------------------------------------------------------------------
     joint_state_broadcaster = Node(
         package="controller_manager",
         executable="spawner",
@@ -109,16 +103,15 @@ def generate_launch_description():
 
 
     return LaunchDescription([
-        # gazebo,
+        declare_simulator_cmd,
+        declare_use_sim_time_cmd,
+        declare_use_simulator_cmd,
+        declare_world_cmd,
         gazebo_server,
         gazebo_client,
         spawn_entity,
-        # control_node,
         robot_state_publisher,
-        # broadcaster,
-        # controller
-        # velo_controller
         joint_state_broadcaster,
-        #position_controller
-        velocity_controller
+        position_controller,
+        # velocity_controller
     ])

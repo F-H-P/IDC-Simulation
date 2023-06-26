@@ -1,0 +1,563 @@
+<?xml version="1.0"?>
+<robot name="obj" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find robot_description)/urdf/parameter_v2.xacro"/>
+
+  <link name="world"/>
+
+  <joint name="float_obj1" type="floating">
+    <parent link="world"/>
+    <child link="obj1"/>
+    <dynamics damping="0.0" friction="10.0"/>
+    <limit effort="1" velocity="1.0" lower="-2.2" upper="0.7" />
+  </joint>
+
+  <link name="obj1">
+    <visual>
+      <origin xyz="-0.6 ${shelf_dist+0.35} 0.45" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.1"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="-0.6 ${shelf_dist+0.35} 0.45" rpy="0 0 0"/>
+      <mass value="0.01"/>
+      <inertia
+        ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01"/>
+    </inertial>
+
+    <collision>
+      <origin xyz="-0.6 ${shelf_dist+0.35} 0.45" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.1"/>
+      </geometry> 
+    </collision>
+  </link>
+
+  <joint name="float_obj2" type="floating">
+    <parent link="world"/>
+    <child link="obj2"/>
+  </joint>
+
+  <link name="obj2">
+    <visual>
+      <origin xyz="-0.3 ${shelf_dist+0.35} 0.45" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.1"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="-0.3 ${shelf_dist+0.35} 0.45" rpy="0 0 0"/>
+      <mass value="0.01"/>
+      <inertia
+        ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01"/>
+    </inertial>
+
+    <collision>
+      <origin xyz="-0.3 ${shelf_dist+0.35} 0.45" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.1"/>
+      </geometry> 
+    </collision>
+  </link>
+
+  <joint name="float_obj3" type="floating">
+    <parent link="world"/>
+    <child link="obj3"/>
+    <dynamics damping="0.0" friction="10.0"/>
+    <limit effort="1" velocity="1.0" lower="-2.2" upper="0.7" />
+  </joint>
+
+  <link name="obj3">
+    <visual>
+      <origin xyz="0.0 ${shelf_dist+0.35} 0.45" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.1"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0.0 ${shelf_dist+0.35} 0.45" rpy="0 0 0"/>
+      <mass value="0.01"/>
+      <inertia
+        ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01"/>
+    </inertial>
+
+    <collision>
+      <origin xyz="0.0 ${shelf_dist+0.35} 0.45" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.1"/>
+      </geometry> 
+    </collision>
+  </link>
+
+  <joint name="float_obj4" type="floating">
+    <parent link="world"/>
+    <child link="obj4"/>
+    <dynamics damping="0.0" friction="10.0"/>
+    <limit effort="1" velocity="1.0" lower="-2.2" upper="0.7" />
+  </joint>
+
+  <link name="obj4">
+    <visual>
+      <origin xyz="0.3 ${shelf_dist+0.35} 0.45" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.1"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0.3 ${shelf_dist+0.35} 0.45" rpy="0 0 0"/>
+      <mass value="0.01"/>
+      <inertia
+        ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01"/>
+    </inertial>
+
+    <collision>
+      <origin xyz="0.3 ${shelf_dist+0.35} 0.45" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.1"/>
+      </geometry> 
+    </collision>
+  </link>
+
+  <joint name="float_obj5" type="floating">
+    <parent link="world"/>
+    <child link="obj5"/>
+    <dynamics damping="0.0" friction="10.0"/>
+    <limit effort="1" velocity="1.0" lower="-2.2" upper="0.7" />
+  </joint>
+
+  <link name="obj5">
+    <visual>
+      <origin xyz="0.6 ${shelf_dist+0.35} 0.45" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.1"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0.6 ${shelf_dist+0.35} 0.45" rpy="0 0 0"/>
+      <mass value="0.01"/>
+      <inertia
+        ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01"/>
+    </inertial>
+
+    <collision>
+      <origin xyz="0.6 ${shelf_dist+0.35} 0.45" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.1"/>
+      </geometry> 
+    </collision>
+  </link>
+
+  <!-- next_floor -->
+
+  <!-- <joint name="float_obj6" type="floating">
+    <parent link="world"/>
+    <child link="obj6"/>
+    <dynamics damping="0.0" friction="10.0"/>
+    <limit effort="1" velocity="1.0" lower="-2.2" upper="0.7" />
+  </joint>
+
+  <link name="obj6">
+    <visual>
+      <origin xyz="-0.6 ${shelf_dist+0.35} 0.65" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.1"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="-0.6 ${shelf_dist+0.35} 0.65" rpy="0 0 0"/>
+      <mass value="0.01"/>
+      <inertia
+        ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01"/>
+    </inertial>
+
+    <collision>
+      <origin xyz="-0.6 ${shelf_dist+0.35} 0.65" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.1"/>
+      </geometry> 
+    </collision>
+  </link>
+
+  <joint name="float_obj7" type="floating">
+    <parent link="world"/>
+    <child link="obj7"/>
+  </joint>
+
+  <link name="obj7">
+    <visual>
+      <origin xyz="-0.3 ${shelf_dist+0.35} 0.65" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.1"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="-0.3 ${shelf_dist+0.35} 0.65" rpy="0 0 0"/>
+      <mass value="0.01"/>
+      <inertia
+        ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01"/>
+    </inertial>
+
+    <collision>
+      <origin xyz="-0.3 ${shelf_dist+0.35} 0.65" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.1"/>
+      </geometry> 
+    </collision>
+  </link>
+
+  <joint name="float_obj8" type="floating">
+    <parent link="world"/>
+    <child link="obj8"/>
+    <dynamics damping="0.0" friction="10.0"/>
+    <limit effort="1" velocity="1.0" lower="-2.2" upper="0.7" />
+  </joint>
+
+  <link name="obj8">
+    <visual>
+      <origin xyz="0.0 ${shelf_dist+0.35} 0.65" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.1"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0.0 ${shelf_dist+0.35} 0.65" rpy="0 0 0"/>
+      <mass value="0.01"/>
+      <inertia
+        ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01"/>
+    </inertial>
+
+    <collision>
+      <origin xyz="0.0 ${shelf_dist+0.35} 0.65" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.1"/>
+      </geometry> 
+    </collision>
+  </link>
+
+  <joint name="float_obj9" type="floating">
+    <parent link="world"/>
+    <child link="obj9"/>
+    <dynamics damping="0.0" friction="10.0"/>
+    <limit effort="1" velocity="1.0" lower="-2.2" upper="0.7" />
+  </joint>
+
+  <link name="obj9">
+    <visual>
+      <origin xyz="0.3 ${shelf_dist+0.35} 0.65" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.1"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0.3 ${shelf_dist+0.35} 0.65" rpy="0 0 0"/>
+      <mass value="0.01"/>
+      <inertia
+        ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01"/>
+    </inertial>
+
+    <collision>
+      <origin xyz="0.3 ${shelf_dist+0.35} 0.65" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.1"/>
+      </geometry> 
+    </collision>
+  </link>
+
+  <joint name="float_obj10" type="floating">
+    <parent link="world"/>
+    <child link="obj10"/>
+    <dynamics damping="0.0" friction="10.0"/>
+    <limit effort="1" velocity="1.0" lower="-2.2" upper="0.7" />
+  </joint>
+
+  <link name="obj10">
+    <visual>
+      <origin xyz="0.6 ${shelf_dist+0.35} 0.65" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.1"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0.6 ${shelf_dist+0.35} 0.65" rpy="0 0 0"/>
+      <mass value="0.01"/>
+      <inertia
+        ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01"/>
+    </inertial>
+
+    <collision>
+      <origin xyz="0.6 ${shelf_dist+0.35} 0.65" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.1"/>
+      </geometry> 
+    </collision>
+  </link> -->
+
+  <!-- next_floor -->
+
+  <!-- <joint name="float_obj11" type="floating">
+    <parent link="world"/>
+    <child link="obj11"/>
+    <dynamics damping="0.0" friction="10.0"/>
+    <limit effort="1" velocity="1.0" lower="-2.2" upper="0.7" />
+  </joint>
+
+  <link name="obj11">
+    <visual>
+      <origin xyz="-0.6 ${shelf_dist+0.35} 0.85" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.1"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="-0.6 ${shelf_dist+0.35} 0.85" rpy="0 0 0"/>
+      <mass value="0.01"/>
+      <inertia
+        ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01"/>
+    </inertial>
+
+    <collision>
+      <origin xyz="-0.6 ${shelf_dist+0.35} 0.85" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.1"/>
+      </geometry> 
+    </collision>
+  </link>
+
+  <joint name="float_obj12" type="floating">
+    <parent link="world"/>
+    <child link="obj12"/>
+  </joint>
+
+  <link name="obj12">
+    <visual>
+      <origin xyz="-0.3 ${shelf_dist+0.35} 0.85" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.1"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="-0.3 ${shelf_dist+0.35} 0.85" rpy="0 0 0"/>
+      <mass value="0.01"/>
+      <inertia
+        ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01"/>
+    </inertial>
+
+    <collision>
+      <origin xyz="-0.3 ${shelf_dist+0.35} 0.85" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.1"/>
+      </geometry> 
+    </collision>
+  </link>
+
+  <joint name="float_obj13" type="floating">
+    <parent link="world"/>
+    <child link="obj13"/>
+    <dynamics damping="0.0" friction="10.0"/>
+    <limit effort="1" velocity="1.0" lower="-2.2" upper="0.7" />
+  </joint>
+
+  <link name="obj13">
+    <visual>
+      <origin xyz="0.0 ${shelf_dist+0.35} 0.85" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.1"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0.0 ${shelf_dist+0.35} 0.85" rpy="0 0 0"/>
+      <mass value="0.01"/>
+      <inertia
+        ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01"/>
+    </inertial>
+
+    <collision>
+      <origin xyz="0.0 ${shelf_dist+0.35} 0.85" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.1"/>
+      </geometry> 
+    </collision>
+  </link>
+
+  <joint name="float_obj14" type="floating">
+    <parent link="world"/>
+    <child link="obj14"/>
+    <dynamics damping="0.0" friction="10.0"/>
+    <limit effort="1" velocity="1.0" lower="-2.2" upper="0.7" />
+  </joint>
+
+  <link name="obj14">
+    <visual>
+      <origin xyz="0.3 ${shelf_dist+0.35} 0.85" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.1"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0.3 ${shelf_dist+0.35} 0.85" rpy="0 0 0"/>
+      <mass value="0.01"/>
+      <inertia
+        ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01"/>
+    </inertial>
+
+    <collision>
+      <origin xyz="0.3 ${shelf_dist+0.35} 0.85" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.1"/>
+      </geometry> 
+    </collision>
+  </link>
+
+  <joint name="float_obj15" type="floating">
+    <parent link="world"/>
+    <child link="obj15"/>
+    <dynamics damping="0.0" friction="10.0"/>
+    <limit effort="1" velocity="1.0" lower="-2.2" upper="0.7" />
+  </joint>
+
+  <link name="obj15">
+    <visual>
+      <origin xyz="0.6 ${shelf_dist+0.35} 0.85" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.1"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0.6 ${shelf_dist+0.35} 0.85" rpy="0 0 0"/>
+      <mass value="0.01"/>
+      <inertia
+        ixx="0.01" ixy="0.0" ixz="0.0"
+        iyy="0.01" iyz="0.0"
+        izz="0.01"/>
+    </inertial>
+
+    <collision>
+      <origin xyz="0.6 ${shelf_dist+0.35} 0.85" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="0.1"/>
+      </geometry> 
+    </collision>
+  </link> -->
+
+  <!-- next_floor -->
+
+  <gazebo reference="obj1">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="obj2">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="obj3">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="obj4">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="obj5">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <!-- <gazebo reference="obj6">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="obj7">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="obj8">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="obj9">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="obj10">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="obj11">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="obj12">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="obj13">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="obj14">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="obj15">
+    <material>Gazebo/Blue</material>
+  </gazebo> -->
+
+</robot>
