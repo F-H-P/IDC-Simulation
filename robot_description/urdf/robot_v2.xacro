@@ -7,7 +7,7 @@
   <link name="world"/>
 
   <!-- world -->
-  <!-- <xacro:include filename="$(find robot_description)/urdf/world.xacro"/> -->
+  <xacro:include filename="$(find robot_description)/urdf/world.xacro"/>
 
   <!-- robot -->
   <joint name="jointX" type="prismatic">
@@ -84,7 +84,7 @@
     <origin rpy="0 0 0" xyz="0 0 0.04"/>
     <axis xyz="0 0 1"/>
     <limit lower="-3.14" upper="3.14" effort="0.0" velocity="0.0"/>
-    <dynamics damping="0" friction="1000"/>
+    <dynamics damping="0" friction="50"/>
   </joint>
 
   <link name="link1">
@@ -134,7 +134,7 @@
     <parent link="link_joint2-1"/>
     <child link="link_joint2-2" />
     <origin rpy="${pi} ${pi/2} 0" xyz="0.04 0 ${LINK1_LENGTH+0.045}"/>
-    <dynamics damping="0" friction="1000"/>
+    <dynamics damping="0" friction="20"/>
   </joint>
 
   <link name="link_joint2-2">
@@ -238,7 +238,7 @@
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <axis xyz="0 0 1"/>
     <limit lower="-1" upper="1" effort="0.0" velocity="0.0"/>
-    <dynamics damping="0" friction="1000"/>
+    <dynamics damping="0" friction="5"/>
   </joint>
 
   <link name="link5">
@@ -266,7 +266,7 @@
     <origin rpy="0 ${pi/2} 0" xyz="${(LINK5_LENGTH)-0.015+0.0265} 0 0"/>
     <axis xyz="0 0 1"/>
     <limit lower="-3.14" upper="3.14" effort="0.0" velocity="0.0"/>
-    <dynamics damping="0" friction="1000"/>
+    <dynamics damping="0" friction="1.5"/>
   </joint>
 
   <link name="link_hook">

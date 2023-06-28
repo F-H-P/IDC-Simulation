@@ -170,7 +170,7 @@
 
   <!-- next_floor -->
 
-  <!-- <joint name="float_obj6" type="floating">
+  <joint name="float_obj6" type="floating">
     <parent link="world"/>
     <child link="obj6"/>
     <dynamics damping="0.0" friction="10.0"/>
@@ -331,11 +331,11 @@
         <cylinder radius="0.04" length="0.1"/>
       </geometry> 
     </collision>
-  </link> -->
+  </link>
 
   <!-- next_floor -->
 
-  <!-- <joint name="float_obj11" type="floating">
+  <joint name="float_obj11" type="floating">
     <parent link="world"/>
     <child link="obj11"/>
     <dynamics damping="0.0" friction="10.0"/>
@@ -496,7 +496,7 @@
         <cylinder radius="0.04" length="0.1"/>
       </geometry> 
     </collision>
-  </link> -->
+  </link>
 
   <!-- next_floor -->
 
@@ -520,7 +520,7 @@
     <material>Gazebo/Blue</material>
   </gazebo>
 
-  <!-- <gazebo reference="obj6">
+  <gazebo reference="obj6">
     <material>Gazebo/Blue</material>
   </gazebo>
 
@@ -558,6 +558,6 @@
 
   <gazebo reference="obj15">
     <material>Gazebo/Blue</material>
-  </gazebo> -->
+  </gazebo>
 
 </robot>

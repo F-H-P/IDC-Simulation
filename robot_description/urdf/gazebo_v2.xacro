@@ -89,20 +89,8 @@
 
   <!-- Base Link -->
 
-  <!-- <gazebo reference="shelf">
+  <gazebo reference="shelf">
     <material>Gazebo/White</material>
-  </gazebo> -->
-
-  <gazebo reference="obj1">
-    <material>Gazebo/Blue</material>
-  </gazebo>
-
-  <gazebo reference="obj2 ">
-    <material>Gazebo/Blue</material>
-  </gazebo>
-
-  <gazebo reference="obj8">
-    <material>Gazebo/Blue</material>
   </gazebo>
 
   <gazebo reference="link0">
