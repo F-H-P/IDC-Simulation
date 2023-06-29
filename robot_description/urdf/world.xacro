@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
-<robot name="robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot name="environment" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <!-- <xacro:include filename="$(find robot_description)/urdf/parameter_v2.xacro"/>
+  <xacro:include filename="$(find robot_description)/urdf/parameter_v2.xacro"/>
 
-  <link name="world"/> -->
+  <link name="world"/>
   
   <joint name="fixed_shelf" type="fixed">
     <parent link="world"/>
@@ -36,7 +36,7 @@
     </collision>
   </link> 
 
-  <!-- <gazebo reference="shelf">
+  <gazebo reference="shelf">
     <material>Gazebo/White</material>
-  </gazebo> -->
+  </gazebo>
 </robot>

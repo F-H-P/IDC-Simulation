@@ -7,7 +7,7 @@
   <link name="world"/>
 
   <!-- world -->
-  <xacro:include filename="$(find robot_description)/urdf/world.xacro"/>
+  <!-- <xacro:include filename="$(find robot_description)/urdf/world.xacro"/> -->
 
   <!-- robot -->
   <joint name="jointX" type="prismatic">
@@ -76,6 +76,13 @@
         iyy="0.01" iyz="0.0"
         izz="0.01"/>
     </inertial>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file:///$(find robot_description)/meshes/link_base.STL"/>
+      </geometry>
+    </collision>
   </link>
 
   <joint name="joint1" type="revolute">
@@ -104,6 +111,13 @@
         iyy="0.01" iyz="0.0"
         izz="0.01"/>
     </inertial>
+
+    <collision>
+      <origin xyz="0 0 ${LINK1_LENGTH/2}" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="${LINK1_LENGTH}"/>
+      </geometry>
+    </collision>
   </link>
 
   <joint name="fixed_link1" type="fixed">
@@ -154,6 +168,13 @@
         iyy="0.01" iyz="0.0"
         izz="0.01"/>
     </inertial>
+
+    <collision>
+      <origin xyz="0 0 -0.04" rpy="0 0 ${pi+THETA_JOINT4_RAD}"/>
+      <geometry>
+        <mesh filename="file:///$(find robot_description)/meshes/joint_2-2.STL"/>
+      </geometry>
+    </collision>
   </link>
 
   <joint name="fixed_joint2-2" type="fixed">
@@ -180,6 +201,13 @@
         iyy="0.01" iyz="0.0"
         izz="0.01"/>
     </inertial>
+
+    <collision>
+      <origin xyz="0 0 0.04" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.04" length="${LINK2_LENGTH}"/>
+      </geometry>
+    </collision>
   </link>
 
   <joint name="fixed_joint4" type="fixed">
@@ -205,6 +233,13 @@
         iyy="0.01" iyz="0.0"
         izz="0.01"/>
     </inertial>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file:///$(find robot_description)/meshes/joint_4.STL"/>
+      </geometry>
+    </collision>
   </link>
 
   <joint name="fixed_joint5" type="fixed">
@@ -230,6 +265,13 @@
         iyy="0.01" iyz="0.0"
         izz="0.01"/>
     </inertial>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file:///$(find robot_description)/meshes/joint_5.STL"/>
+      </geometry>
+    </collision>
   </link>
 
   <joint name="joint5" type="revolute">
@@ -258,6 +300,13 @@
         iyy="0.01" iyz="0.0"
         izz="0.01"/>
     </inertial>
+
+    <collision>
+      <origin xyz="${(LINK5_LENGTH/2)-0.015} 0 0" rpy="0 ${pi/2} 0"/>
+      <geometry>
+        <cylinder radius="0.03" length="${LINK5_LENGTH}"/>
+      </geometry>
+    </collision>
   </link>
 
   <joint name="joint6" type="revolute">

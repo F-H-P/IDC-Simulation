@@ -14,5 +14,6 @@
         "/home/fhp/FRA532-MobileRobot/MobileRobot_ws/install/msg_interfaces/local/lib/python3.10/dist-packages",
         "/opt/ros/humble/lib/python3.10/site-packages",
         "/opt/ros/humble/local/lib/python3.10/dist-packages"
-    ]
+    ],
+    "cmake.sourceDirectory": "/home/fhp/Internship_ws/src/IDC-Simulation/robot_description"
 }

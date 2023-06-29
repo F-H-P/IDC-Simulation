@@ -57,8 +57,8 @@ def generate_launch_description():
                 'gzserver.launch.py'
             ])
         ]),
-        # condition=IfCondition(use_simulator),
-        # launch_arguments={'world': world}.items()
+        condition=IfCondition(use_simulator),
+        launch_arguments={'world': world}.items()
     )    
     gazebo_client = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
@@ -68,7 +68,7 @@ def generate_launch_description():
                 'gzclient.launch.py'
             ])
         ]),
-        # condition=IfCondition(PythonExpression([use_simulator, ' and not ', headless]))
+        condition=IfCondition(PythonExpression([use_simulator, ' and not ', headless]))
     )
 
     spawn_entity = Node(package='gazebo_ros', executable='spawn_entity.py',
@@ -88,12 +88,6 @@ def generate_launch_description():
         executable="spawner",
         arguments=["joint_state_broadcaster", "--controller-manager", "controller_manager"]
     )
-
-    position_controller = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=["forward_position_controller", "--controller-manager", "controller_manager"]
-    )
     
     velocity_controller = Node(
         package="controller_manager",
@@ -103,15 +97,14 @@ def generate_launch_description():
 
 
     return LaunchDescription([
-        # declare_simulator_cmd,
-        # declare_use_sim_time_cmd,
-        # declare_use_simulator_cmd,
-        # declare_world_cmd,
+        declare_simulator_cmd,
+        declare_use_sim_time_cmd,
+        declare_use_simulator_cmd,
+        declare_world_cmd,
         gazebo_server,
         gazebo_client,
         spawn_entity,
         robot_state_publisher,
         joint_state_broadcaster,
-        # position_controller,
         velocity_controller
     ])
