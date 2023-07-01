@@ -500,6 +500,21 @@
 
   <!-- next_floor -->
 
+  <!-- <gazebo>
+      <plugin name="gazebo_ros_joint_state_publisher"
+          filename="libgazebo_ros_joint_state_publisher.so">
+          <update_rate>20</update_rate>
+          <joint_name>float_obj1</joint_name>
+          <joint_name>float_obj2</joint_name>
+          <joint_name>float_obj3</joint_name>
+          <joint_name>float_obj4</joint_name>
+          <joint_name>float_obj5</joint_name>
+          <joint_name>float_obj6</joint_name>
+      </plugin>
+  </gazebo> -->
+
+  <!-- <xacro:include filename="$(find robot_description)/urdf/obj_gazebo.xacro"/> -->
+
   <gazebo reference="obj1">
     <material>Gazebo/Blue</material>
   </gazebo>
