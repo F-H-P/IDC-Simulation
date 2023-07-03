@@ -22,8 +22,14 @@ def generate_launch_description():
                                  'use_sim_time': True}]
     )
 
+    joint_state_broadcaster_obj = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["joint_state_broadcaster", "--controller-manager", "controller_manager"]
+    )
 
     return LaunchDescription([
         spawn_entity_obj,
-        obj_state_publisher
+        obj_state_publisher,
+        # joint_state_broadcaster_obj
     ])

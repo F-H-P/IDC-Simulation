@@ -311,18 +311,18 @@
 
   <joint name="joint6" type="revolute">
     <parent link="link5"/>
-    <child link="link_hook" />
+    <child link="end_effector" />
     <origin rpy="0 ${pi/2} 0" xyz="${(LINK5_LENGTH)-0.015+0.0265} 0 0"/>
     <axis xyz="0 0 1"/>
     <limit lower="-3.14" upper="3.14" effort="0.0" velocity="0.0"/>
     <dynamics damping="100" friction="30"/>
   </joint>
 
-  <link name="link_hook">
+  <link name="end_effector">
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file:///$(find robot_description)/meshes/link_hook.STL"/>
+        <mesh filename="file:///$(find robot_description)/meshes/end_effectorL.STL"/>
       </geometry>
       <material name="orange"/>
     </visual>
@@ -339,7 +339,7 @@
     <collision>
       <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
       <geometry>
-        <mesh filename="file:///$(find robot_description)/meshes/link_hook.STL"/>
+        <mesh filename="file:///$(find robot_description)/meshes/end_effectorL.STL"/>
       </geometry>
     </collision>
   </link>
