@@ -8,9 +8,18 @@ controller_manager:
     forward_position_controller:
       type: forward_command_controller/ForwardCommandController
 
+    forward_velocity_controller:
+      type: velocity_controllers/JointGroupVelocityController
+
   
 forward_position_controller:
   ros__parameters:
     joints:
       - float_obj1
     interface_name: position
+
+forward_velocity_controller:
+  ros__parameters:
+    joints:
+      - float_obj1
+    interface_name: velocity

@@ -322,7 +322,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file:///$(find robot_description)/meshes/end_effectorL.STL"/>
+        <mesh filename="file:///$(find robot_description)/meshes/end_effectorI.STL"/>
       </geometry>
       <material name="orange"/>
     </visual>
@@ -339,7 +339,7 @@
     <collision>
       <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
       <geometry>
-        <mesh filename="file:///$(find robot_description)/meshes/end_effectorL.STL"/>
+        <mesh filename="file:///$(find robot_description)/meshes/end_effectorI.STL"/>
       </geometry>
     </collision>
   </link>

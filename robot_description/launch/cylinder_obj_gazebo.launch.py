@@ -28,6 +28,12 @@ def generate_launch_description():
         arguments=["joint_state_broadcaster", "--controller-manager", "controller_manager"]
     )
 
+    obj_velocity_controller = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["forward_velocity_controller", "--controller-manager", "controller_manager"]
+    )
+
     return LaunchDescription([
         spawn_entity_obj,
         obj_state_publisher,

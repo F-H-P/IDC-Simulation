@@ -95,6 +95,11 @@ def generate_launch_description():
         arguments=["forward_velocity_controller", "--controller-manager", "controller_manager"]
     )
 
+    keyboard_controller = Node(
+        package="velocity_controller",
+        executable="velocity_controller"
+    )
+
 
     return LaunchDescription([
         declare_simulator_cmd,
@@ -106,5 +111,6 @@ def generate_launch_description():
         spawn_entity,
         robot_state_publisher,
         joint_state_broadcaster,
-        velocity_controller
+        velocity_controller,
+        keyboard_controller
     ])
