@@ -2,7 +2,7 @@
 <robot name="robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
   <!-- parameter -->
-  <xacro:include filename="$(find robot_description)/urdf/parameter_v2.xacro"/>
+  <xacro:include filename="$(find robot_description)/urdf/parameter.xacro"/>
 
   <link name="world"/>
 
@@ -322,7 +322,7 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file:///$(find robot_description)/meshes/end_effectorI.STL"/>
+        <mesh filename="file:///$(find robot_description)/meshes/end_effectorL.STL"/>
       </geometry>
       <material name="orange"/>
     </visual>
@@ -339,12 +339,12 @@
     <collision>
       <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
       <geometry>
-        <mesh filename="file:///$(find robot_description)/meshes/end_effectorI.STL"/>
+        <mesh filename="file:///$(find robot_description)/meshes/end_effectorL.STL"/>
       </geometry>
     </collision>
   </link>
 
   <!-- gazebo plugin -->
-  <xacro:include filename="$(find robot_description)/urdf/gazebo_v2.xacro"/>
+  <xacro:include filename="$(find robot_description)/urdf/gazebo.xacro"/>
 
 </robot>

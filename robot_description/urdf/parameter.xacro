@@ -3,7 +3,7 @@
 
   <xacro:property name="shelf_dist" value="0.2"/>
   <xacro:property name="cylinder_obj_mass" value="0.01"/>
-  <xacro:property name="params_path" value="$(find robot_description)/config/properties_v2.yaml"/>
+  <xacro:property name="params_path" value="$(find robot_description)/config/properties.yaml"/>
   <xacro:property name="params" value="${xacro.load_yaml(params_path)}"/> 
   <xacro:property name="LINK1" value="${params['link1_length']}"/>
   <xacro:property name="LINK2" value="${params['link2_length']}"/>
