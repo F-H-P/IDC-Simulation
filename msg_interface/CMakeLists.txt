@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(robot_description)
+project(msg_interface)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -23,31 +23,13 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
-################ FIND DEPENDENCIES  #################
+find_package(std_msgs REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
-find_package(geometry_msgs)
-find_package(ament_cmake REQUIRED)		# cpp (optional)
-find_package(rclcpp REQUIRED)			# cpp (optional)
-find_package(ament_cmake_python REQUIRED)   	# python (optional)
-find_package(rclpy REQUIRED)                	# python (optional)
-######################################################
 
-# Install Python Module
-ament_python_install_package(${PROJECT_NAME})
-install(PROGRAMS
-  script/game_logic.py
-  script/get_command.py
-  DESTINATION lib/${PROJECT_NAME}
-)
-
-install(
-  DIRECTORY 
-  urdf 
-  launch 
-  config
-  meshes
-  script
-  DESTINATION share/${PROJECT_NAME}
+rosidl_generate_interfaces(${PROJECT_NAME}
+  "srv/Spawn.srv"
+  "srv/EndGame.srv"
+  DEPENDENCIES std_msgs # Add packages that above messages depend on, in this case geometry_msgs for Sphere.msg
 )
 
 ament_package()

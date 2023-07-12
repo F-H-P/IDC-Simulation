@@ -100,6 +100,11 @@ def generate_launch_description():
         executable="velocity_controller"
     )
 
+    game_logic = Node(
+        package='pkg_name',
+        executable='game_logic.py',
+    )
+
 
     return LaunchDescription([
         declare_simulator_cmd,
@@ -112,5 +117,6 @@ def generate_launch_description():
         robot_state_publisher,
         joint_state_broadcaster,
         velocity_controller,
-        keyboard_controller
+        keyboard_controller,
+        # game_logic
     ])
