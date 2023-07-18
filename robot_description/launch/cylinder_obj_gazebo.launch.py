@@ -6,7 +6,7 @@ import xacro
 
 def generate_launch_description():
     pkg_name = 'robot_description'
-    file_subpath = 'urdf/spawn_obj.xacro'
+    file_subpath = 'urdf/cylinder_obj.xacro'
     xacro_file = os.path.join(get_package_share_directory(pkg_name),file_subpath)
     obj_description_raw = xacro.process_file(xacro_file).toxml()
 
@@ -22,14 +22,7 @@ def generate_launch_description():
                                  'use_sim_time': True}]
     )
 
-    joint_state_broadcaster_obj = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=["joint_state_broadcaster", "--controller-manager", "controller_manager"]
-    )
-
     return LaunchDescription([
-        spawn_entity_obj,
-        obj_state_publisher,
-        # joint_state_broadcaster_obj,
+        # spawn_entity_obj,
+        obj_state_publisher
     ])

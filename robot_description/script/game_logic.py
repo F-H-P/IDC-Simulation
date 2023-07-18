@@ -4,28 +4,26 @@ import os
 import rclpy
 from rclpy.node import Node
 from gazebo_msgs.srv import SpawnEntity
+from rcl_interfaces.srv import SetParameters
 import ament_index_python
 import xacro
-from std_msgs.msg import String,Float64MultiArray,MultiArrayDimension
+from std_msgs.msg import Float64MultiArray,MultiArrayDimension,Empty
 import time
-# from msg_interface.srv import Spawn
-# from msg_interface.srv import EndGame
-from msg_interfaces.srv import CommandGUI
-from msg_interface.srv import Spawn
+from msg_interfaces.srv import TimeOut,SpawnObj
 
 class GameLogic(Node):
     def __init__(self):
         super().__init__('game_logic')
         self.get_logger().info('Game Logic start!!')
         self.timer = self.create_timer(0.1,self.timer_callback)
-        self.spawn_server = self.create_service(CommandGUI,"/command_spawn",self.spawn_callback)
+        self.spawn_server = self.create_service(SpawnObj,"/spawn_command",self.spawn_callback)
         self.spawn_cylin_obj = self.create_client(SpawnEntity, '/spawn_entity')
-        self.end_game_cilent = self.create_client(CommandGUI,"/command_end_game")
-        self.velocity_publisher = self.create_publisher(Float64MultiArray, '/forward_velocity_controller/commands',10)
+        self.timeout_cilent = self.create_client(TimeOut,"/timeout_command")
 
-        self.spawn_req = String()
+        self.spawn_req = Empty()
         self.cylin_obj_req = SpawnEntity.Request()
-        self.end_game_command_req = String()
+        self.obj_state = SetParameters.Request()
+        self.timeout_req = Empty()
         self.stop_command = Float64MultiArray()
 
         self.do_timer = False
@@ -44,8 +42,7 @@ class GameLogic(Node):
             self.stop_moving()
     
     def spawn_callback(self,request,response):
-        self.spawn_req = request.command
-        response.res.data = 1
+        self.spawn_req = request.spawn_command
         self.get_logger().info('Game logic server: get spawn command request success!!!!')
         self.spawn_obj_req()
         self.do_timer = True
@@ -53,7 +50,7 @@ class GameLogic(Node):
 
     def load_xacro(self):
             pkg_name = 'robot_description'
-            file_subpath = 'urdf/spawn_obj.xacro'
+            file_subpath = 'urdf/cylinder_obj.xacro'
             xacro_file = os.path.join(ament_index_python.get_package_share_directory(pkg_name), file_subpath)
             obj_description_raw = xacro.process_file(xacro_file).toxml()
             return obj_description_raw
@@ -73,24 +70,18 @@ class GameLogic(Node):
         else:
             self.time_now = time.time()
 
-        if self.time_now-self.time_start >= 5.0:
+        if self.time_now-self.time_start >= 3.0:
             self.do_timer = False
             self.set_time_start = True
             self.stop_move = True
-            print("Total time:",self.time_now-self.time_start," seconds")
+            self.get_logger().info("Total time:"+str(self.time_now-self.time_start)+" seconds")
             self.end_game_req()
 
     def end_game_req(self):
-        self.end_game_command_req.data = "End"
-        # self.end_game_cilent.call_async(self.end_game_command_req)
-        # future_endgame = self.end_game_cilent.call_async(self.end_game_command_req)
-        # rclpy.spin_until_future_complete(self,future_endgame)
-        # self.get_logger().info('End game service is requested successfully')
+        timeout_req = Empty()
+        self.timeout_cilent.call_async(timeout_req)
+        self.get_logger().info('End game service is requested successfully')
         self.get_logger().info('-------------------')
-
-    def stop_moving(self):
-        self.velocity_publisher.publish(self.stop_command)
-        print("DO STOP COMMAND!")
 
 def main(args=None):
     rclpy.init(args=args)

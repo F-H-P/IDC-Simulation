@@ -1,0 +1,165 @@
+<?xml version="1.0"?>
+<robot name="cylinder_object" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find robot_description)/urdf/parameter.xacro"/>
+
+  <link name="world"/>
+
+  <xacro:macro name="cylinder_obj" params="name_obj dist_x dist_z">
+    <joint name="${name_obj}_prisX" type="prismatic">
+        <origin xyz="${dist_x} ${shelf_dist+0.35} ${dist_z}" rpy="0.0 0.0 0.0"/>
+        <parent link="world"/>
+        <child link="${name_obj}_slideX"/>
+        <axis xyz="1 0 0"/>
+        <limit lower="-0.80" upper="0.80" effort="0.0" velocity="0.0"/>
+        <dynamics damping="0" friction="0"/>
+    </joint>
+
+    <link name="${name_obj}_slideX">
+        <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.01"/>
+        <inertia
+            ixx="0.01" ixy="0.0" ixz="0.0"
+            iyy="0.01" iyz="0.0"
+            izz="0.01"/>
+        </inertial>
+    </link>
+
+    <joint name="${name_obj}_prisY" type="prismatic">
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <parent link="${name_obj}_slideX"/>
+        <child link="${name_obj}_slideY"/>
+        <axis xyz="0 1 0"/>
+        <limit lower="-0.80" upper="0.80" effort="0.0" velocity="0.0"/>
+        <dynamics damping="0" friction="0"/>
+    </joint>
+
+    <link name="${name_obj}_slideY">
+        <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.01"/>
+        <inertia
+            ixx="0.01" ixy="0.0" ixz="0.0"
+            iyy="0.01" iyz="0.0"
+            izz="0.01"/>
+        </inertial>
+    </link>
+
+    <joint name="${name_obj}_prisZ" type="prismatic">
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <parent link="${name_obj}_slideY"/>
+        <child link="${name_obj}_slideZ"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="-0.80" upper="0.80" effort="0.0" velocity="0.0"/>
+        <dynamics damping="0" friction="0"/>
+    </joint>
+
+    <link name="${name_obj}_slideZ">
+        <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.01"/>
+        <inertia
+            ixx="0.01" ixy="0.0" ixz="0.0"
+            iyy="0.01" iyz="0.0"
+            izz="0.01"/>
+        </inertial>
+    </link>
+
+    <joint name="${name_obj}_revolX" type="revolute">
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <parent link="${name_obj}_slideZ"/>
+        <child link="${name_obj}_rotateX"/>
+        <axis xyz="1 0 0"/>
+        <limit lower="${-pi*20}" upper="${pi*20}" effort="0.0" velocity="0.0"/>
+        <dynamics damping="0" friction="0"/>
+    </joint>
+
+    <link name="${name_obj}_rotateX">
+        <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.01"/>
+        <inertia
+            ixx="0.01" ixy="0.0" ixz="0.0"
+            iyy="0.01" iyz="0.0"
+            izz="0.01"/>
+        </inertial>
+    </link>
+
+    <joint name="${name_obj}_revolY" type="revolute">
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <parent link="${name_obj}_rotateX"/>
+        <child link="${name_obj}_rotateY"/>
+        <axis xyz="0 1 0"/>
+        <limit lower="${-pi*20}" upper="${pi*20}" effort="0.0" velocity="0.0"/>
+        <dynamics damping="0" friction="0"/>
+    </joint>
+
+    <link name="${name_obj}_rotateY">
+        <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.01"/>
+        <inertia
+            ixx="0.01" ixy="0.0" ixz="0.0"
+            iyy="0.01" iyz="0.0"
+            izz="0.01"/>
+        </inertial>
+    </link>
+
+    <joint name="${name_obj}_revolZ" type="revolute">
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <parent link="${name_obj}_rotateY"/>
+        <child link="${name_obj}"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="${-pi*20}" upper="${pi*20}" effort="0.0" velocity="0.0"/>
+        <dynamics damping="0" friction="0"/>
+    </joint>
+    
+    <link name="${name_obj}">
+        <visual>
+            <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.04" length="0.1"/>
+            </geometry>
+            <material name="blue"/>
+        </visual>
+
+        <inertial>
+            <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+            <mass value="${cylinder_obj_mass}"/>
+            <inertia
+                ixx="0.01" ixy="0.0" ixz="0.0"
+                iyy="0.01" iyz="0.0"
+                izz="0.01"/>
+        </inertial>
+
+        <collision>
+            <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.04" length="0.1"/>
+            </geometry> 
+        </collision>
+    </link>
+  </xacro:macro>
+
+  <xacro:cylinder_obj name_obj="obj1" dist_x="-0.6" dist_z="0.45"/>
+  <xacro:cylinder_obj name_obj="obj2" dist_x="-0.3" dist_z="0.45"/>
+  <xacro:cylinder_obj name_obj="obj3" dist_x="0.0" dist_z="0.45"/>
+  <xacro:cylinder_obj name_obj="obj4" dist_x="0.3" dist_z="0.45"/>
+  <xacro:cylinder_obj name_obj="obj5" dist_x="0.6" dist_z="0.45"/>
+
+  <xacro:cylinder_obj name_obj="obj6" dist_x="-0.6" dist_z="0.65"/>
+  <xacro:cylinder_obj name_obj="obj7" dist_x="-0.3" dist_z="0.65"/>
+  <xacro:cylinder_obj name_obj="obj8" dist_x="0.0" dist_z="0.65"/>
+  <xacro:cylinder_obj name_obj="obj9" dist_x="0.3" dist_z="0.65"/>
+  <xacro:cylinder_obj name_obj="obj10" dist_x="0.6" dist_z="0.65"/>
+
+  <xacro:cylinder_obj name_obj="obj11" dist_x="-0.6" dist_z="0.85"/>
+  <xacro:cylinder_obj name_obj="obj12" dist_x="-0.3" dist_z="0.85"/>
+  <xacro:cylinder_obj name_obj="obj13" dist_x="0.0" dist_z="0.85"/>
+  <xacro:cylinder_obj name_obj="obj14" dist_x="0.3" dist_z="0.85"/>
+  <xacro:cylinder_obj name_obj="obj15" dist_x="0.6" dist_z="0.85"/>
+
+
+  <xacro:include filename="$(find robot_description)/urdf/obj_gazebo.xacro"/>
+</robot>

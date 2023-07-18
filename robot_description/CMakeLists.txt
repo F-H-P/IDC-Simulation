@@ -36,7 +36,7 @@ find_package(rclpy REQUIRED)                	# python (optional)
 ament_python_install_package(${PROJECT_NAME})
 install(PROGRAMS
   script/game_logic.py
-  script/get_command.py
+  script/scoring.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
