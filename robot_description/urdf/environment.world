@@ -115,7 +115,8 @@
             <geometry>
               <mesh>
                 <scale>1 1 1</scale>
-                <uri>file:////home/fhp/IDC_ws/install/robot_description/share/robot_description/meshes/shelf.STL</uri>
+                <!-- <uri>file:////home/fhp/IDC_ws/install/robot_description/share/robot_description/meshes/shelf.STL</uri> -->
+                <uri>model://robot_description/meshes/shelf.STL</uri>
               </mesh>
             </geometry>
             <surface>
@@ -137,7 +138,9 @@
             <geometry>
               <mesh>
                 <scale>1 1 1</scale>
-                <uri>file:////home/fhp/IDC_ws/install/robot_description/share/robot_description/meshes/shelf.STL</uri>
+                <!-- <uri>file:////home/fhp/IDC_ws/install/robot_description/share/robot_description/meshes/shelf.STL</uri> -->
+                <uri>model://robot_description/meshes/shelf.STL</uri>
+
               </mesh>
             </geometry>
             <material>

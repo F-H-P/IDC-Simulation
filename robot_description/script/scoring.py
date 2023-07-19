@@ -25,13 +25,11 @@ class Scoring(Node):
         self.init_obj()
         self.timer = self.create_timer(0.1,self.timer_callback)
 
-    #     self.time_out_server = self.create_service(TimeOut,"/timeout_command",self.time_out_callback)
-
-    # def time_out_callback(self,request,response):
-    #     msg = Empty()
-    #     msg = request.spawn_command
-    #     self.get_logger().info('Get timeout command request success!!!!')
-    #     return response
+        self.score_report_pub = self.create_publisher(Int16MultiArray,'/score_report',10)
+        self.score_report = Int16MultiArray()
+        self.sum_score = 0
+        self.complete_status = 0
+        self.score_report.data = [self.sum_score,self.complete_status]
 
     def init_obj(self):
         for i in range(15):
@@ -57,7 +55,13 @@ class Scoring(Node):
                 print("--------------------------")
                 print(self.score_array)
                 print("--------------------------")
+
+                self.check_complete()
+                self.score_report.data[0] = self.sum_score
+                self.score_report.data[1] = self.complete_status
+
             self.obj_state_pub.publish(self.score_array)
+            self.score_report_pub.publish(self.score_report)
     
     def get_position(self,obj):
         toggle = self.listener_post(obj)
@@ -79,13 +83,21 @@ class Scoring(Node):
         result = False
         if obj.px>=-0.725 and obj.px<=0.725 and obj.py>=0.3 and obj.py<=0.4 and obj.pz<=0.25:
             state_now = 1
-            print("Obj is fall!!")
+            # print("Obj is fall!!")
             if state_now != obj.state:
                 obj.state = state_now
                 print("State is change!")
                 result = True
+                self.sum_score+=1
             obj.state = 1
         return result
+    
+    def check_complete(self):
+        floor1 = self.score_array.data[0:4]
+        floor2 = self.score_array.data[5:9]
+        floor3 = self.score_array.data[10:14]
+        if all(1 in floor for floor in [floor1, floor2, floor3]):
+            self.complete_status = 1
 
 def main(args=None):
     rclpy.init(args=args)

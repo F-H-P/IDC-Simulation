@@ -10,6 +10,7 @@ import xacro
 from std_msgs.msg import Float64MultiArray,MultiArrayDimension,Empty
 import time
 from msg_interfaces.srv import TimeOut,SpawnObj
+import subprocess
 
 class GameLogic(Node):
     def __init__(self):
@@ -38,14 +39,17 @@ class GameLogic(Node):
     def timer_callback(self):
         if self.do_timer == True:
             self.count_time()
-        if self.stop_move == True:
-            self.stop_moving()
+        # if self.stop_move == True:
+        #     self.stop_moving()
     
     def spawn_callback(self,request,response):
         self.spawn_req = request.spawn_command
         self.get_logger().info('Game logic server: get spawn command request success!!!!')
         self.spawn_obj_req()
         self.do_timer = True
+        obj_state_pub_cmd = ['ros2', 'launch', 'robot_description', 'cylinder_obj_gazebo.launch.py']
+        subprocess.Popen(obj_state_pub_cmd)
+        self.get_logger().info('Run launch success!!!!')
         return response
 
     def load_xacro(self):
@@ -70,15 +74,16 @@ class GameLogic(Node):
         else:
             self.time_now = time.time()
 
-        if self.time_now-self.time_start >= 3.0:
+        if self.time_now-self.time_start >= 5.0:
             self.do_timer = False
             self.set_time_start = True
-            self.stop_move = True
+            # self.stop_move = True
             self.get_logger().info("Total time:"+str(self.time_now-self.time_start)+" seconds")
             self.end_game_req()
 
     def end_game_req(self):
-        timeout_req = Empty()
+        timeout_req = TimeOut.Request()
+        timeout_req.time_out_command = Empty()
         self.timeout_cilent.call_async(timeout_req)
         self.get_logger().info('End game service is requested successfully')
         self.get_logger().info('-------------------')
