@@ -74,7 +74,7 @@ class GameLogic(Node):
         else:
             self.time_now = time.time()
 
-        if self.time_now-self.time_start >= 5.0:
+        if self.time_now-self.time_start >= 150.0:
             self.do_timer = False
             self.set_time_start = True
             # self.stop_move = True

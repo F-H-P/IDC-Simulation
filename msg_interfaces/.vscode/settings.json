@@ -1,0 +1,28 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/home/fhp/Internship_ws/build/velocity_controller",
+        "/home/fhp/Internship_ws/install/velocity_controller/lib/python3.10/site-packages",
+        "/home/fhp/Internship_ws/install/robot_description/local/lib/python3.10/dist-packages",
+        "/home/fhp/FRA333_lab3_ws/install/ros2_control_demo_3r_robot/local/lib/python3.10/dist-packages",
+        "/home/fhp/FRA333_lab3_ws/install/poohpooh_description/local/lib/python3.10/dist-packages",
+        "/home/fhp/.local/share/Trash/files/Internship_ws.2/build/velocity_controller",
+        "/home/fhp/.local/share/Trash/files/Internship_ws.2/install/velocity_controller/lib/python3.10/site-packages",
+        "/home/fhp/.local/share/Trash/files/Internship_ws.2/install/robot_description/local/lib/python3.10/dist-packages",
+        "/home/fhp/FRA532-MobileRobot/MobileRobot_ws/install/msg_interfaces/local/lib/python3.10/dist-packages",
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/home/fhp/Internship_ws/build/velocity_controller",
+        "/home/fhp/Internship_ws/install/velocity_controller/lib/python3.10/site-packages",
+        "/home/fhp/Internship_ws/install/robot_description/local/lib/python3.10/dist-packages",
+        "/home/fhp/FRA333_lab3_ws/install/ros2_control_demo_3r_robot/local/lib/python3.10/dist-packages",
+        "/home/fhp/FRA333_lab3_ws/install/poohpooh_description/local/lib/python3.10/dist-packages",
+        "/home/fhp/.local/share/Trash/files/Internship_ws.2/build/velocity_controller",
+        "/home/fhp/.local/share/Trash/files/Internship_ws.2/install/velocity_controller/lib/python3.10/site-packages",
+        "/home/fhp/.local/share/Trash/files/Internship_ws.2/install/robot_description/local/lib/python3.10/dist-packages",
+        "/home/fhp/FRA532-MobileRobot/MobileRobot_ws/install/msg_interfaces/local/lib/python3.10/dist-packages",
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages"
+    ]
+}

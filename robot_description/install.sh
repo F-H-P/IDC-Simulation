@@ -83,6 +83,7 @@ mkdir src
 cd src
 git clone https://github.com/F-H-P/IDC-Simulation.git
 git clone https://github.com/Fangtnw/IDC_keyboard_control.git
+git clone https://github.com/Fangtnw/IDC_Webserver.git
 cd ..
 colcon build --symlink-install
 source install/setup.bash
