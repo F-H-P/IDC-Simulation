@@ -100,14 +100,14 @@
           <pose relative_to='fixed_shelf'>0 0 0 0 -0 0</pose>
           <inertial>
             <pose>0 0.3 0 0 -0 0</pose>
-            <mass>5</mass>
+            <mass>316</mass>
             <inertia>
-              <ixx>0.01</ixx>
-              <ixy>0</ixy>
-              <ixz>0</ixz>
-              <iyy>0.01</iyy>
-              <iyz>0</iyz>
-              <izz>0.01</izz>
+              <ixx>68.8</ixx>
+              <ixy>7.56</ixy>
+              <ixz>-0.58</ixz>
+              <iyy>148.1</iyy>
+              <iyz>-6.9</iyz>
+              <izz>182.29</izz>
             </inertia>
           </inertial>
           <collision name='shelf_collision'>
