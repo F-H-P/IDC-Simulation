@@ -7,16 +7,16 @@
   <xacro:property name="params" value="${xacro.load_yaml(params_path)}"/> 
   <xacro:property name="LINK1" value="${params['link1_length']}"/>
   <xacro:property name="LINK2" value="${params['link2_length']}"/>
-  <xacro:property name="LINK5" value="${params['link5_length']}"/>
-  <xacro:property name="THETA_JOINT4" value="${params['theta_joint4']}"/>
+  <xacro:property name="LINK3" value="${params['link3_length']}"/>
+  <xacro:property name="THETA_JOINT2" value="${params['theta_joint2']}"/>
 
   <xacro:property name="MAX_LINK1" value="1.0"/>
   <xacro:property name="MAX_LINK2" value="1.0"/>
-  <xacro:property name="MAX_LINK5" value="1.0"/>
+  <xacro:property name="MAX_LINK3" value="1.0"/>
 
   <xacro:property name="MIN_LINK1" value="0.045"/>
   <xacro:property name="MIN_LINK2" value="0.05125"/>
-  <xacro:property name="MIN_LINK5" value="0.0115"/>
+  <xacro:property name="MIN_LINK3" value="0.0115"/>
 
   <xacro:if value="${LINK1 >= MAX_LINK1}"> 
     <xacro:property name="LINK1" value="${MAX_LINK1}"/>
@@ -32,17 +32,17 @@
     <xacro:property name="LINK2" value="${MIN_LINK2}"/>
   </xacro:if>
 
-  <xacro:if value="${LINK5 >= MAX_LINK5}"> 
-    <xacro:property name="LINK5" value="${MAX_LINK5}"/>
+  <xacro:if value="${LINK3 >= MAX_LINK3}"> 
+    <xacro:property name="LINK3" value="${MAX_LINK3}"/>
   </xacro:if>
-  <xacro:if value="${MIN_LINK5 >= LINK5}"> 
-    <xacro:property name="LINK5" value="${MIN_LINK5}"/>
+  <xacro:if value="${MIN_LINK3 >= LINK3}"> 
+    <xacro:property name="LINK3" value="${MIN_LINK3}"/>
   </xacro:if>
 
   <xacro:property name="LINK1_LENGTH" value="${LINK1-0.045}"/>
   <xacro:property name="LINK2_LENGTH" value="${LINK2-0.045-0.00625}"/>
-  <xacro:property name="LINK5_LENGTH" value="${LINK5+0.015}"/>
-  <xacro:property name="THETA_JOINT4_RAD" value="${pi*(THETA_JOINT4/180)}"/>
+  <xacro:property name="LINK3_LENGTH" value="${LINK3+0.015}"/>
+  <xacro:property name="THETA_JOINT2_RAD" value="${pi*(THETA_JOINT2/180)}"/>
 
   <material name="orange">
     <color rgba="${255/255} ${108/255} ${10/255} 1.0"/>

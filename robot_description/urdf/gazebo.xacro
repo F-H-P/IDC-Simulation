@@ -115,7 +115,7 @@
     <material>Gazebo/Orange</material>
   </gazebo>
 
-  <gazebo reference="link5">
+  <gazebo reference="link3">
     <material>Gazebo/White</material>
   </gazebo>
 

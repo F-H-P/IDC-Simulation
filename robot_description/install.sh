@@ -60,7 +60,8 @@ sudo apt -y install ros-humble-controller-manager ros-humble-joint-state-broadca
 echo -e "${Green}Controller packages were installed successfully${NC}"
 ##---------- Install Python package ----------##
 echo -e "${Cyan}Python package installing...${NC}"
-sudo apt -y install python3.10 python3-pynput
+sudo apt -y install python3.10 python3-pynput python3-pip
+pip install -U niet 
 echo -e "${Green}Python package was installed successfully${NC}"
 ##---------- Install Webserver packages ----------##
 echo -e "${Cyan}Webserver packages installing...${NC}"
@@ -87,8 +88,10 @@ git clone https://github.com/Fangtnw/IDC_Webserver.git
 cd ..
 colcon build --symlink-install
 source install/setup.bash
-echo -e "${Green_Bg}Workspace was created successfully${NC}"
 
 # Copy Model's Mesh into Gazebo Default model directory
 mkdir -p ~/.gazebo/models/robot_description
 cp -r ~/IDC_ws/src/IDC-Simulation/robot_description/meshes ~/.gazebo/models/robot_description
+
+echo -e "${Green_Bg}Workspace was created successfully${NC}"
+echo -e "${Green}Install success${NC}"

@@ -93,9 +93,9 @@ class Scoring(Node):
         return result
     
     def check_complete(self):
-        floor1 = self.score_array.data[0:4]
-        floor2 = self.score_array.data[5:9]
-        floor3 = self.score_array.data[10:14]
+        floor1 = self.score_array.data[0:5]
+        floor2 = self.score_array.data[5:10]
+        floor3 = self.score_array.data[10:15]
         if all(1 in floor for floor in [floor1, floor2, floor3]):
             self.complete_status = 1
 

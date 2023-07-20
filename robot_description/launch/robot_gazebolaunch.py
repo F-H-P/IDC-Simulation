@@ -113,13 +113,6 @@ def generate_launch_description():
         executable='scoring.py',
     )
 
-    obj_state_publisher = Node(package='robot_state_publisher',
-                                  executable='robot_state_publisher',
-                                  output='screen',
-                                  parameters=[{'robot_description': obj_description_raw,
-                                 'use_sim_time': True}]
-    )
-
 
     return LaunchDescription([
         declare_simulator_cmd,
@@ -135,5 +128,4 @@ def generate_launch_description():
         keyboard_controller,
         game_logic,
         scoring,
-        # obj_state_publisher
     ])

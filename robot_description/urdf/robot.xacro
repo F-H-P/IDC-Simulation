@@ -153,7 +153,7 @@
 
   <link name="link_joint2-2">
     <visual>
-      <origin xyz="0 0 -0.04" rpy="0 0 ${pi+THETA_JOINT4_RAD}"/>
+      <origin xyz="0 0 -0.04" rpy="0 0 ${pi+THETA_JOINT2_RAD}"/>
       <geometry>
         <mesh filename="file:///$(find robot_description)/meshes/joint_2-2.STL"/>
       </geometry>
@@ -161,7 +161,7 @@
     </visual>
 
     <inertial>
-      <origin xyz="0 0 0.04" rpy="0 0 ${pi+THETA_JOINT4_RAD}"/>
+      <origin xyz="0 0 0.04" rpy="0 0 ${pi+THETA_JOINT2_RAD}"/>
       <mass value="0.01"/>
       <inertia
         ixx="0.01" ixy="0.0" ixz="0.0"
@@ -170,7 +170,7 @@
     </inertial>
 
     <collision>
-      <origin xyz="0 0 -0.04" rpy="0 0 ${pi+THETA_JOINT4_RAD}"/>
+      <origin xyz="0 0 -0.04" rpy="0 0 ${pi+THETA_JOINT2_RAD}"/>
       <geometry>
         <mesh filename="file:///$(find robot_description)/meshes/joint_2-2.STL"/>
       </geometry>
@@ -180,7 +180,7 @@
   <joint name="fixed_joint2-2" type="fixed">
     <parent link="link_joint2-2"/>
     <child link="link2"/>
-    <origin rpy="0 ${-pi/2} ${-pi+THETA_JOINT4_RAD}" xyz="${(((-LINK2_LENGTH/2)-0.085)*sin((pi/2)-THETA_JOINT4_RAD))} ${((-LINK2_LENGTH/2)-0.085)*cos((pi/2)-THETA_JOINT4_RAD)} -0.04"/>
+    <origin rpy="0 ${-pi/2} ${-pi+THETA_JOINT2_RAD}" xyz="${(((-LINK2_LENGTH/2)-0.085)*sin((pi/2)-THETA_JOINT2_RAD))} ${((-LINK2_LENGTH/2)-0.085)*cos((pi/2)-THETA_JOINT2_RAD)} -0.04"/>
   </joint>
 
   <link name="link2">
@@ -276,18 +276,18 @@
 
   <joint name="joint5" type="revolute">
     <parent link="link_joint5"/>
-    <child link="link5" />
+    <child link="link3" />
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <axis xyz="0 0 1"/>
     <limit lower="-1" upper="1" effort="0.0" velocity="0.0"/>
     <dynamics damping="100" friction="30"/>
   </joint>
 
-  <link name="link5">
+  <link name="link3">
     <visual>
-      <origin xyz="${(LINK5_LENGTH/2)-0.015} 0 0" rpy="0 ${pi/2} 0"/>
+      <origin xyz="${(LINK3_LENGTH/2)-0.015} 0 0" rpy="0 ${pi/2} 0"/>
       <geometry>
-        <cylinder radius="0.03" length="${LINK5_LENGTH}"/>
+        <cylinder radius="0.03" length="${LINK3_LENGTH}"/>
       </geometry>
       <material name="white"/>
     </visual>
@@ -302,17 +302,17 @@
     </inertial>
 
     <collision>
-      <origin xyz="${(LINK5_LENGTH/2)-0.015} 0 0" rpy="0 ${pi/2} 0"/>
+      <origin xyz="${(LINK3_LENGTH/2)-0.015} 0 0" rpy="0 ${pi/2} 0"/>
       <geometry>
-        <cylinder radius="0.03" length="${LINK5_LENGTH}"/>
+        <cylinder radius="0.03" length="${LINK3_LENGTH}"/>
       </geometry>
     </collision>
   </link>
 
   <joint name="joint6" type="revolute">
-    <parent link="link5"/>
+    <parent link="link3"/>
     <child link="end_effector" />
-    <origin rpy="0 ${pi/2} 0" xyz="${(LINK5_LENGTH)-0.015+0.0265} 0 0"/>
+    <origin rpy="0 ${pi/2} 0" xyz="${(LINK3_LENGTH)-0.015+0.0265} 0 0"/>
     <axis xyz="0 0 1"/>
     <limit lower="-3.14" upper="3.14" effort="0.0" velocity="0.0"/>
     <dynamics damping="100" friction="30"/>

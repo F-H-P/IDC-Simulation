@@ -1,7 +1,5 @@
-username: "fhp"
+link1_length:  "0.1" # min 0.045
+link2_length:  "0.15" # min 0.05125
+link3_length:  "0.2" # min 0.0115
 
-link1_length:  "0.15" # default 0.220; min 0.045
-link2_length:  "0.15" # default 0.440; min 0.05125
-link5_length:  "0.1" # default 0.118; min 0.0115
-
-theta_joint4: "90" #degree
+theta_joint2: "90" #degree
