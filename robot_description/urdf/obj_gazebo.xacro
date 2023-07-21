@@ -32,23 +32,23 @@
   </gazebo>
 
   <gazebo reference="obj1">
-    <material>Gazebo/Blue</material>
+    <material>Gazebo/Green</material>
   </gazebo>
 
   <gazebo reference="obj2">
-    <material>Gazebo/Blue</material>
+    <material>Gazebo/Green</material>
   </gazebo>
 
   <gazebo reference="obj3">
-    <material>Gazebo/Blue</material>
+    <material>Gazebo/Green</material>
   </gazebo>
 
   <gazebo reference="obj4">
-    <material>Gazebo/Blue</material>
+    <material>Gazebo/Green</material>
   </gazebo>
 
   <gazebo reference="obj5">
-    <material>Gazebo/Blue</material>
+    <material>Gazebo/Green</material>
   </gazebo>
 
   <gazebo reference="obj6">
@@ -72,23 +72,23 @@
   </gazebo>
 
   <gazebo reference="obj11">
-    <material>Gazebo/Blue</material>
+    <material>Gazebo/Red</material>
   </gazebo>
 
   <gazebo reference="obj12">
-    <material>Gazebo/Blue</material>
+    <material>Gazebo/Red</material>
   </gazebo>
 
   <gazebo reference="obj13">
-    <material>Gazebo/Blue</material>
+    <material>Gazebo/Red</material>
   </gazebo>
 
   <gazebo reference="obj14">
-    <material>Gazebo/Blue</material>
+    <material>Gazebo/Red</material>
   </gazebo>
 
   <gazebo reference="obj15">
-    <material>Gazebo/Blue</material>
+    <material>Gazebo/Red</material>
   </gazebo>
 
 </robot>

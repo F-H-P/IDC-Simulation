@@ -31,6 +31,9 @@ class Scoring(Node):
         self.complete_status = 0
         self.score_report.data = [self.sum_score,self.complete_status]
 
+        self.timeout_server = self.create_service(TimeOut,"/timeout_command",self.timeout_callback)
+        self.timeout_req = TimeOut.Request()
+
     def init_obj(self):
         for i in range(15):
             self.obj_data.append(self.Node(0.0,0.0,0.0,"obj"+str(i+1),0))
@@ -46,20 +49,19 @@ class Scoring(Node):
     def timer_callback(self):
         for j in range(15):
             self.get_position(self.obj_data[j])
-            # print("obj",str(j+1),"_px:",self.obj_data[j].px)
-            # print("obj",str(j+1),"_py:",self.obj_data[j].py)
-            # print("obj",str(j+1),"_pz:",self.obj_data[j].pz) 
-            state_changed = self.check_state(self.obj_data[j])
-            if state_changed:
-                self.score_array.data[j] = self.obj_data[j].state
-                print("--------------------------")
-                print(self.score_array)
-                print("--------------------------")
+            if self.complete_status!=2:
+                state_changed = self.check_state(self.obj_data[j])
+                if state_changed:
+                    self.score_array.data[j] = self.obj_data[j].state
+                    print("--------------------------")
+                    print(self.score_array)
+                    print("--------------------------")
 
-                self.check_complete()
-                self.score_report.data[0] = self.sum_score
-                self.score_report.data[1] = self.complete_status
+                    self.check_complete()
+                    self.sum_score = self.check_score()
 
+            self.score_report.data[0] = self.sum_score
+            self.score_report.data[1] = self.complete_status
             self.obj_state_pub.publish(self.score_array)
             self.score_report_pub.publish(self.score_report)
     
@@ -83,14 +85,21 @@ class Scoring(Node):
         result = False
         if obj.px>=-0.725 and obj.px<=0.725 and obj.py>=0.3 and obj.py<=0.4 and obj.pz<=0.25:
             state_now = 1
-            # print("Obj is fall!!")
             if state_now != obj.state:
                 obj.state = state_now
                 print("State is change!")
                 result = True
-                self.sum_score+=1
+                # self.sum_score+=1
             obj.state = 1
         return result
+    
+    def check_score(self):
+        i = 0
+        sum_score = 0
+        for i in range(15):
+            if self.score_array.data[i]==1:
+                sum_score+=1
+        return sum_score
     
     def check_complete(self):
         floor1 = self.score_array.data[0:5]
@@ -98,6 +107,13 @@ class Scoring(Node):
         floor3 = self.score_array.data[10:15]
         if all(1 in floor for floor in [floor1, floor2, floor3]):
             self.complete_status = 1
+
+    def timeout_callback(self,request,response):
+        self.timeout_req = request.time_out_command
+        self.get_logger().info('Get timeout command request success!!!!')
+        self.complete_status = 2
+        return response
+
 
 def main(args=None):
     rclpy.init(args=args)
