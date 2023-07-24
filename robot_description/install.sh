@@ -78,6 +78,8 @@ echo -e "${Green_Bg}Packages was installed successfully${NC}"
 ##---------- create Workspace ----------##
 echo -e "${Cyan_Bg}Workspace creating...${NC}"
 cd
+mkdir IDC
+cd IDC
 mkdir IDC_ws
 cd IDC_ws
 mkdir src
@@ -91,7 +93,14 @@ source install/setup.bash
 
 # Copy Model's Mesh into Gazebo Default model directory
 mkdir -p ~/.gazebo/models/robot_description
-cp -r ~/IDC_ws/src/IDC-Simulation/robot_description/meshes ~/.gazebo/models/robot_description
+cp -r ~/IDC/IDC_ws/src/IDC-Simulation/robot_description/meshes ~/.gazebo/models/robot_description
+
+# Setup yaml path
+cd src/IDC_Webserver/
+u="$USER"
+sed -i "s/User/$u/g" client.js 
+
+cp ~/IDC/IDC_ws/src/IDC-Simulation/robot_description/run.sh ~/IDC
 
 echo -e "${Green_Bg}Workspace was created successfully${NC}"
 echo -e "${Green}Install success${NC}"

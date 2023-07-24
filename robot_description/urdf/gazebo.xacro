@@ -82,11 +82,6 @@
   </gazebo>
 
   <!-- Base Link -->
-
-  <!-- <gazebo reference="shelf">
-    <material>Gazebo/White</material>
-  </gazebo> -->
-
   <gazebo reference="link0">
     <material>Gazebo/White</material>
   </gazebo>
