@@ -23,7 +23,7 @@ def generate_launch_description():
     # xacro_obj = os.path.join(get_package_share_directory(pkg_name),obj_subpath)
     # obj_description_raw = xacro.process_file(xacro_obj).toxml()
     
-    environment = 'urdf/world.world'
+    environment = 'urdf/environment.world'
     environment_path = os.path.join(get_package_share_directory(pkg_name),environment)
     os.environ["GAZEBO_MODEL_PATH"] = environment_path
 

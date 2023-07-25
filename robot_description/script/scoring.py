@@ -109,7 +109,7 @@ class Scoring(Node):
             self.complete_status = 1
 
     def timeout_callback(self,request,response):
-        self.timeout_req = request.time_out_command
+        self.timeout_req = request.timeout_command
         self.get_logger().info('Get timeout command request success!!!!')
         self.complete_status = 2
         return response

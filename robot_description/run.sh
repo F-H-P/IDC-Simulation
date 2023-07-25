@@ -6,7 +6,6 @@ source install/setup.bash
 
 cd src/IDC-Simulation/robot_description/config/
 id=$(niet "TeamNo" properties.yaml)
-# ROS_DOMAIN_ID=$id ros2 launch robot_description robot_gazebolaunch.py
 
 cd ../../..
 cd IDC_Webserver/

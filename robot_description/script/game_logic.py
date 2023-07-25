@@ -9,7 +9,7 @@ import ament_index_python
 import xacro
 from std_msgs.msg import Float64MultiArray,MultiArrayDimension,Empty
 import time
-from msg_interfaces.srv import SpawnObj
+from msg_interfaces.srv import SpawnObj,TimeOut
 import subprocess
 
 class GameLogic(Node):
@@ -19,7 +19,7 @@ class GameLogic(Node):
         self.timer = self.create_timer(0.1,self.timer_callback)
         self.spawn_server = self.create_service(SpawnObj,"/spawn_command",self.spawn_callback)
         self.spawn_cylin_obj = self.create_client(SpawnEntity, '/spawn_entity')
-        # self.timeout_cilent = self.create_client(TimeOut,"/timeout_command")
+        self.timeout_cilent = self.create_client(TimeOut,"/timeout_command")
 
         self.spawn_req = Empty()
         self.cylin_obj_req = SpawnEntity.Request()
@@ -79,14 +79,14 @@ class GameLogic(Node):
             self.set_time_start = True
             # self.stop_move = True
             self.get_logger().info("Total time:"+str(self.time_now-self.time_start)+" seconds")
-            # self.end_game_req()
+            self.end_game_req()
 
-    # def end_game_req(self):
-    #     timeout_req = TimeOut.Request()
-    #     timeout_req.time_out_command = Empty()
-    #     self.timeout_cilent.call_async(timeout_req)
-    #     self.get_logger().info('End game service is requested successfully')
-    #     self.get_logger().info('-------------------')
+    def end_game_req(self):
+        timeout_req = TimeOut.Request()
+        timeout_req.timeout_command = Empty()
+        self.timeout_cilent.call_async(timeout_req)
+        self.get_logger().info('End game service is requested successfully')
+        self.get_logger().info('-------------------')
 
 def main(args=None):
     rclpy.init(args=args)

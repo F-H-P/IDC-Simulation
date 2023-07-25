@@ -23,6 +23,6 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
-        # spawn_entity_obj,
+        spawn_entity_obj,
         obj_state_publisher
     ])
