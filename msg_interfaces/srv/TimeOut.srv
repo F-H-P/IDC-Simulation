@@ -1,2 +1,2 @@
-std_msgs/Empty time_out_command
+std_msgs/Empty timeout_command
 ---

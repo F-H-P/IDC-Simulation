@@ -1,1 +1,0 @@
-cp ~/IDC/IDC_ws/src/IDC-Simulation/robot_description/run.sh ~/IDC

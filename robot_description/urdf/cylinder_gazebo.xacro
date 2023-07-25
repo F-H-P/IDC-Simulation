@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <!-- gazebo plugin -->
+  <xacro:macro name="cylider_gazebo" params="name_obj">
+    <joint_name>${name_obj}_prisX</joint_name>
+    <joint_name>${name_obj}_prisY</joint_name>
+    <joint_name>${name_obj}_prisZ</joint_name>
+    <joint_name>${name_obj}_revolX</joint_name>
+    <joint_name>${name_obj}_revolY</joint_name>
+    <joint_name>${name_obj}_revolZ</joint_name>
+  </xacro:macro>
+
+  <gazebo>
+      <plugin name="gazebo_ros_joint_state_publisher_cylinder"
+          filename="libgazebo_ros_joint_state_publisher.so">
+          <xacro:cylider_gazebo name_obj="objR"/>
+          <xacro:cylider_gazebo name_obj="objL"/>
+      </plugin>
+  </gazebo>
+
+  <gazebo reference="objR">
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+  <gazebo reference="objL">
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+</robot>

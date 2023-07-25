@@ -68,4 +68,8 @@
     <color rgba="${0/255} ${168/255} ${44/255} 0.8"/>
   </material>
 
+  <material name="black">
+    <color rgba="${0/255} ${0/255} ${0/255} 0.8"/>
+  </material>
+
 </robot>
