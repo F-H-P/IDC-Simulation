@@ -88,6 +88,12 @@ class GameLogic(Node):
         self.spawn_robot_client.call_async(self.spawn_robot)
         self.spawn_setting(self.spawn_robot,"robot",'urdf/robot.xacro')
         self.spawn_robot_client.call_async(self.spawn_robot)
+        try:
+            controller_cmd = ['ros2', 'run', 'controller_manager', 'spawner', 'forward_velocity_controller']
+            subprocess.run(controller_cmd, check=True)
+        except Exception as e:
+            self.get_logger().error(f'Error spawning controller: {str(e)}')
+
         self.get_logger().info('Spawn all success!!!!')
         return response
     
@@ -116,7 +122,7 @@ class GameLogic(Node):
         else:
             self.time_now = time.time()
 
-        if self.time_now-self.time_start >= 10.0:
+        if self.time_now-self.time_start >= 150.0:
             self.do_timer = False
             self.set_time_start = True
             self.get_logger().info("Total time:"+str(self.time_now-self.time_start)+" seconds")
