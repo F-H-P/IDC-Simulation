@@ -6,14 +6,14 @@ import xacro
 
 def generate_launch_description():
     pkg_name = 'robot_description'
-    file_subpath = 'urdf/cylinder_obj.xacro'
+    file_subpath = 'urdf/obj.xacro'
     xacro_file = os.path.join(get_package_share_directory(pkg_name),file_subpath)
     obj_description_raw = xacro.process_file(xacro_file).toxml()
 
-    spawn_entity_obj = Node(package='gazebo_ros', executable='spawn_entity.py',
-                    arguments=['-topic', 'robot_description',
-                                '-entity', 'cylinder_object',],
-                    output='screen')
+    # spawn_entity_obj = Node(package='gazebo_ros', executable='spawn_entity.py',
+    #                 arguments=['-topic', 'robot_description',
+    #                             '-entity', 'obj',],
+    #                 output='screen')
     
     obj_state_publisher = Node(package='robot_state_publisher',
                                   executable='robot_state_publisher',
@@ -23,6 +23,6 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
-        spawn_entity_obj,
+        # spawn_entity_obj,
         obj_state_publisher
     ])

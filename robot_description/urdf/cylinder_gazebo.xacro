@@ -13,9 +13,84 @@
   <gazebo>
       <plugin name="gazebo_ros_joint_state_publisher_cylinder"
           filename="libgazebo_ros_joint_state_publisher.so">
+          <xacro:cylider_gazebo name_obj="obj1"/>
+          <xacro:cylider_gazebo name_obj="obj2"/>
+          <xacro:cylider_gazebo name_obj="obj3"/>
+          <xacro:cylider_gazebo name_obj="obj4"/>
+          <xacro:cylider_gazebo name_obj="obj5"/>
+          <xacro:cylider_gazebo name_obj="obj6"/>
+          <xacro:cylider_gazebo name_obj="obj7"/>
+          <xacro:cylider_gazebo name_obj="obj8"/>
+          <xacro:cylider_gazebo name_obj="obj9"/>
+          <xacro:cylider_gazebo name_obj="obj10"/>
+          <xacro:cylider_gazebo name_obj="obj11"/>
+          <xacro:cylider_gazebo name_obj="obj12"/>
+          <xacro:cylider_gazebo name_obj="obj13"/>
+          <xacro:cylider_gazebo name_obj="obj14"/>
+          <xacro:cylider_gazebo name_obj="obj15"/>
           <xacro:cylider_gazebo name_obj="objR"/>
           <xacro:cylider_gazebo name_obj="objL"/>
       </plugin>
+  </gazebo>
+
+  <gazebo reference="obj1">
+    <material>Gazebo/Green</material>
+  </gazebo>
+
+  <gazebo reference="obj2">
+    <material>Gazebo/Green</material>
+  </gazebo>
+
+  <gazebo reference="obj3">
+    <material>Gazebo/Green</material>
+  </gazebo>
+
+  <gazebo reference="obj4">
+    <material>Gazebo/Green</material>
+  </gazebo>
+
+  <gazebo reference="obj5">
+    <material>Gazebo/Green</material>
+  </gazebo>
+
+  <gazebo reference="obj6">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="obj7">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="obj8">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="obj9">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="obj10">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+
+  <gazebo reference="obj11">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <gazebo reference="obj12">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <gazebo reference="obj13">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <gazebo reference="obj14">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
+  <gazebo reference="obj15">
+    <material>Gazebo/Red</material>
   </gazebo>
 
   <gazebo reference="objR">

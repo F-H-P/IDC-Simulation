@@ -12,7 +12,7 @@ def generate_launch_description():
 
     spawn_entity_obj = Node(package='gazebo_ros', executable='spawn_entity.py',
                     arguments=['-topic', 'robot_description',
-                                '-entity', 'cylinder_object',],
+                                '-entity', 'cylinder',],
                     output='screen')
     
     obj_state_publisher = Node(package='robot_state_publisher',

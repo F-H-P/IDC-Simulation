@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot name="cylinder" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot name="obj" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
   <xacro:include filename="$(find robot_description)/urdf/parameter.xacro"/>
   <xacro:property name="IXX" value="${((cylinder_obj_mass*0.04*0.04)/4)+((cylinder_obj_mass*0.1*0.1)/12)}"/>
@@ -8,9 +8,9 @@
 
   <link name="world"/>
 
-  <xacro:macro name="cylinder_obj" params="name_obj dist_x dist_y dist_z color">
+  <xacro:macro name="cylinder_obj" params="name_obj dist_x dist_z color">
     <joint name="${name_obj}_prisX" type="prismatic">
-        <origin xyz="${dist_x} ${shelf_dist+dist_y} ${dist_z}" rpy="0.0 0.0 0.0"/>
+        <origin xyz="${dist_x} ${shelf_dist+0.35} ${dist_z}" rpy="0.0 0.0 0.0"/>
         <parent link="world"/>
         <child link="${name_obj}_slideX"/>
         <axis xyz="1 0 0"/>
@@ -145,26 +145,24 @@
     </link>
   </xacro:macro>
 
-  <xacro:cylinder_obj name_obj="obj1" dist_x="-0.6" dist_y="0.35" dist_z="0.45" color="green"/>
-  <xacro:cylinder_obj name_obj="obj2" dist_x="-0.3" dist_y="0.35" dist_z="0.45" color="green"/>
-  <xacro:cylinder_obj name_obj="obj3" dist_x="0.0" dist_y="0.35" dist_z="0.45" color="green"/>
-  <xacro:cylinder_obj name_obj="obj4" dist_x="0.3" dist_y="0.35" dist_z="0.45" color="green"/>
-  <xacro:cylinder_obj name_obj="obj5" dist_x="0.6" dist_y="0.35" dist_z="0.45" color="green"/>
+  <xacro:cylinder_obj name_obj="obj1" dist_x="-0.6" dist_z="0.45" color="green"/>
+  <xacro:cylinder_obj name_obj="obj2" dist_x="-0.3" dist_z="0.45" color="green"/>
+  <xacro:cylinder_obj name_obj="obj3" dist_x="0.0" dist_z="0.45" color="green"/>
+  <xacro:cylinder_obj name_obj="obj4" dist_x="0.3" dist_z="0.45" color="green"/>
+  <xacro:cylinder_obj name_obj="obj5" dist_x="0.6" dist_z="0.45" color="green"/>
 
-  <xacro:cylinder_obj name_obj="obj6" dist_x="-0.6" dist_y="0.35" dist_z="0.65" color="blue"/>
-  <xacro:cylinder_obj name_obj="obj7" dist_x="-0.3" dist_y="0.35" dist_z="0.65" color="blue"/>
-  <xacro:cylinder_obj name_obj="obj8" dist_x="0.0" dist_y="0.35" dist_z="0.65" color="blue"/>
-  <xacro:cylinder_obj name_obj="obj9" dist_x="0.3" dist_y="0.35" dist_z="0.65" color="blue"/>
-  <xacro:cylinder_obj name_obj="obj10" dist_x="0.6" dist_y="0.35" dist_z="0.65" color="blue"/>
+  <xacro:cylinder_obj name_obj="obj6" dist_x="-0.6" dist_z="0.65" color="blue"/>
+  <xacro:cylinder_obj name_obj="obj7" dist_x="-0.3" dist_z="0.65" color="blue"/>
+  <xacro:cylinder_obj name_obj="obj8" dist_x="0.0" dist_z="0.65" color="blue"/>
+  <xacro:cylinder_obj name_obj="obj9" dist_x="0.3" dist_z="0.65" color="blue"/>
+  <xacro:cylinder_obj name_obj="obj10" dist_x="0.6" dist_z="0.65" color="blue"/>
 
-  <xacro:cylinder_obj name_obj="obj11" dist_x="-0.6" dist_y="0.35" dist_z="0.85" color="red"/>
-  <xacro:cylinder_obj name_obj="obj12" dist_x="-0.3" dist_y="0.35" dist_z="0.85" color="red"/>
-  <xacro:cylinder_obj name_obj="obj13" dist_x="0.0" dist_y="0.35" dist_z="0.85" color="red"/>
-  <xacro:cylinder_obj name_obj="obj14" dist_x="0.3" dist_y="0.35" dist_z="0.85" color="red"/>
-  <xacro:cylinder_obj name_obj="obj15" dist_x="0.6" dist_y="0.35" dist_z="0.85" color="red"/>
+  <xacro:cylinder_obj name_obj="obj11" dist_x="-0.6" dist_z="0.85" color="red"/>
+  <xacro:cylinder_obj name_obj="obj12" dist_x="-0.3" dist_z="0.85" color="red"/>
+  <xacro:cylinder_obj name_obj="obj13" dist_x="0.0" dist_z="0.85" color="red"/>
+  <xacro:cylinder_obj name_obj="obj14" dist_x="0.3" dist_z="0.85" color="red"/>
+  <xacro:cylinder_obj name_obj="obj15" dist_x="0.6" dist_z="0.85" color="red"/>
 
-  <xacro:cylinder_obj name_obj="objR" dist_x="-0.85" dist_y="0.0" dist_z="0.45" color="black"/>
-  <xacro:cylinder_obj name_obj="objL" dist_x="0.85" dist_y="0.0" dist_z="0.45" color="black"/>
 
-  <xacro:include filename="$(find robot_description)/urdf/cylinder_gazebo.xacro"/>
+  <xacro:include filename="$(find robot_description)/urdf/obj_gazebo.xacro"/>
 </robot>
