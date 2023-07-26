@@ -83,7 +83,7 @@ class GameLogic(Node):
         self.delete_entity(self.delete_all,"robot")
         self.delete_client.call_async(self.delete_all)
         self.get_logger().info('Delete all success!!!!')
-        
+        time.sleep(1.5)
         self.spawn_setting(self.spawn_robot,"charcoal",'urdf/charcoal.xacro')
         self.spawn_robot_client.call_async(self.spawn_robot)
         self.spawn_setting(self.spawn_robot,"robot",'urdf/robot.xacro')
@@ -100,20 +100,13 @@ class GameLogic(Node):
     def spawn_callback(self,request,response):
         self.spawn_req = request.spawn_command
         self.get_logger().info('Game logic server: get spawn command request success!!!!')
-        self.spawn_setting(self.cylin_obj_req,"obj",'urdf/obj.xacro')
+        self.spawn_setting(self.cylin_obj_req,"cylinder_obj",'urdf/obj.xacro')
         self.spawn_robot_client.call_async(self.cylin_obj_req)
         # self.spawn_obj_req()
         obj_state_pub_cmd = ['ros2', 'launch', 'robot_description', 'cylinder_obj_gazebo.launch.py']
         subprocess.Popen(obj_state_pub_cmd)
         self.get_logger().info('Run launch success!!!!')
         return response
-                
-    # def spawn_obj_req(self):
-    #     self.cylin_obj_req.name = "cylinder_object"
-    #     self.cylin_obj_req.xml = self.load_xacro()
-    #     self.cylin_obj_req.robot_namespace = ""
-    #     self.cylin_obj_req.reference_frame = "world"
-    #     self.spawn_client.call_async(self.cylin_obj_req)
 
     def count_time(self):
         if self.set_time_start == True:
@@ -123,7 +116,7 @@ class GameLogic(Node):
         else:
             self.time_now = time.time()
 
-        if self.time_now-self.time_start >= 150.0:
+        if self.time_now-self.time_start >= 10.0:
             self.do_timer = False
             self.set_time_start = True
             self.get_logger().info("Total time:"+str(self.time_now-self.time_start)+" seconds")
