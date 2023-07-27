@@ -118,20 +118,20 @@ class Scoring(Node):
 
     def check_charcoal(self):
         self.get_position(self.obj_data[15])
-        self.get_logger().info('px_L:'+str(self.obj_data[15].px))
-        self.get_logger().info('py_L:'+str(self.obj_data[15].py))
-        self.get_logger().info('pz_L:'+str(self.obj_data[15].pz))
+        # self.get_logger().info('px_L:'+str(self.obj_data[15].px))
+        # self.get_logger().info('py_L:'+str(self.obj_data[15].py))
+        # self.get_logger().info('pz_L:'+str(self.obj_data[15].pz))
 
         self.get_position(self.obj_data[16])
-        self.get_logger().info('px_R:'+str(self.obj_data[15].px))
-        self.get_logger().info('py_R:'+str(self.obj_data[15].py))
-        self.get_logger().info('pz_R:'+str(self.obj_data[15].pz))
+        # self.get_logger().info('px_R:'+str(self.obj_data[15].px))
+        # self.get_logger().info('py_R:'+str(self.obj_data[15].py))
+        # self.get_logger().info('pz_R:'+str(self.obj_data[15].pz))
 
         if self.obj_data[15].px>=0.775 and self.obj_data[15].px<=0.925 and self.obj_data[15].py>=-0.15 and self.obj_data[15].py<=0.15 and self.obj_data[15].pz>=0.0 and self.obj_data[15].pz<=0.4:
-            self.get_logger().info('Obj_L:'+str(1))
+            # self.get_logger().info('Obj_L:'+str(1))
             self.obj_data[15].state = 1
         if self.obj_data[16].px>=-0.925 and self.obj_data[16].px<=-0.775 and self.obj_data[16].py>=-0.15 and self.obj_data[16].py<=0.15 and self.obj_data[16].pz>=0.0 and self.obj_data[16].pz<=0.4:
-            self.get_logger().info('Obj_R:'+str(1))
+            # self.get_logger().info('Obj_R:'+str(1))
             self.obj_data[16].state = 1
 
 
