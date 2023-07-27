@@ -122,7 +122,7 @@ class GameLogic(Node):
         else:
             self.time_now = time.time()
 
-        if self.time_now-self.time_start >= 150.0:
+        if self.time_now-self.time_start >= 300.0:
             self.do_timer = False
             self.set_time_start = True
             self.get_logger().info("Total time:"+str(self.time_now-self.time_start)+" seconds")

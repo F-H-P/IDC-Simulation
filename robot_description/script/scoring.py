@@ -48,6 +48,10 @@ class Scoring(Node):
 
     def timer_callback(self):
         for j in range(15):
+            # self.get_logger().info('px_'+str(j)+':'+str(self.obj_data[j].px))
+            # self.get_logger().info('py_'+str(j)+':'+str(self.obj_data[j].py))
+            # self.get_logger().info('pz_'+str(j)+':'+str(self.obj_data[j].pz))
+
             self.get_position(self.obj_data[j])
             if self.complete_status!=2:
                 state_changed = self.check_state(self.obj_data[j])
@@ -83,7 +87,7 @@ class Scoring(Node):
     def check_state(self,obj):
         state_now = 0
         result = False
-        if obj.px>=-0.725 and obj.px<=0.725 and obj.py>=0.3 and obj.py<=0.4 and obj.pz<=0.25:
+        if obj.px>=-0.725 and obj.px<=0.725 and obj.py>=0.3 and obj.py<=0.45 and obj.pz<=0.25:
             state_now = 1
             if state_now != obj.state:
                 obj.state = state_now
