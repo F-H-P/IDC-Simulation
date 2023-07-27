@@ -73,6 +73,9 @@ class GameLogic(Node):
         self.spawn_setting(self.spawn_all,"cylinder",'urdf/cylinder.xacro')
         self.spawn_client.call_async(self.spawn_all)
         self.get_logger().info('Spawn all success!!!!')
+        obj_state_pub_cmd = ['ros2', 'launch', 'robot_description', 'cylinder.launch.py']
+        subprocess.Popen(obj_state_pub_cmd)
+        self.get_logger().info('Run launch success!!!!')
         return response
     
     def reset_callback(self,request,response):
@@ -83,9 +86,15 @@ class GameLogic(Node):
         self.delete_entity(self.delete_all,"robot")
         self.delete_client.call_async(self.delete_all)
         self.get_logger().info('Delete all success!!!!')
+
         time.sleep(1.5)
+
         self.spawn_setting(self.spawn_robot,"charcoal",'urdf/charcoal.xacro')
         self.spawn_robot_client.call_async(self.spawn_robot)
+        obj_state_pub_cmd = ['ros2', 'launch', 'robot_description', 'charcoal.launch.py']
+        subprocess.Popen(obj_state_pub_cmd)
+        self.get_logger().info('Run launch success!!!!')
+
         self.spawn_setting(self.spawn_robot,"robot",'urdf/robot.xacro')
         self.spawn_robot_client.call_async(self.spawn_robot)
         try:
