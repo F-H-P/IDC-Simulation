@@ -104,6 +104,7 @@ u="$USER"
 sed -i "s/User/$u/g" client.js 
 
 cp ~/IDC/IDC_ws/src/IDC-Simulation/robot_description/run.sh ~/IDC
+cp -r ~/IDC/IDC_ws/src/IDC-Simulation/robot_description/config/properties.yaml ~/IDC/properties.yaml
 
 echo -e "${Green_Bg}Workspace was created successfully${NC}"
 echo -e "${Green}Install success${NC}"
