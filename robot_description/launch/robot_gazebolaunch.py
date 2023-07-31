@@ -122,6 +122,7 @@ def generate_launch_description():
     scoring = Node(
         package='robot_description',
         executable='scoring.py',
+        output='screen'
     )
 
 

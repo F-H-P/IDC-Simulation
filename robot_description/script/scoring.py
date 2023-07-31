@@ -58,7 +58,10 @@ class Scoring(Node):
             # self.get_logger().info('pz_'+str(j)+':'+str(self.obj_data[j].pz))
 
             self.get_position(self.obj_data[j])
-            if self.complete_status!=2:
+            self.check_complete()
+            self.check_charcoal()
+            
+            if self.complete_status!=2: # Game Status = def 0 , 2 game ends
                 self.check_charcoal()
                 state_changed = self.check_state(self.obj_data[j])
                 if state_changed:
@@ -66,11 +69,13 @@ class Scoring(Node):
                     print("--------------------------")
                     print(self.score_array)
                     print("--------------------------")
-                    self.check_complete()
+                    # self.check_complete()
                     self.sum_score = self.check_score()
 
             self.score_report.data[0] = self.sum_score
             self.score_report.data[1] = self.complete_status
+
+
         self.obj_state_pub.publish(self.score_array)
         self.score_report_pub.publish(self.score_report)
 
@@ -125,14 +130,30 @@ class Scoring(Node):
         return sum_score
     
     def check_complete(self):
-        floor1 = self.score_array.data[0:5]
+        floor1 = self.score_array.data[0:5] #slice
         floor2 = self.score_array.data[5:10]
-        floor3 = self.score_array.data[10:14]
-        if all(1 in floor for floor in [floor1, floor2, floor3]):
-            self.get_logger().info('Do this 1')
-            if self.obj_data[15].state == 1 or self.obj_data[16].state == 1:
-                self.get_logger().info('Do this 2')
+        floor3 = self.score_array.data[10:15]
+        # print("FLOOR 1 => ", floor1 )
+        # print("FLOOR 2 => ", floor2 )
+        # print("FLOOR 3 => ", floor3 )
+        # Score Decision 
+        floor1_ok = any(floor1)
+        floor2_ok = any(floor2)
+        floor3_ok = any(floor3)
+        charcoal_complete = any([self.obj_data[15].state, self.obj_data[16].state])
+
+        # Floor 1,2,3 is ok  
+        if all([floor1_ok, floor2_ok, floor3_ok]):
+            self.get_logger().info('Floor 1,2,3 is OK')
+            if charcoal_complete: 
+                self.get_logger().info('Charcoal OK')
                 self.complete_status = 1
+
+        # if all(1 in floor for floor in [floor1, floor2, floor3]):
+        #     self.get_logger().info('Do this 1')
+        #     if self.obj_data[15].state == 1 or self.obj_data[16].state == 1:
+        #         self.get_logger().info('Do this 2')
+        #         self.complete_status = 1
 
     def check_charcoal(self):
         self.get_position(self.obj_data[15])
