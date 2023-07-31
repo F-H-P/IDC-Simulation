@@ -149,6 +149,7 @@ class GameLogic(Node):
 
     def overlay_display(self):
         self.overlay = tkinter.Tk()
+        self.score_sub = self.create_subscription(Int16MultiArray, '/score_report',self.score_overlay, 10)
         # self.overlay.wait_visibility(self.overlay)
         self.overlay.overrideredirect(True)
         self.overlay.geometry("+1500+50")
@@ -160,17 +161,19 @@ class GameLogic(Node):
         self.score_label.pack()
         self.timer_label = tkinter.Label(self.overlay, text='Time : 0', font=('Arial Bold', '40'), fg='yellow', bg='black')
         self.timer_label.pack()
-        self.score_sub = self.create_subscription(Int16MultiArray, '/score_report',self.update_overlay, 10)
-        # self.update_overlay()
+        self.time_overlay()
         self.overlay.mainloop()
         
-    def update_overlay(self,score_data):
+    def time_overlay(self):
         elapsed_time = int(time.time() - self.time_start)
         self.countdown = max(0, 150 - elapsed_time)
         self.timer_label["text"] = f"Timer : {self.countdown}"  
+        self.timer_label.after(1000, self.time_overlay)  
 
+    def score_overlay(self,score_data):
         score_value = str(score_data.data[0])
         self.score_label["text"] = f"Score : {score_value}"
+        
 
     def count_time(self):
         if self.set_time_start == True:
