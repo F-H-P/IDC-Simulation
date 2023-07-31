@@ -27,7 +27,9 @@ class GameLogic(Node):
         self.spawn_client = self.create_client(SpawnEntity, '/spawn_entity')
         self.spawn_robot_client = self.create_client(SpawnEntity, '/spawn_entity')
         self.delete_client = self.create_client(DeleteEntity,'/delete_entity')
-        self.timeout_cilent = self.create_client(TimeOut,"/timeout_command")        
+        self.timeout_cilent = self.create_client(TimeOut,"/timeout_command") 
+        # self.obj_state_pub = self.create_publisher(Int16MultiArray,"/score_data",10)  
+        # self.score_report_pub = self.create_publisher(Int16MultiArray,'/score_report',10)  
 
         self.free_play_req = Empty()
         self.reset_req = Empty()
@@ -40,13 +42,18 @@ class GameLogic(Node):
         self.obj_state = SetParameters.Request()
         self.timeout_req = Empty()
         self.stop_command = Float64MultiArray()
+        # self.score_array = Int16MultiArray()
+        # self.score_report = Int16MultiArray()
 
         self.do_timer = False
         self.set_time_start = True
-        self.stop_move = False
-
+ 
         self.time_start = 0.0
         self.time_now = 0.0
+        # self.score_array.data = [0,0,0,0,0,
+        #                          0,0,0,0,0,
+        #                          0,0,0,0,0]
+        # self.score_report.data = [0,0]
         self.stop_command.data = [0.0,0.0,0.0,0.0,0.0,0.0]
         self.stop_command.layout.dim = [MultiArrayDimension(label='velocity', size=len(self.stop_command.data))]
 
@@ -107,6 +114,9 @@ class GameLogic(Node):
             self.get_logger().error(f'Error spawning controller: {str(e)}')
 
         self.get_logger().info('Spawn all success!!!!')
+
+        # self.obj_state_pub.publish(self.score_array)
+        # self.score_report_pub.publish(self.score_report)
         return response
     
     def start_callback(self,request,response):
@@ -148,12 +158,11 @@ class GameLogic(Node):
         
     def update_overlay(self,score_data):
         elapsed_time = int(time.time() - self.time_start)
-        self.countdown = max(0, 180 - elapsed_time)
+        self.countdown = max(0, 150 - elapsed_time)
         self.timer_label["text"] = f"Timer : {self.countdown}"  
 
         score_value = str(score_data.data[0])
         self.score_label["text"] = f"Score : {score_value}"
-        self.score_label.after(1000, self.update_overlay)
 
     def count_time(self):
         if self.set_time_start == True:
@@ -163,7 +172,7 @@ class GameLogic(Node):
         else:
             self.time_now = time.time()
 
-        if self.time_now-self.time_start >= 180.0:
+        if self.time_now-self.time_start >= 150.0:
             self.do_timer = False
             self.set_time_start = True
             self.get_logger().info("Total time:"+str(self.time_now-self.time_start)+" seconds")

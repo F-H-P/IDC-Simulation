@@ -6,7 +6,7 @@ from tf2_ros import TransformException
 from tf2_ros.buffer import Buffer
 from tf2_ros.transform_listener import TransformListener 
 from std_msgs.msg import Int16MultiArray,Empty
-from msg_interfaces.srv import TimeOut
+from msg_interfaces.srv import TimeOut,Reset
 
 class Scoring(Node):
     def __init__(self):
@@ -31,7 +31,9 @@ class Scoring(Node):
         self.complete_status = 0
         self.score_report.data = [self.sum_score,self.complete_status]
 
+        self.reset_server = self.create_service(Reset,"/reset_command",self.reset_callback)
         self.timeout_server = self.create_service(TimeOut,"/timeout_command",self.timeout_callback)
+        self.reset_req = Empty()
         self.timeout_req = TimeOut.Request()
 
     def init_obj(self):
@@ -70,6 +72,15 @@ class Scoring(Node):
             self.score_report.data[1] = self.complete_status
         self.obj_state_pub.publish(self.score_array)
         self.score_report_pub.publish(self.score_report)
+
+    def reset_callback(self,request,response):
+        self.reset_req = request.reset_command
+        self.score_array.data = [0,0,0,0,0,
+                                 0,0,0,0,0,
+                                 0,0,0,0,0]
+        self.sum_score = 0
+        self.complete_status = 0
+        return response
     
     def get_position(self,obj):
         toggle = self.listener_post(obj)
@@ -118,20 +129,20 @@ class Scoring(Node):
 
     def check_charcoal(self):
         self.get_position(self.obj_data[15])
-        # self.get_logger().info('px_L:'+str(self.obj_data[15].px))
-        # self.get_logger().info('py_L:'+str(self.obj_data[15].py))
-        # self.get_logger().info('pz_L:'+str(self.obj_data[15].pz))
+        self.get_logger().info('px_L:'+str(self.obj_data[15].px))
+        self.get_logger().info('py_L:'+str(self.obj_data[15].py))
+        self.get_logger().info('pz_L:'+str(self.obj_data[15].pz))
 
         self.get_position(self.obj_data[16])
-        # self.get_logger().info('px_R:'+str(self.obj_data[15].px))
-        # self.get_logger().info('py_R:'+str(self.obj_data[15].py))
-        # self.get_logger().info('pz_R:'+str(self.obj_data[15].pz))
+        self.get_logger().info('px_R:'+str(self.obj_data[15].px))
+        self.get_logger().info('py_R:'+str(self.obj_data[15].py))
+        self.get_logger().info('pz_R:'+str(self.obj_data[15].pz))
 
         if self.obj_data[15].px>=0.775 and self.obj_data[15].px<=0.925 and self.obj_data[15].py>=-0.15 and self.obj_data[15].py<=0.15 and self.obj_data[15].pz>=0.0 and self.obj_data[15].pz<=0.4:
-            # self.get_logger().info('Obj_L:'+str(1))
+            self.get_logger().info('Obj_L:'+str(1))
             self.obj_data[15].state = 1
         if self.obj_data[16].px>=-0.925 and self.obj_data[16].px<=-0.775 and self.obj_data[16].py>=-0.15 and self.obj_data[16].py<=0.15 and self.obj_data[16].pz>=0.0 and self.obj_data[16].pz<=0.4:
-            # self.get_logger().info('Obj_R:'+str(1))
+            self.get_logger().info('Obj_R:'+str(1))
             self.obj_data[16].state = 1
 
 
