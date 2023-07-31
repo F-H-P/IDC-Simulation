@@ -95,7 +95,6 @@ class Scoring(Node):
             self.obj_data[i].px = 0.0
             self.obj_data[i].py = 0.0
             self.obj_data[i].pz = 0.0
-            self.get_logger().info('Obj_data['+str(i)+']:'+str(self.obj_data[i].state))
 
         self.get_logger().info('score_array: '+str(self.score_array))
         self.obj_state_pub.publish(self.score_array)
@@ -129,10 +128,6 @@ class Scoring(Node):
         state_now = 0
         result = False
         if obj.px>=-0.74 and obj.px<=0.74 and obj.py>=0.3 and obj.py<=0.49 and obj.pz>=0.01 and obj.pz<=0.4:
-            self.get_logger().info(str(obj.obj_frame)+'_px:'+str(obj.px))
-            self.get_logger().info(str(obj.obj_frame)+'_py:'+str(obj.py))
-            self.get_logger().info(str(obj.obj_frame)+'_pz:'+str(obj.pz))
-            self.get_logger().info('Obj fall!!!')
             state_now = 1
             if state_now != obj.state:
                 obj.state = state_now
@@ -162,9 +157,9 @@ class Scoring(Node):
 
         # Floor 1,2,3 is ok  
         if all([floor1_ok, floor2_ok, floor3_ok]):
-            self.get_logger().info('Floor 1,2,3 is OK')
+            # self.get_logger().info('Floor 1,2,3 is OK')
             if charcoal_complete: 
-                self.get_logger().info('Charcoal OK')
+                # self.get_logger().info('Charcoal OK')
                 self.complete_status = 1
 
     def check_charcoal(self):
@@ -173,10 +168,10 @@ class Scoring(Node):
         self.get_position(self.obj_data[16])
 
         if self.obj_data[15].px>=0.775 and self.obj_data[15].px<=0.925 and self.obj_data[15].py>=-0.15 and self.obj_data[15].py<=0.15 and self.obj_data[15].pz>=0.0 and self.obj_data[15].pz<=0.4:
-            self.get_logger().info('Obj_L:'+str(1))
+            # self.get_logger().info('Obj_L:'+str(1))
             self.obj_data[15].state = 1
         if self.obj_data[16].px>=-0.925 and self.obj_data[16].px<=-0.775 and self.obj_data[16].py>=-0.15 and self.obj_data[16].py<=0.15 and self.obj_data[16].pz>=0.0 and self.obj_data[16].pz<=0.4:
-            self.get_logger().info('Obj_R:'+str(1))
+            # self.get_logger().info('Obj_R:'+str(1))
             self.obj_data[16].state = 1
 
     def timeout_callback(self,request,response):
