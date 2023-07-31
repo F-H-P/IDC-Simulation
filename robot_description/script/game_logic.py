@@ -9,7 +9,7 @@ import ament_index_python
 import xacro
 from std_msgs.msg import Float64MultiArray,MultiArrayDimension,Empty,Int16MultiArray
 import time
-from msg_interfaces.srv import SpawnObj,TimeOut,FreePlay,Reset,Start
+from msg_interfaces.srv import SpawnObj,TimeOut,FreePlay,Reset,Start,OpenKey,CloseKey,ClearScore
 import subprocess
 import tkinter 
 import threading
@@ -20,7 +20,7 @@ class GameLogic(Node):
         self.get_logger().info('Game Logic start!!')
        
         self.timer = self.create_timer(0.1,self.timer_callback)
-        self.free_play_server = self.create_service(FreePlay,"/free_play_command",self.free_play_callback)
+        self.free_play_server = self.create_service(Start,"/free_play_command",self.free_play_callback)
         self.reset_server = self.create_service(Reset,"/reset_command",self.reset_callback)
         self.start_server = self.create_service(Start,"/start_command",self.start_callback)
         self.spawn_server = self.create_service(SpawnObj,"/spawn_command",self.spawn_callback)
@@ -28,8 +28,9 @@ class GameLogic(Node):
         self.spawn_robot_client = self.create_client(SpawnEntity, '/spawn_entity')
         self.delete_client = self.create_client(DeleteEntity,'/delete_entity')
         self.timeout_cilent = self.create_client(TimeOut,"/timeout_command") 
-        # self.obj_state_pub = self.create_publisher(Int16MultiArray,"/score_data",10)  
-        # self.score_report_pub = self.create_publisher(Int16MultiArray,'/score_report',10)  
+        self.open_key_client = self.create_client(OpenKey,"/open_key_command")  
+        self.close_key_client = self.create_client(CloseKey,"/close_key_command")  
+        self.clear_score_client = self.create_client(ClearScore,"/clear_score_command")       
 
         self.free_play_req = Empty()
         self.reset_req = Empty()
@@ -42,18 +43,16 @@ class GameLogic(Node):
         self.obj_state = SetParameters.Request()
         self.timeout_req = Empty()
         self.stop_command = Float64MultiArray()
-        # self.score_array = Int16MultiArray()
-        # self.score_report = Int16MultiArray()
+        self.open_key_req = OpenKey.Request()
+        self.close_key_req = CloseKey.Request()
+        self.clear_score_req = ClearScore.Request()
 
         self.do_timer = False
         self.set_time_start = True
- 
+        self.stop_move = False
+
         self.time_start = 0.0
         self.time_now = 0.0
-        # self.score_array.data = [0,0,0,0,0,
-        #                          0,0,0,0,0,
-        #                          0,0,0,0,0]
-        # self.score_report.data = [0,0]
         self.stop_command.data = [0.0,0.0,0.0,0.0,0.0,0.0]
         self.stop_command.layout.dim = [MultiArrayDimension(label='velocity', size=len(self.stop_command.data))]
 
@@ -78,10 +77,12 @@ class GameLogic(Node):
         request.name = name
 
     def free_play_callback(self,request,response):
-        self.free_play_req = request.free_play_command
+        self.free_play_req = request.start_command
         self.get_logger().info('get free play command request success!!!!')
         self.spawn_setting(self.spawn_all,"cylinder",'urdf/cylinder.xacro')
         self.spawn_client.call_async(self.spawn_all)
+        # Keyboard Enabling
+        self.open_key_client.call_async(self.open_key_req)
         self.get_logger().info('Spawn all success!!!!')
         obj_state_pub_cmd = ['ros2', 'launch', 'robot_description', 'cylinder.launch.py']
         subprocess.Popen(obj_state_pub_cmd)
@@ -96,7 +97,9 @@ class GameLogic(Node):
         self.delete_entity(self.delete_all,"robot")
         self.delete_client.call_async(self.delete_all)
         self.get_logger().info('Delete all success!!!!')
-
+        self.close_key_client.call_async(self.close_key_req)
+        self.clear_score_client.call_async(self.clear_score_req)
+        
         time.sleep(1.5)
 
         self.spawn_setting(self.spawn_robot,"charcoal",'urdf/charcoal.xacro')
@@ -126,6 +129,7 @@ class GameLogic(Node):
         overlay_thread = threading.Thread(target=self.overlay_display)
         overlay_thread.start()
         # self.overlay_display
+        self.open_key_client.call_async(self.open_key_req)
         return response
     
     def spawn_callback(self,request,response):

@@ -32,6 +32,9 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "srv/FreePlay.srv"
   "srv/Reset.srv"
   "srv/Start.srv"
+  "srv/OpenKey.srv"
+  "srv/CloseKey.srv"
+  "srv/ClearScore.srv"
   DEPENDENCIES std_msgs # Add packages that above messages depend on, in this case geometry_msgs for Sphere.msg
 )
 

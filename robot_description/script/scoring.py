@@ -6,7 +6,7 @@ from tf2_ros import TransformException
 from tf2_ros.buffer import Buffer
 from tf2_ros.transform_listener import TransformListener 
 from std_msgs.msg import Int16MultiArray,Empty
-from msg_interfaces.srv import TimeOut,Reset
+from msg_interfaces.srv import TimeOut,Reset,ClearScore
 
 class Scoring(Node):
     def __init__(self):
@@ -31,9 +31,10 @@ class Scoring(Node):
         self.complete_status = 0
         self.score_report.data = [self.sum_score,self.complete_status]
 
-        self.reset_server = self.create_service(Reset,"/reset_command",self.reset_callback)
+        # self.reset_server = self.create_service(Reset,"/reset_command",self.reset_callback)
         self.timeout_server = self.create_service(TimeOut,"/timeout_command",self.timeout_callback)
-        self.reset_req = Empty()
+        self.clear_score_server = self.create_service(ClearScore,"/clear_score_command",self.clear_score_callback)
+        self.clear_score_req = Empty()
         self.timeout_req = TimeOut.Request()
 
     def init_obj(self):
@@ -73,8 +74,8 @@ class Scoring(Node):
         self.obj_state_pub.publish(self.score_array)
         self.score_report_pub.publish(self.score_report)
 
-    def reset_callback(self,request,response):
-        self.reset_req = request.reset_command
+    def clear_score_callback(self,request,response):
+        self.clear_score_req = request.clear_score_command
         self.score_array.data = [0,0,0,0,0,
                                  0,0,0,0,0,
                                  0,0,0,0,0]
