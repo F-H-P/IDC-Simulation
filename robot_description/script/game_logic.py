@@ -9,7 +9,7 @@ import ament_index_python
 import xacro
 from std_msgs.msg import Float64MultiArray,MultiArrayDimension,Empty,Int16MultiArray
 import time
-from msg_interfaces.srv import SpawnObj,TimeOut,FreePlay,Reset,Start,OpenKey,CloseKey,ClearScore
+from msg_interfaces.srv import SpawnObj,TimeOut,FreePlay,Reset,Start,OpenKey,CloseKey,ClearScore,StartScore
 import subprocess
 import tkinter 
 import threading
@@ -30,7 +30,8 @@ class GameLogic(Node):
         self.timeout_cilent = self.create_client(TimeOut,"/timeout_command") 
         self.open_key_client = self.create_client(OpenKey,"/open_key_command")  
         self.close_key_client = self.create_client(CloseKey,"/close_key_command")  
-        self.clear_score_client = self.create_client(ClearScore,"/clear_score_command")       
+        self.clear_score_client = self.create_client(ClearScore,"/clear_score_command")   
+        self.start_score_client = self.create_client(StartScore,"/start_score_command")       
 
         self.free_play_req = Empty()
         self.reset_req = Empty()
@@ -46,6 +47,7 @@ class GameLogic(Node):
         self.open_key_req = OpenKey.Request()
         self.close_key_req = CloseKey.Request()
         self.clear_score_req = ClearScore.Request()
+        self.start_score_req = StartScore.Request()
 
         self.do_timer = False
         self.set_time_start = True
@@ -141,6 +143,8 @@ class GameLogic(Node):
         obj_state_pub_cmd = ['ros2', 'launch', 'robot_description', 'cylinder_obj_gazebo.launch.py']
         subprocess.Popen(obj_state_pub_cmd)
         self.get_logger().info('Run launch success!!!!')
+        time.sleep(2)
+        self.start_score_client.call_async(self.start_score_req)
         return response
 
     def overlay_display(self):

@@ -6,7 +6,7 @@ from tf2_ros import TransformException
 from tf2_ros.buffer import Buffer
 from tf2_ros.transform_listener import TransformListener 
 from std_msgs.msg import Int16MultiArray,Empty
-from msg_interfaces.srv import TimeOut,Reset,ClearScore
+from msg_interfaces.srv import TimeOut,ClearScore,StartScore
 
 class Scoring(Node):
     def __init__(self):
@@ -34,8 +34,11 @@ class Scoring(Node):
         # self.reset_server = self.create_service(Reset,"/reset_command",self.reset_callback)
         self.timeout_server = self.create_service(TimeOut,"/timeout_command",self.timeout_callback)
         self.clear_score_server = self.create_service(ClearScore,"/clear_score_command",self.clear_score_callback)
+        self.start_score_server = self.create_service(StartScore,"/start_score_command",self.start_score_callback)
         self.clear_score_req = Empty()
+        self.start_score_req = Empty()
         self.timeout_req = TimeOut.Request()
+        self.check_tf = True
 
     def init_obj(self):
         for i in range(15):
@@ -52,45 +55,59 @@ class Scoring(Node):
             self.state = state
 
     def timer_callback(self):
-        for j in range(15):
-            # self.get_logger().info('px_'+str(j)+':'+str(self.obj_data[j].px))
-            # self.get_logger().info('py_'+str(j)+':'+str(self.obj_data[j].py))
-            # self.get_logger().info('pz_'+str(j)+':'+str(self.obj_data[j].pz))
-
-            self.get_position(self.obj_data[j])
-            self.check_complete()
-            self.check_charcoal()
-            
-            if self.complete_status!=2: # Game Status = def 0 , 2 game ends
+        if self.check_tf:
+            for j in range(15):
+                self.get_position(self.obj_data[j])
+                self.check_complete()
                 self.check_charcoal()
-                state_changed = self.check_state(self.obj_data[j])
-                if state_changed:
-                    self.score_array.data[j] = self.obj_data[j].state
-                    print("--------------------------")
-                    print(self.score_array)
-                    print("--------------------------")
-                    # self.check_complete()
-                    self.sum_score = self.check_score()
+                
+                if self.complete_status!=2: # Game Status = def 0 , 2 game ends
+                    self.check_charcoal()
+                    state_changed = self.check_state(self.obj_data[j])
+                    if state_changed:
+                        self.score_array.data[j] = self.obj_data[j].state
+                        print("--------------------------")
+                        print(self.score_array)
+                        print("--------------------------")
+                        # self.check_complete()
+                        self.sum_score = self.check_score()
 
-            self.score_report.data[0] = self.sum_score
-            self.score_report.data[1] = self.complete_status
+                self.score_report.data[0] = self.sum_score
+                self.score_report.data[1] = self.complete_status
 
-
-        self.obj_state_pub.publish(self.score_array)
-        self.score_report_pub.publish(self.score_report)
+            self.obj_state_pub.publish(self.score_array)
+            self.score_report_pub.publish(self.score_report)
 
     def clear_score_callback(self,request,response):
+        self.get_logger().info('Clear score get request success!!')
         self.clear_score_req = request.clear_score_command
         self.score_array.data = [0,0,0,0,0,
                                  0,0,0,0,0,
                                  0,0,0,0,0]
         self.sum_score = 0
         self.complete_status = 0
+        self.score_report.data[0] = self.sum_score
+        self.score_report.data[1] = self.complete_status
 
         i = 0
-        for i in range(15):
+        for i in range(17):
             self.obj_data[i].state = 0
+            self.obj_data[i].px = 0.0
+            self.obj_data[i].py = 0.0
+            self.obj_data[i].pz = 0.0
+            self.get_logger().info('Obj_data['+str(i)+']:'+str(self.obj_data[i].state))
 
+        self.get_logger().info('score_array: '+str(self.score_array))
+        self.obj_state_pub.publish(self.score_array)
+        self.get_logger().info('score_report: '+str(self.score_report))
+        self.score_report_pub.publish(self.score_report)
+        self.check_tf = False
+        return response
+    
+    def start_score_callback(self,request,response):
+        self.get_logger().info('Start score get request success!!')
+        self.start_score_req = request.start_score_command
+        self.check_tf = True
         return response
     
     def get_position(self,obj):
@@ -112,6 +129,10 @@ class Scoring(Node):
         state_now = 0
         result = False
         if obj.px>=-0.74 and obj.px<=0.74 and obj.py>=0.3 and obj.py<=0.49 and obj.pz>=0.01 and obj.pz<=0.4:
+            self.get_logger().info(str(obj.obj_frame)+'_px:'+str(obj.px))
+            self.get_logger().info(str(obj.obj_frame)+'_py:'+str(obj.py))
+            self.get_logger().info(str(obj.obj_frame)+'_pz:'+str(obj.pz))
+            self.get_logger().info('Obj fall!!!')
             state_now = 1
             if state_now != obj.state:
                 obj.state = state_now
@@ -133,9 +154,6 @@ class Scoring(Node):
         floor1 = self.score_array.data[0:5] #slice
         floor2 = self.score_array.data[5:10]
         floor3 = self.score_array.data[10:15]
-        # print("FLOOR 1 => ", floor1 )
-        # print("FLOOR 2 => ", floor2 )
-        # print("FLOOR 3 => ", floor3 )
         # Score Decision 
         floor1_ok = any(floor1)
         floor2_ok = any(floor2)
@@ -149,22 +167,10 @@ class Scoring(Node):
                 self.get_logger().info('Charcoal OK')
                 self.complete_status = 1
 
-        # if all(1 in floor for floor in [floor1, floor2, floor3]):
-        #     self.get_logger().info('Do this 1')
-        #     if self.obj_data[15].state == 1 or self.obj_data[16].state == 1:
-        #         self.get_logger().info('Do this 2')
-        #         self.complete_status = 1
-
     def check_charcoal(self):
+        # Update Each Charcoal
         self.get_position(self.obj_data[15])
-        # self.get_logger().info('px_L:'+str(self.obj_data[15].px))
-        # self.get_logger().info('py_L:'+str(self.obj_data[15].py))
-        # self.get_logger().info('pz_L:'+str(self.obj_data[15].pz))
-
         self.get_position(self.obj_data[16])
-        # self.get_logger().info('px_R:'+str(self.obj_data[16].px))
-        # self.get_logger().info('py_R:'+str(self.obj_data[16].py))
-        # self.get_logger().info('pz_R:'+str(self.obj_data[16].pz))
 
         if self.obj_data[15].px>=0.775 and self.obj_data[15].px<=0.925 and self.obj_data[15].py>=-0.15 and self.obj_data[15].py<=0.15 and self.obj_data[15].pz>=0.0 and self.obj_data[15].pz<=0.4:
             self.get_logger().info('Obj_L:'+str(1))
@@ -173,13 +179,11 @@ class Scoring(Node):
             self.get_logger().info('Obj_R:'+str(1))
             self.obj_data[16].state = 1
 
-
     def timeout_callback(self,request,response):
         self.timeout_req = request.timeout_command
         self.get_logger().info('Get timeout command request success!!!!')
         self.complete_status = 2
         return response
-
 
 def main(args=None):
     rclpy.init(args=args)
