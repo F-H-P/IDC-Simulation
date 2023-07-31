@@ -24,9 +24,9 @@ key_config:
   reset : '='
 
 velocity_param: #target_vel
-  joint0_velocity: 1 #X-axis 
-  joint1_velocity: 1 #Y-axis  
-  joint2_velocity: 1 #Z-axis  
-  joint3_velocity: 1 #J4
-  joint4_velocity: 1 #J5 
-  joint5_velocity: 1 #J6
+  joint0_velocity: 3 #X-axis 
+  joint1_velocity: 3 #Y-axis  
+  joint2_velocity: 3 #Z-axis  
+  joint3_velocity: 3 #J4
+  joint4_velocity: 3 #J5 
+  joint5_velocity: 3 #J6

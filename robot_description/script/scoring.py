@@ -81,6 +81,11 @@ class Scoring(Node):
                                  0,0,0,0,0]
         self.sum_score = 0
         self.complete_status = 0
+
+        i = 0
+        for i in range(15):
+            self.obj_data[i].state = 0
+
         return response
     
     def get_position(self,obj):
@@ -122,22 +127,23 @@ class Scoring(Node):
     def check_complete(self):
         floor1 = self.score_array.data[0:5]
         floor2 = self.score_array.data[5:10]
-        floor3 = self.score_array.data[10:15]
+        floor3 = self.score_array.data[10:14]
         if all(1 in floor for floor in [floor1, floor2, floor3]):
+            self.get_logger().info('Do this 1')
             if self.obj_data[15].state == 1 or self.obj_data[16].state == 1:
-                self.get_logger().info('Do this')
+                self.get_logger().info('Do this 2')
                 self.complete_status = 1
 
     def check_charcoal(self):
         self.get_position(self.obj_data[15])
-        self.get_logger().info('px_L:'+str(self.obj_data[15].px))
-        self.get_logger().info('py_L:'+str(self.obj_data[15].py))
-        self.get_logger().info('pz_L:'+str(self.obj_data[15].pz))
+        # self.get_logger().info('px_L:'+str(self.obj_data[15].px))
+        # self.get_logger().info('py_L:'+str(self.obj_data[15].py))
+        # self.get_logger().info('pz_L:'+str(self.obj_data[15].pz))
 
         self.get_position(self.obj_data[16])
-        self.get_logger().info('px_R:'+str(self.obj_data[15].px))
-        self.get_logger().info('py_R:'+str(self.obj_data[15].py))
-        self.get_logger().info('pz_R:'+str(self.obj_data[15].pz))
+        # self.get_logger().info('px_R:'+str(self.obj_data[16].px))
+        # self.get_logger().info('py_R:'+str(self.obj_data[16].py))
+        # self.get_logger().info('pz_R:'+str(self.obj_data[16].pz))
 
         if self.obj_data[15].px>=0.775 and self.obj_data[15].px<=0.925 and self.obj_data[15].py>=-0.15 and self.obj_data[15].py<=0.15 and self.obj_data[15].pz>=0.0 and self.obj_data[15].pz<=0.4:
             self.get_logger().info('Obj_L:'+str(1))

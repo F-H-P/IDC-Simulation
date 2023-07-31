@@ -20,7 +20,7 @@ class GameLogic(Node):
         self.get_logger().info('Game Logic start!!')
        
         self.timer = self.create_timer(0.1,self.timer_callback)
-        self.free_play_server = self.create_service(Start,"/free_play_command",self.free_play_callback)
+        self.free_play_server = self.create_service(FreePlay,"/free_play_command",self.free_play_callback)
         self.reset_server = self.create_service(Reset,"/reset_command",self.reset_callback)
         self.start_server = self.create_service(Start,"/start_command",self.start_callback)
         self.spawn_server = self.create_service(SpawnObj,"/spawn_command",self.spawn_callback)
@@ -77,7 +77,7 @@ class GameLogic(Node):
         request.name = name
 
     def free_play_callback(self,request,response):
-        self.free_play_req = request.start_command
+        self.free_play_req = request.free_play_command
         self.get_logger().info('get free play command request success!!!!')
         self.spawn_setting(self.spawn_all,"cylinder",'urdf/cylinder.xacro')
         self.spawn_client.call_async(self.spawn_all)
