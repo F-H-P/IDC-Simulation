@@ -166,7 +166,7 @@ class GameLogic(Node):
         
     def time_overlay(self):
         elapsed_time = int(time.time() - self.time_start)
-        self.countdown = max(0, 150 - elapsed_time)
+        self.countdown = max(0, 10 - elapsed_time)
         self.timer_label["text"] = f"Timer : {self.countdown}"  
         self.timer_label.after(1000, self.time_overlay)  
 
@@ -183,7 +183,7 @@ class GameLogic(Node):
         else:
             self.time_now = time.time()
 
-        if self.time_now-self.time_start >= 150.0:
+        if self.time_now-self.time_start >= 10.0:
             self.do_timer = False
             self.set_time_start = True
             self.get_logger().info("Total time:"+str(self.time_now-self.time_start)+" seconds")

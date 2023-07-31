@@ -178,6 +178,7 @@ class Scoring(Node):
         self.timeout_req = request.timeout_command
         self.get_logger().info('Get timeout command request success!!!!')
         self.complete_status = 2
+        self.check_tf = True
         return response
 
 def main(args=None):
