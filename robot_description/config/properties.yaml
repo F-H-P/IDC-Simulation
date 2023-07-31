@@ -7,3 +7,26 @@ link1_length: "0.1"  # min 0.05 m. | max 1.0 m.
 link2_length: "0.15" # min 0.05 m. | max 1.0 m.
 link3_length: "0.2"  # min 0.02 m. | max 1.0 m.
 theta_joint2: "90"   # degree
+
+key_config:
+  +joint0 : 'd'  
+  -joint0 : 'a'
+  +joint1 : 'w'
+  -joint1 : 's'
+  +joint2 : 'q'
+  -joint2 : 'e'
+  +joint3 : '4'
+  -joint3 : '6'
+  +joint4 : '8'
+  -joint4 : '5'
+  +joint5 : '7'
+  -joint5 : '9'
+  reset : '='
+
+velocity_param: #target_vel
+  joint0_velocity: 1 #X-axis 
+  joint1_velocity: 1 #Y-axis  
+  joint2_velocity: 1 #Z-axis  
+  joint3_velocity: 1 #J4
+  joint4_velocity: 1 #J5 
+  joint5_velocity: 1 #J6
