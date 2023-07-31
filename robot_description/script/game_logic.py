@@ -7,15 +7,18 @@ from gazebo_msgs.srv import SpawnEntity,DeleteEntity
 from rcl_interfaces.srv import SetParameters
 import ament_index_python
 import xacro
-from std_msgs.msg import Float64MultiArray,MultiArrayDimension,Empty
+from std_msgs.msg import Float64MultiArray,MultiArrayDimension,Empty,Int16MultiArray
 import time
 from msg_interfaces.srv import SpawnObj,TimeOut,FreePlay,Reset,Start
 import subprocess
+import tkinter 
+import threading
 
 class GameLogic(Node):
     def __init__(self):
         super().__init__('game_logic')
         self.get_logger().info('Game Logic start!!')
+       
         self.timer = self.create_timer(0.1,self.timer_callback)
         self.free_play_server = self.create_service(FreePlay,"/free_play_command",self.free_play_callback)
         self.reset_server = self.create_service(Reset,"/reset_command",self.reset_callback)
@@ -24,7 +27,7 @@ class GameLogic(Node):
         self.spawn_client = self.create_client(SpawnEntity, '/spawn_entity')
         self.spawn_robot_client = self.create_client(SpawnEntity, '/spawn_entity')
         self.delete_client = self.create_client(DeleteEntity,'/delete_entity')
-        self.timeout_cilent = self.create_client(TimeOut,"/timeout_command")
+        self.timeout_cilent = self.create_client(TimeOut,"/timeout_command")        
 
         self.free_play_req = Empty()
         self.reset_req = Empty()
@@ -110,6 +113,9 @@ class GameLogic(Node):
         self.start_req = request.start_command
         self.get_logger().info('get start command request success!!!!')
         self.do_timer = True
+        overlay_thread = threading.Thread(target=self.overlay_display)
+        overlay_thread.start()
+        # self.overlay_display
         return response
     
     def spawn_callback(self,request,response):
@@ -123,15 +129,41 @@ class GameLogic(Node):
         self.get_logger().info('Run launch success!!!!')
         return response
 
+    def overlay_display(self):
+        self.overlay = tkinter.Tk()
+        # self.overlay.wait_visibility(self.overlay)
+        self.overlay.overrideredirect(True)
+        self.overlay.geometry("+1500+50")
+        self.overlay.lift()
+        self.overlay.wm_attributes("-topmost", True)
+        # self.overlay.wm_attributes("-alpha", "-0.3")
+        self.overlay.config(bg="black")
+        self.score_label = tkinter.Label(self.overlay, text='Score : 0', font=('Arial Bold', '40'), fg='yellow', bg='black')
+        self.score_label.pack()
+        self.timer_label = tkinter.Label(self.overlay, text='Time : 0', font=('Arial Bold', '40'), fg='yellow', bg='black')
+        self.timer_label.pack()
+        self.score_sub = self.create_subscription(Int16MultiArray, '/score_report',self.update_overlay, 10)
+        # self.update_overlay()
+        self.overlay.mainloop()
+        
+    def update_overlay(self,score_data):
+        elapsed_time = int(time.time() - self.time_start)
+        self.countdown = max(0, 180 - elapsed_time)
+        self.timer_label["text"] = f"Timer : {self.countdown}"  
+
+        score_value = str(score_data.data[0])
+        self.score_label["text"] = f"Score : {score_value}"
+        self.score_label.after(1000, self.update_overlay)
+
     def count_time(self):
         if self.set_time_start == True:
-            self.get_logger().info("Start Timmer!!")
+            self.get_logger().info("Start Timer!!")
             self.time_start = time.time()
             self.set_time_start = False
         else:
             self.time_now = time.time()
 
-        if self.time_now-self.time_start >= 300.0:
+        if self.time_now-self.time_start >= 180.0:
             self.do_timer = False
             self.set_time_start = True
             self.get_logger().info("Total time:"+str(self.time_now-self.time_start)+" seconds")
@@ -141,6 +173,7 @@ class GameLogic(Node):
         timeout_req = TimeOut.Request()
         timeout_req.timeout_command = Empty()
         self.timeout_cilent.call_async(timeout_req)
+        self.overlay.destroy()
         self.get_logger().info('End game service is requested successfully')
         self.get_logger().info('-------------------')
 
