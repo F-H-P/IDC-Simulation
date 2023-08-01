@@ -103,6 +103,9 @@ cp -r ~/IDC/IDC_ws/src/IDC-Simulation/robot_description/meshes ~/.gazebo/models/
 cd  ~/IDC/IDC_ws/src/IDC_Webserver/
 u="$USER"
 sed -i "s/User/$u/g" client.js 
+cd ..
+cd IDC-Simulation/robot_description/script
+sed -i "s/User/$u/g" game_logic.py
 
 cp ~/IDC/IDC_ws/src/IDC-Simulation/robot_description/run.sh ~/IDC
 cp ~/IDC/IDC_ws/src/IDC-Simulation/robot_description/free_play.sh ~/IDC
