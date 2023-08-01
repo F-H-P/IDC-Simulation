@@ -16,13 +16,13 @@ from launch.conditions import IfCondition
 
 def generate_launch_description():
     pkg_name = 'robot_description'
-    file_subpath = 'urdf/charcoal.xacro'
+    file_subpath = 'urdf/cylinder.xacro'
     xacro_file = os.path.join(get_package_share_directory(pkg_name),file_subpath)
     obj_description_raw = xacro.process_file(xacro_file).toxml()
 
     spawn_entity_obj = Node(package='gazebo_ros', executable='spawn_entity.py',
                     arguments=['-topic', 'robot_description',
-                                '-entity', 'charcoal',],
+                                '-entity', 'cylinder',],
                     output='screen')
     
     obj_state_publisher = Node(package='robot_state_publisher',
@@ -66,8 +66,8 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
-        gazebo_server,
-        gazebo_client,
+        # gazebo_server,
+        # gazebo_client,
         spawn_entity_obj,
         obj_state_publisher,
         # velocity_controller,

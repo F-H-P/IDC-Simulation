@@ -19,10 +19,6 @@ def generate_launch_description():
     file_subpath = 'urdf/robot.xacro'
     xacro_file = os.path.join(get_package_share_directory(pkg_name),file_subpath)
     robot_description_raw = xacro.process_file(xacro_file).toxml()
-    # obj_subpath = 'urdf/cylinder.xacro'
-    # xacro_obj = os.path.join(get_package_share_directory(pkg_name),obj_subpath)
-    # obj_description_raw = xacro.process_file(xacro_obj).toxml()
-    
     environment = 'urdf/environment.world'
     environment_path = os.path.join(get_package_share_directory(pkg_name),environment)
     os.environ["GAZEBO_MODEL_PATH"] = environment_path
@@ -91,17 +87,6 @@ def generate_launch_description():
         executable="spawner",
         arguments=["joint_state_broadcaster", "--controller-manager", "controller_manager"]
     )
-
-    # spawn_entity_obj = Node(package='gazebo_ros', executable='spawn_entity.py',
-    #                 arguments=['-topic', 'obj_description',
-    #                             '-entity', 'cylinder',],
-    #                 output='screen')
-    # obj_state_publisher = Node(package='robot_state_publisher',
-    #                               executable='robot_state_publisher',
-    #                               output='screen',
-    #                               parameters=[{'robot_description': obj_description_raw,
-    #                              'use_sim_time': True}]
-    # )
     
     velocity_controller = Node(
         package="controller_manager",
@@ -138,8 +123,6 @@ def generate_launch_description():
         joint_state_broadcaster,
         velocity_controller,
         keyboard_controller,
-        # spawn_entity_obj,
-        # obj_state_publisher,
         game_logic,
         scoring,
     ])

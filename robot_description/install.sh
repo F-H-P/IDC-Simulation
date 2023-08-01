@@ -61,7 +61,7 @@ echo -e "${Green}Controller packages were installed successfully${NC}"
 ##---------- Install Python package ----------##
 echo -e "${Cyan}Python package installing...${NC}"
 sudo apt -y install python3.10 python3-pynput python3-pip
-pip install -U niet 
+pip install -U niet tk
 echo -e "${Green}Python package was installed successfully${NC}"
 
 
@@ -104,6 +104,7 @@ u="$USER"
 sed -i "s/User/$u/g" client.js 
 
 cp ~/IDC/IDC_ws/src/IDC-Simulation/robot_description/run.sh ~/IDC
+cp ~/IDC/IDC_ws/src/IDC-Simulation/robot_description/free_play.sh ~/IDC
 cp -r ~/IDC/IDC_ws/src/IDC-Simulation/robot_description/config/properties.yaml ~/IDC/properties.yaml
 
 echo -e "${Green_Bg}Workspace was created successfully${NC}"
