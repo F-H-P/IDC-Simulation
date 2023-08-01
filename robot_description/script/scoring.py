@@ -7,7 +7,6 @@ from tf2_ros.buffer import Buffer
 from tf2_ros.transform_listener import TransformListener 
 from std_msgs.msg import Int16MultiArray,Empty
 from msg_interfaces.srv import TimeOut,ClearScore,StartScore
-import subprocess
 import signal
 import os
 
