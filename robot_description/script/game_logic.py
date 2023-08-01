@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+import yaml
 import rclpy
 from rclpy.node import Node
 from gazebo_msgs.srv import SpawnEntity,DeleteEntity
@@ -132,6 +133,14 @@ class GameLogic(Node):
         overlay_thread.start()
         # self.overlay_display
         self.open_key_client.call_async(self.open_key_req)
+        record_data = ['ros2', 'bag', 'record', '/score_data']
+        # path setup for loading yaml file
+        domain_id_path = '/home/fang/obodroid_ws/src/IDC-Simulation/robot_description/config/properties.yaml'
+        with open(domain_id_path, 'r') as yaml_file:
+            yaml_data = yaml.safe_load(yaml_file)
+            ros_domain_id = yaml_data['TeamNo']
+        os.environ["ROS_DOMAIN_ID"] = str(ros_domain_id)
+        subprocess.Popen(record_data)
         return response
     
     def spawn_callback(self,request,response):
@@ -192,7 +201,7 @@ class GameLogic(Node):
     def end_game_req(self):
         timeout_req = TimeOut.Request()
         timeout_req.timeout_command = Empty()
-        self.timeout_cilent.call_async(timeout_req)
+        self.timeout_cilent.call_async(timeout_req) 
         self.overlay.destroy()
         self.get_logger().info('End game service is requested successfully')
         self.get_logger().info('-------------------')

@@ -7,6 +7,9 @@ from tf2_ros.buffer import Buffer
 from tf2_ros.transform_listener import TransformListener 
 from std_msgs.msg import Int16MultiArray,Empty
 from msg_interfaces.srv import TimeOut,ClearScore,StartScore
+import subprocess
+import signal
+import os
 
 class Scoring(Node):
     def __init__(self):
@@ -179,6 +182,7 @@ class Scoring(Node):
         self.get_logger().info('Get timeout command request success!!!!')
         self.complete_status = 2
         self.check_tf = True
+        os.killpg(os.getpgid(os.getpid()), signal.SIGINT)
         return response
 
 def main(args=None):
