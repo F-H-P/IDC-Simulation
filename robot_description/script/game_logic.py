@@ -14,6 +14,7 @@ from msg_interfaces.srv import SpawnObj,TimeOut,FreePlay,Reset,Start,OpenKey,Clo
 import subprocess
 import tkinter 
 import threading
+import math
 
 class GameLogic(Node):
     def __init__(self):
@@ -133,14 +134,14 @@ class GameLogic(Node):
         overlay_thread.start()
         # self.overlay_display
         self.open_key_client.call_async(self.open_key_req)
-        record_data = ['ros2', 'bag', 'record', '/score_data']
-        # path setup for loading yaml file
-        domain_id_path = '/home/fang/obodroid_ws/src/IDC-Simulation/robot_description/config/properties.yaml'
-        with open(domain_id_path, 'r') as yaml_file:
-            yaml_data = yaml.safe_load(yaml_file)
-            ros_domain_id = yaml_data['TeamNo']
-        os.environ["ROS_DOMAIN_ID"] = str(ros_domain_id)
-        subprocess.Popen(record_data)
+        # record_data = ['ros2', 'bag', 'record', '/score_data']
+        # # path setup for loading yaml file
+        # domain_id_path = '/home/fang/obodroid_ws/src/IDC-Simulation/robot_description/config/properties.yaml'
+        # with open(domain_id_path, 'r') as yaml_file:
+        #     yaml_data = yaml.safe_load(yaml_file)
+        #     ros_domain_id = yaml_data['TeamNo']
+        # os.environ["ROS_DOMAIN_ID"] = str(ros_domain_id)
+        # subprocess.Popen(record_data)
         return response
     
     def spawn_callback(self,request,response):
@@ -158,18 +159,25 @@ class GameLogic(Node):
 
     def overlay_display(self):
         self.overlay = tkinter.Tk()
-        self.score_sub = self.create_subscription(Int16MultiArray, '/score_report',self.score_overlay, 10)
-        # self.overlay.wait_visibility(self.overlay)
         self.overlay.overrideredirect(True)
+        # self.screen_width = self.overlay.winfo_screenwidth()
+        # self.screen_height = self.overlay.winfo_screenheight()
+        # self.get_logger().info(f"x : {self.screen_width}")
+        # self.get_logger().info(f"y : {self.screen_height}")
+        # self.new_x = math.ceil(self.screen_width*0.90)
+        # self.new_y = math.ceil(self.screen_height*0.05)
+        # self.get_logger().info(f"new_x : {self.new_x}")
+        # self.get_logger().info(f"new_y : {self.new_y}")
+        # self.overlay.geometry(f"+{self.new_x}+{self.new_y}")
         self.overlay.geometry("+1500+50")
         self.overlay.lift()
         self.overlay.wm_attributes("-topmost", True)
-        # self.overlay.wm_attributes("-alpha", "-0.3")
         self.overlay.config(bg="black")
         self.score_label = tkinter.Label(self.overlay, text='Score : 0', font=('Arial Bold', '40'), fg='yellow', bg='black')
         self.score_label.pack()
         self.timer_label = tkinter.Label(self.overlay, text='Time : 0', font=('Arial Bold', '40'), fg='yellow', bg='black')
         self.timer_label.pack()
+        self.score_sub = self.create_subscription(Int16MultiArray, '/score_report',self.score_overlay, 10)
         self.time_overlay()
         self.overlay.mainloop()
         

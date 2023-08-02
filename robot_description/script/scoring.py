@@ -177,11 +177,11 @@ class Scoring(Node):
             self.obj_data[16].state = 1
 
     def timeout_callback(self,request,response):
-        self.timeout_req = request.timeout_command
-        self.get_logger().info('Get timeout command request success!!!!')
         self.complete_status = 2
+        self.timeout_req = request.timeout_command
+        self.get_logger().info('Get timeout command request success!!!!')  
         self.check_tf = True
-        os.killpg(os.getpgid(os.getpid()), signal.SIGINT)
+        # os.killpg(os.getpgid(os.getpid()), signal.SIGINT)
         return response
 
 def main(args=None):

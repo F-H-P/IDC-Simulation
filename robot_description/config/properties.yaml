@@ -1,6 +1,6 @@
 RoomId: myroom  #roomId will be given from the referee
-Role: player1  #player1/player2
-Team: Fangs
+Role: player2  #player1/player2
+Team: FANG
 TeamNo: "5"
 
 link1_length: "0.1"  # min 0.05 m. | max 1.0 m.
