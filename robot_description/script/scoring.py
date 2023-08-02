@@ -9,6 +9,8 @@ from std_msgs.msg import Int16MultiArray,Empty
 from msg_interfaces.srv import TimeOut,ClearScore,StartScore
 import signal
 import os
+import subprocess
+import time
 
 class Scoring(Node):
     def __init__(self):

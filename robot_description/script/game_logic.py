@@ -10,7 +10,7 @@ import ament_index_python
 import xacro
 from std_msgs.msg import Float64MultiArray,MultiArrayDimension,Empty,Int16MultiArray
 import time
-from msg_interfaces.srv import SpawnObj,TimeOut,FreePlay,Reset,Start,OpenKey,CloseKey,ClearScore,StartScore
+from msg_interfaces.srv import SpawnObj,TimeOut,FreePlay,Reset,Start,OpenKey,CloseKey,ClearScore,StartScore,StartRecord,StopRecord
 import subprocess
 import tkinter 
 import threading
@@ -33,7 +33,9 @@ class GameLogic(Node):
         self.open_key_client = self.create_client(OpenKey,"/open_key_command")  
         self.close_key_client = self.create_client(CloseKey,"/close_key_command")  
         self.clear_score_client = self.create_client(ClearScore,"/clear_score_command")   
-        self.start_score_client = self.create_client(StartScore,"/start_score_command")       
+        self.start_score_client = self.create_client(StartScore,"/start_score_command") 
+        self.start_record_client = self.create_client(StartRecord,"/start_record_command")  
+        self.stop_record_client = self.create_client(StopRecord,"/stop_record_command")      
 
         self.free_play_req = Empty()
         self.reset_req = Empty()
@@ -50,6 +52,8 @@ class GameLogic(Node):
         self.close_key_req = CloseKey.Request()
         self.clear_score_req = ClearScore.Request()
         self.start_score_req = StartScore.Request()
+        self.start_record_req = StartRecord.Request()
+        self.stop_record_req = StopRecord.Request()
 
         self.do_timer = False
         self.set_time_start = True
@@ -121,9 +125,6 @@ class GameLogic(Node):
             self.get_logger().error(f'Error spawning controller: {str(e)}')
 
         self.get_logger().info('Spawn all success!!!!')
-
-        # self.obj_state_pub.publish(self.score_array)
-        # self.score_report_pub.publish(self.score_report)
         return response
     
     def start_callback(self,request,response):
@@ -134,14 +135,7 @@ class GameLogic(Node):
         overlay_thread.start()
         # self.overlay_display
         self.open_key_client.call_async(self.open_key_req)
-        # record_data = ['ros2', 'bag', 'record', '/score_data']
-        # # path setup for loading yaml file
-        # domain_id_path = '/home/fang/obodroid_ws/src/IDC-Simulation/robot_description/config/properties.yaml'
-        # with open(domain_id_path, 'r') as yaml_file:
-        #     yaml_data = yaml.safe_load(yaml_file)
-        #     ros_domain_id = yaml_data['TeamNo']
-        # os.environ["ROS_DOMAIN_ID"] = str(ros_domain_id)
-        # subprocess.Popen(record_data)
+        self.start_record_client.call_async(self.start_record_req)
         return response
     
     def spawn_callback(self,request,response):
@@ -183,7 +177,7 @@ class GameLogic(Node):
         
     def time_overlay(self):
         elapsed_time = int(time.time() - self.time_start)
-        self.countdown = max(0, 150 - elapsed_time)
+        self.countdown = max(0, 10 - elapsed_time)
         self.timer_label["text"] = f"Timer : {self.countdown}"  
         self.timer_label.after(1000, self.time_overlay)  
 
@@ -200,7 +194,7 @@ class GameLogic(Node):
         else:
             self.time_now = time.time()
 
-        if self.time_now-self.time_start >= 150.0:
+        if self.time_now-self.time_start >= 10.0:
             self.do_timer = False
             self.set_time_start = True
             self.get_logger().info("Total time:"+str(self.time_now-self.time_start)+" seconds")
@@ -210,6 +204,7 @@ class GameLogic(Node):
         timeout_req = TimeOut.Request()
         timeout_req.timeout_command = Empty()
         self.timeout_cilent.call_async(timeout_req) 
+        self.stop_record_client.call_async(self.stop_record_req)
         self.overlay.destroy()
         self.get_logger().info('End game service is requested successfully')
         self.get_logger().info('-------------------')

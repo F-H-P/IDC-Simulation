@@ -1,3 +1,7 @@
+cd
+cd IDC
+rm -r ros_bag
+
 cp -r ~/IDC/properties.yaml ~/IDC/IDC_ws/src/IDC-Simulation/robot_description/config/properties.yaml
 gnome-terminal -x bash -c "ros2 launch robot_description robot_gazebolaunch.py" ;
 gnome-terminal -x bash -c "sleep 2";

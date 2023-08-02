@@ -37,6 +37,7 @@ ament_python_install_package(${PROJECT_NAME})
 install(PROGRAMS
   script/game_logic.py
   script/scoring.py
+  script/ros_bag.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

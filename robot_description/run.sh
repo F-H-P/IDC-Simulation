@@ -5,7 +5,9 @@
 # source install/setup.bash
 
 cd
-cd IDC/IDC_ws/src/IDC-Simulation/robot_description/config/
+cd IDC
+rm -r ros_bag
+cd IDC_ws/src/IDC-Simulation/robot_description/config/
 id=$(niet "TeamNo" properties.yaml)
 cp -r ~/IDC/properties.yaml ~/IDC/IDC_ws/src/IDC-Simulation/robot_description/config/properties.yaml
 # ROS_DOMAIN_ID=$id 
