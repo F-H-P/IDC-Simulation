@@ -85,9 +85,8 @@ source install/setup.bash
 echo -e "${Cyan}Webserver packages installing...${NC}"
 curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash - &&\
 sudo apt install -y nodejs
-source /opt/ros/humble/setup.bash
 cd src/IDC_Webserver
-sudo apt install npm
+source /opt/ros/humble/setup.bash
 npm init
 npm install dotenv express fs nodemon rclnodejs socket.io socket.io-client yaml
 npx generate-ros-messages

@@ -38,7 +38,7 @@ class RosBag(Node):
         dt_now = datetime.datetime.now()
         team_name = yaml_data['Team']
         filename = str(team_name)+" "+str(dt_now)
-        record_data = ['ros2', 'bag', 'record', '/score_report', '-o', filename]
+        record_data = ['ros2', 'bag', 'record', '/score_report', '/state_action', '/pose_obj', '-o', filename]
         self.rec_process = subprocess.Popen(record_data) 
         return response
     

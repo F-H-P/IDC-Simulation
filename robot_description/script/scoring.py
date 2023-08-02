@@ -5,12 +5,8 @@ from rclpy.node import Node
 from tf2_ros import TransformException
 from tf2_ros.buffer import Buffer
 from tf2_ros.transform_listener import TransformListener 
-from std_msgs.msg import Int16MultiArray,Empty
+from std_msgs.msg import Int16MultiArray,Empty,Float32MultiArray
 from msg_interfaces.srv import TimeOut,ClearScore,StartScore
-import signal
-import os
-import subprocess
-import time
 
 class Scoring(Node):
     def __init__(self):
@@ -39,9 +35,14 @@ class Scoring(Node):
         self.timeout_server = self.create_service(TimeOut,"/timeout_command",self.timeout_callback)
         self.clear_score_server = self.create_service(ClearScore,"/clear_score_command",self.clear_score_callback)
         self.start_score_server = self.create_service(StartScore,"/start_score_command",self.start_score_callback)
+        self.pose_obj_pub = self.create_publisher(Float32MultiArray,"/pose_obj",10)
         self.clear_score_req = Empty()
         self.start_score_req = Empty()
         self.timeout_req = TimeOut.Request()
+        self.pose_obj = Float32MultiArray()
+        self.pose_obj.data = [0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,
+                              0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,
+                              0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]
         self.check_tf = True
 
     def init_obj(self):
@@ -61,7 +62,7 @@ class Scoring(Node):
     def timer_callback(self):
         if self.check_tf:
             for j in range(15):
-                self.get_position(self.obj_data[j])
+                self.get_position(self.obj_data[j],j)
                 self.check_complete()
                 self.check_charcoal()
                 
@@ -73,7 +74,6 @@ class Scoring(Node):
                         print("--------------------------")
                         print(self.score_array)
                         print("--------------------------")
-                        # self.check_complete()
                         self.sum_score = self.check_score()
 
                 self.score_report.data[0] = self.sum_score
@@ -81,6 +81,7 @@ class Scoring(Node):
 
             self.obj_state_pub.publish(self.score_array)
             self.score_report_pub.publish(self.score_report)
+            self.pose_obj_pub.publish(self.pose_obj)
 
     def clear_score_callback(self,request,response):
         self.get_logger().info('Clear score get request success!!')
@@ -113,12 +114,16 @@ class Scoring(Node):
         self.check_tf = True
         return response
     
-    def get_position(self,obj):
+    def get_position(self,obj,idx):
         toggle = self.listener_post(obj)
         if toggle is True:
             obj.px = self.tf_listener.transform.translation.x
             obj.py = self.tf_listener.transform.translation.y
             obj.pz = self.tf_listener.transform.translation.z
+        num = idx*3
+        self.pose_obj.data[num] = obj.px
+        self.pose_obj.data[num+1] = obj.py
+        self.pose_obj.data[num+2] = obj.pz
 
     def listener_post(self,obj):
         child_frame = obj.obj_frame
@@ -168,8 +173,8 @@ class Scoring(Node):
 
     def check_charcoal(self):
         # Update Each Charcoal
-        self.get_position(self.obj_data[15])
-        self.get_position(self.obj_data[16])
+        self.get_position(self.obj_data[15],15)
+        self.get_position(self.obj_data[16],16)
 
         if self.obj_data[15].px>=0.775 and self.obj_data[15].px<=0.925 and self.obj_data[15].py>=-0.15 and self.obj_data[15].py<=0.15 and self.obj_data[15].pz>=0.0 and self.obj_data[15].pz<=0.4:
             # self.get_logger().info('Obj_L:'+str(1))

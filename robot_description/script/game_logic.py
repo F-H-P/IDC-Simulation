@@ -8,13 +8,12 @@ from gazebo_msgs.srv import SpawnEntity,DeleteEntity
 from rcl_interfaces.srv import SetParameters
 import ament_index_python
 import xacro
-from std_msgs.msg import Float64MultiArray,MultiArrayDimension,Empty,Int16MultiArray
+from std_msgs.msg import Float64MultiArray,MultiArrayDimension,Empty,Int16MultiArray,String
 import time
 from msg_interfaces.srv import SpawnObj,TimeOut,FreePlay,Reset,Start,OpenKey,CloseKey,ClearScore,StartScore,StartRecord,StopRecord
 import subprocess
 import tkinter 
 import threading
-import math
 
 class GameLogic(Node):
     def __init__(self):
@@ -36,6 +35,7 @@ class GameLogic(Node):
         self.start_score_client = self.create_client(StartScore,"/start_score_command") 
         self.start_record_client = self.create_client(StartRecord,"/start_record_command")  
         self.stop_record_client = self.create_client(StopRecord,"/stop_record_command")      
+        self.state_action_pub = self.create_publisher(String,"/state_action",10)
 
         self.free_play_req = Empty()
         self.reset_req = Empty()
@@ -54,6 +54,8 @@ class GameLogic(Node):
         self.start_score_req = StartScore.Request()
         self.start_record_req = StartRecord.Request()
         self.stop_record_req = StopRecord.Request()
+        self.state_action = String()
+        self.state_action.data = "None"
 
         self.do_timer = False
         self.set_time_start = True
@@ -67,6 +69,7 @@ class GameLogic(Node):
     def timer_callback(self):
         if self.do_timer == True:
             self.count_time()
+        self.state_action_pub.publish(self.state_action)
 
     def load_xacro(self,file_path):
             pkg_name = 'robot_description'
@@ -95,6 +98,7 @@ class GameLogic(Node):
         obj_state_pub_cmd = ['ros2', 'launch', 'robot_description', 'cylinder.launch.py']
         subprocess.Popen(obj_state_pub_cmd)
         self.get_logger().info('Run launch success!!!!')
+        self.state_action.data = "Freeplay"
         return response
     
     def reset_callback(self,request,response):
@@ -123,8 +127,9 @@ class GameLogic(Node):
             subprocess.run(controller_cmd, check=True)
         except Exception as e:
             self.get_logger().error(f'Error spawning controller: {str(e)}')
-
         self.get_logger().info('Spawn all success!!!!')
+
+        self.state_action.data = "Reset"
         return response
     
     def start_callback(self,request,response):
@@ -136,6 +141,7 @@ class GameLogic(Node):
         # self.overlay_display
         self.open_key_client.call_async(self.open_key_req)
         self.start_record_client.call_async(self.start_record_req)
+        self.state_action.data = "Start"
         return response
     
     def spawn_callback(self,request,response):
@@ -149,6 +155,7 @@ class GameLogic(Node):
         self.get_logger().info('Run launch success!!!!')
         time.sleep(2)
         self.start_score_client.call_async(self.start_score_req)
+        self.state_action.data = "SpawnObj"
         return response
 
     def overlay_display(self):
@@ -177,7 +184,7 @@ class GameLogic(Node):
         
     def time_overlay(self):
         elapsed_time = int(time.time() - self.time_start)
-        self.countdown = max(0, 10 - elapsed_time)
+        self.countdown = max(0, 150 - elapsed_time)
         self.timer_label["text"] = f"Timer : {self.countdown}"  
         self.timer_label.after(1000, self.time_overlay)  
 
@@ -194,7 +201,7 @@ class GameLogic(Node):
         else:
             self.time_now = time.time()
 
-        if self.time_now-self.time_start >= 10.0:
+        if self.time_now-self.time_start >= 150.0:
             self.do_timer = False
             self.set_time_start = True
             self.get_logger().info("Total time:"+str(self.time_now-self.time_start)+" seconds")
@@ -204,6 +211,8 @@ class GameLogic(Node):
         timeout_req = TimeOut.Request()
         timeout_req.timeout_command = Empty()
         self.timeout_cilent.call_async(timeout_req) 
+        self.state_action.data = "Timeout"
+        self.state_action_pub.publish(self.state_action)
         self.stop_record_client.call_async(self.stop_record_req)
         self.overlay.destroy()
         self.get_logger().info('End game service is requested successfully')
