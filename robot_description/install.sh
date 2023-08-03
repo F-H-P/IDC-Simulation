@@ -105,6 +105,9 @@ sed -i "s/User/$u/g" client.js
 cd
 cd IDC/IDC_ws/src/IDC_keyboard_control/velocity_controller/velocity_controller
 sed -i "s/User/$u/g" velocity_controller.py
+cd
+cd IDC/IDC_ws/src/IDC-Simulation/robot_description/script
+sed -i "s/User/$u/g" ros_bag.py
 
 cp ~/IDC/IDC_ws/src/IDC-Simulation/robot_description/run.sh ~/IDC
 # cp ~/IDC/IDC_ws/src/IDC-Simulation/robot_description/free_play.sh ~/IDC

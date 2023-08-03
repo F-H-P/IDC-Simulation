@@ -63,11 +63,11 @@ class Scoring(Node):
         if self.check_tf:
             for j in range(15):
                 self.get_position(self.obj_data[j],j)
-                self.check_complete()
                 self.check_charcoal()
                 
                 if self.complete_status!=2: # Game Status = def 0 , 2 game ends
                     self.check_charcoal()
+                    self.check_complete()
                     state_changed = self.check_state(self.obj_data[j])
                     if state_changed:
                         self.score_array.data[j] = self.obj_data[j].state

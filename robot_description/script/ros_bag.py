@@ -23,7 +23,7 @@ class RosBag(Node):
 
     def start_record_callback(self,request,response):
         self.start_record_req = request.start_record_command
-        domain_id_path = '/home/fhp/IDC/IDC_ws/src/IDC-Simulation/robot_description/config/properties.yaml'
+        domain_id_path = '/home/User/IDC/IDC_ws/src/IDC-Simulation/robot_description/config/properties.yaml'
         with open(domain_id_path, 'r') as yaml_file:
             yaml_data = yaml.safe_load(yaml_file)
             self.ros_domain_id = yaml_data['TeamNo']
