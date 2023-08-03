@@ -110,7 +110,7 @@ cd IDC/IDC_ws/src/IDC_keyboard_control/velocity_controller/velocity_controller
 sed -i "s/User/$u/g" velocity_controller.py
 
 cp ~/IDC/IDC_ws/src/IDC-Simulation/robot_description/run.sh ~/IDC
-cp ~/IDC/IDC_ws/src/IDC-Simulation/robot_description/free_play.sh ~/IDC
+# cp ~/IDC/IDC_ws/src/IDC-Simulation/robot_description/free_play.sh ~/IDC
 cp -r ~/IDC/IDC_ws/src/IDC-Simulation/robot_description/config/properties.yaml ~/IDC/properties.yaml
 
 echo -e "${Green_Bg}Workspace was created successfully${NC}"
