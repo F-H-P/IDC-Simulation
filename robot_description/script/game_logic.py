@@ -106,28 +106,28 @@ class GameLogic(Node):
         self.get_logger().info('get reset command request success!!!!')
         self.delete_entity(self.delete_all,"cylinder")
         self.delete_client.call_async(self.delete_all)
-        self.delete_entity(self.delete_all,"robot")
-        self.delete_client.call_async(self.delete_all)
+        # self.delete_entity(self.delete_all,"robot")
+        # self.delete_client.call_async(self.delete_all)
         self.get_logger().info('Delete all success!!!!')
-        self.close_key_client.call_async(self.close_key_req)
+        # self.close_key_client.call_async(self.close_key_req)
         self.clear_score_client.call_async(self.clear_score_req)
         
         time.sleep(1.5)
 
-        self.spawn_setting(self.spawn_robot,"charcoal",'urdf/charcoal.xacro')
-        self.spawn_robot_client.call_async(self.spawn_robot)
-        obj_state_pub_cmd = ['ros2', 'launch', 'robot_description', 'charcoal.launch.py']
-        subprocess.Popen(obj_state_pub_cmd)
-        self.get_logger().info('Run launch success!!!!')
+        # self.spawn_setting(self.spawn_robot,"charcoal",'urdf/charcoal.xacro')
+        # self.spawn_robot_client.call_async(self.spawn_robot)
+        # obj_state_pub_cmd = ['ros2', 'launch', 'robot_description', 'charcoal.launch.py']
+        # subprocess.Popen(obj_state_pub_cmd)
+        # self.get_logger().info('Run launch success!!!!')
 
-        self.spawn_setting(self.spawn_robot,"robot",'urdf/robot.xacro')
-        self.spawn_robot_client.call_async(self.spawn_robot)
-        try:
-            controller_cmd = ['ros2', 'run', 'controller_manager', 'spawner', 'forward_velocity_controller']
-            subprocess.run(controller_cmd, check=True)
-        except Exception as e:
-            self.get_logger().error(f'Error spawning controller: {str(e)}')
-        self.get_logger().info('Spawn all success!!!!')
+        # self.spawn_setting(self.spawn_robot,"robot",'urdf/robot.xacro')
+        # self.spawn_robot_client.call_async(self.spawn_robot)
+        # try:
+        #     controller_cmd = ['ros2', 'run', 'controller_manager', 'spawner', 'forward_velocity_controller']
+        #     subprocess.run(controller_cmd, check=True)
+        # except Exception as e:
+        #     self.get_logger().error(f'Error spawning controller: {str(e)}')
+        # self.get_logger().info('Spawn all success!!!!')
 
         self.state_action.data = "Reset"
         return response
@@ -136,6 +136,13 @@ class GameLogic(Node):
         self.start_req = request.start_command
         self.get_logger().info('get start command request success!!!!')
         self.do_timer = True
+
+        self.spawn_setting(self.spawn_robot,"charcoal",'urdf/charcoal.xacro')
+        self.spawn_robot_client.call_async(self.spawn_robot)
+        obj_state_pub_cmd = ['ros2', 'launch', 'robot_description', 'charcoal.launch.py']
+        subprocess.Popen(obj_state_pub_cmd)
+        self.get_logger().info('Run launch success!!!!')
+
         overlay_thread = threading.Thread(target=self.overlay_display)
         overlay_thread.start()
         # self.overlay_display
